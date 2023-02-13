@@ -1,13 +1,23 @@
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  margin: 0px;
+  padding: 0px;
+  max-width: 100vw;
+  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+
+
+@font-face {
+  font-family: "franklin";
+  src: local("franklin"),
+   url("./components/fonts/franklin-gothic-medium.ttf") format("truetype");
+  font-weight: normal;
+  }
+
+
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: "franklin",franklin, source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }

@@ -1,0 +1,126 @@
+
+*{
+    margin: 0px;
+    padding: 0px;
+}
+.containerHome{
+    min-width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    .pageOne{
+        min-width: 100vw;
+        display: flex;
+        flex-wrap: wrap;
+        .contenOne{
+            min-width: 50vw;
+            min-height: 100vh;
+            .logo{
+                margin-top: 5vh;
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                img{
+                    min-width: 40px;                    
+                    max-width: 40px;
+                    margin-left: 200px;
+                }
+                label{
+                    font-family: franklin;
+                    margin-left: 20px;
+                }
+            }
+            .title{
+                margin-left: 200px;
+                font-size: 5em;
+                max-width: 20vw;
+                font-family: franklin;
+            }
+            .subtitle{            
+                max-width: 30vw;    
+                margin-left: 200px;
+                margin-top: 5vh;
+                font-size: 2em;
+                font-family: franklin;
+            }
+        }
+        .contenTwo{
+            min-width: 50vw;
+            max-width: 50vw;
+            min-height: 100vh;
+            display: flex;
+            justify-content: flex-end;
+            align-items: flex-start;
+            background-image: url('../../components/img/home1.svg');
+            text-decoration: none;
+            .button{
+                min-width: 120px;
+                min-height: 40px;
+                max-height: 40px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border: 2px solid #FFC727;
+                background-color: #FFC727;
+                color: #FFF;
+                margin-top: 50px;
+                font-size: 1.2em;
+                border-radius: 20px;
+                font-family: franklin;
+                margin-right: 200px;
+                text-decoration: underline;
+                
+            }
+            .button:hover{
+                background-color: #FFF;
+                color: #FFC727;
+            }
+        }
+    }
+
+
+
+    .pageTwo{
+        min-width: 100vw;
+        display: flex;
+        flex-wrap: wrap;
+        .contenOne{
+            order: 2;
+            min-width: 50vw;
+            min-height: 100vh;
+            .logo{
+                margin-top: 5vh;
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                img{
+                    min-width: 40px;                    
+                    max-width: 40px;
+                    margin-left: 0px;
+                }
+                label{
+                    font-family: franklin;
+                    margin-left: 20px;
+                }
+            }
+            .title{
+                margin-left: 0px;
+                font-size: 5em;
+                max-width: 40vw;
+                font-family: franklin;
+            }
+            .subtitle{            
+                max-width: 30vw;    
+                margin-left: 0px;
+                margin-top: 5vh;
+                font-size: 2em;
+                font-family: franklin;
+            }
+        }
+        .contenTwo{
+            min-width: 50vw;
+            min-height: 100vh;
+            background-image: url('../../components/img/home2.svg');        }          
+    }
+}
+

@@ -1,0 +1,57 @@
+.containerLogin{
+    display: flex;
+    min-width: 100vw;
+    max-width: 100vw;
+    min-height: 100vh;
+    justify-content: center;
+    align-items: center;
+    .login{
+        border: 5px solid  #FFC727;
+        min-width: 20vw;
+        min-height: 50vh;
+        border-radius: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        .avatar{
+            min-width: 200px;
+            min-height: 200px;
+            border-radius: 100px;
+            background-color: #FFC727;
+            background-image: url('../../components/img/user.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        .formulario{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-top: 50px;
+
+            label{
+                font-size: 1.2em;
+                line-height: 2em;
+                font-family: franklin;
+            }
+            input{
+                min-width: 15vw;
+                border: 1px solid rgba(0,0,0,0.5);
+                border-radius: 8px;
+                min-height: 30px;
+                text-align: center;
+                font-size: 1em;
+                line-height: 2em;
+                color: rgba(0,0,0,0.8);
+                font-family: franklin;
+            }
+        }
+    }
+    .image{
+        background-image: url('../../components/img/home1.svg');
+        min-width: 50vw;
+        min-height: 100vh;
+    }
+}
