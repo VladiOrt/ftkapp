@@ -48,9 +48,38 @@
                 font-family: franklin;
             }
         }
+        .BotonIngreso{
+            margin-top: 15px;
+            border-radius: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;            
+            font-family: franklin;
+            font-weight: 400;
+            letter-spacing: 5px;
+            min-width: 50%;
+            min-height: 30px;
+            border: 3px solid rgba(59, 184, 75, 0.5);;
+            margin-bottom: 15px;
+        }
+        .BotonIngreso:hover{
+            background-color: rgba(59, 184, 75, 0.5);
+        }
+        .mensajes{
+            min-width: 80%;
+            font-size: 12px;
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 20px;
+        }
     }
     .image{
         background-image: url('../../components/img/home1.svg');
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position: center;
         min-width: 50vw;
         min-height: 100vh;
     }
