@@ -1,0 +1,104 @@
+// Paleta de Colores
+$color_base_uno: #FFF;
+$color_base_dos: #000;
+$color_uno : #F7F5E6;
+$color_dos : #333A56;
+$color_tres : #52658F;
+$color_cuatro : #E8E8E8;
+
+.containerDashBoard{
+    display: flex;
+    min-width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    flex-wrap: wrap;
+    .containerMenu{
+        min-width: 15vw;
+        max-width: 15vw;
+        min-height: 100vh;
+        background-color: $color_dos;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        ul{
+            margin: 0px;
+            padding: 0px;
+            min-width: 80%;
+            margin-top: 5vh;
+            list-style: none;
+            li{
+                min-width: 100%;
+                border: 1px solid $color_base_uno;
+                min-height: 50px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: $color_uno;
+                color: $color_dos;
+                font-size: 20px;
+                font-weight: 600;
+                border-radius: 5px;
+                margin-top: 10px;
+                transition-duration: 0.5s;
+            }
+            li:hover{
+                font-size: 25px;
+            }
+        }
+        .containerAvatar{
+            margin-top: 5vh;
+            min-width: 80%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            min-height: 5vh;
+
+            font-size: 1.2em;
+            color: #FFF;
+        }
+    }
+    .containerPageOne{
+        min-width: 85vw;
+        max-width: 85vw;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: $color_dos;
+        
+        .containerPageOneContent{
+            display: flex;
+            min-width: 84vw;
+            max-width: 84vw;
+            min-height: 98vh;
+            max-height: 100vh;
+            background-color: $color_base_uno;
+            overflow-x: auto;
+            border-radius: 50px;
+            justify-content: center;
+            align-items: flex-start;
+            flex-wrap: wrap;
+
+            .containerPageOneContentHeader{                
+                min-height: 6vh;
+                min-width: 84vw;
+                max-width: 84vw;
+            }
+            .containerPageOneContentView{
+                min-height: 85vh;
+                max-height: 85vh;
+                min-width: 84vw;
+                max-width: 84vw;
+                display: flex;
+                justify-content: center;
+                align-items: flex-start;
+            }
+        }
+    }
+    
+    
+}
+
