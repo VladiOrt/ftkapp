@@ -1,12 +1,89 @@
-.containerUsuariosVista{
-    min-width:  80vw;
-    max-width:  80vw;
+.containerUsers{
+    min-width: 80vw;
+    min-height: 80vh;
+    max-height: 80vh;
+    overflow-y: auto;
     display: flex;
-    justify-content: center;
     flex-direction: column;
-
-    .containerTable{
-        
+    justify-content: flex-start;
+    align-items: center;
+    .titleContainerUsers{
+        min-width: 80vw;
+        min-height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 2em;
     }
+    .headerConatainerUsers{
+        min-width: 80vw;
+        min-height: 50px;
+        margin-top: 20px;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        .button{
+            border: 1px solid rgba($color: #000000, $alpha: .5);
+            min-width: 120px;
+            min-height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2em;
+            margin: 20px;
+            border-radius: 15px;
+        }
+        .button:hover{
+            transition-duration: 0.2s;
+            transform: scale(1.1);
+        }
+    }
+    .bodyContainerUser{
+        min-width: 80vw;
+        max-width: 80vw;
+        min-height: 60vh;
+        margin-top: 20px;
+        padding-top: 20px;
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
 
+
+        div{
+            span{
+            }
+            table{
+                border: 1px solid rgba($color: #000000, $alpha: .5);
+                min-width: 80vw;
+                border-collapse:collapse;
+                thead{
+                    padding: 0px;
+                    margin: 0px;
+                    tr{
+                        th{
+                            border: 1px solid rgba($color: #000000, $alpha: .5);
+                            span{
+
+                            }
+                            div{
+
+                            }
+                        }
+                    }
+
+                }
+                tbody{
+                    tr{
+                        td{
+                            border: 1px solid rgba($color: #000000, $alpha: .5);
+                        }
+                    }
+                }
+            }
+            .pagination{
+                display: flex;
+                justify-content: center;
+            }
+        }            
+    }
 }
