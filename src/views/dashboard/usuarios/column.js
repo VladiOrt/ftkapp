@@ -22,6 +22,15 @@ export const COLUMNS = [
     Header: "Contraseña",
     accessor: "usr_pass",
   },
+  {
+    Header: "Opcion",
+    accessor: "user_id",
+    Cell: ({ value }) => {
+      return (
+      <div id="checkOpcion">
+        <input type="checkbox" onClick={()=>console.log("-->",value)} />
+      </div>)}
+  },
   /*
   {
     Header: "Contraseña",

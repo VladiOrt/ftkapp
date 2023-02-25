@@ -9,14 +9,14 @@ export const GlobalFilter = ({ globalFilter, setGlobalFilter }) => {
 
   return (
     <span>
-      Search:{" "}
+      Busqueda en Tabla:{" "}
       <input
         value={value || ""}
         onChange={(e) => {
           setValue(e.target.value);
           onChange(e.target.value);
         }}
-        placeholder={`Search records...`}
+        placeholder={`busqueda ...`}
         style={{
           fontSize: "1.1rem",
           margin: "1rem 0",

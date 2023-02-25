@@ -23,6 +23,7 @@
         justify-content: flex-start;
         align-items: center;
         .button{
+            cursor: pointer;
             border: 1px solid rgba($color: #000000, $alpha: .5);
             min-width: 120px;
             min-height: 30px;
@@ -37,7 +38,24 @@
             transition-duration: 0.2s;
             transform: scale(1.1);
         }
+
+
+
+
+        .containerPopUsers{
+            button{
+                background: none;
+                border: none;
+            }
+        }
+
+
+
+
+
     }
+
+   
     .bodyContainerUser{
         min-width: 80vw;
         max-width: 80vw;
@@ -87,3 +105,216 @@
         }            
     }
 }
+
+
+
+
+
+#containerOptionUser{
+    min-width: 80vw;
+    min-height: 20vh;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: aliceblue;
+    .containerAddUserOption{
+        h1{
+            text-align: center;
+        }
+        .sectionClose{
+            min-width: 80vw;
+            min-height: 30px;
+            display: flex;
+            justify-content: flex-end;
+            button{
+                cursor: pointer;
+                min-width: 40px;
+                min-height: 20px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border: none;
+                background-color: transparent;
+                .lineaUno{
+                    position: absolute;
+                    min-width: 20px;
+                    min-height: 3px;
+                    background-color: red;
+                    transform: rotate(45deg);
+                }
+                .lineaDos{
+                    position: absolute;
+                    min-width: 20px;
+                    min-height: 3px;
+                    rotate: -45deg;
+                    background-color: red;
+                }
+            }
+        }
+        .TablaAddUser{
+            margin-top: 20px;
+            min-width: 60vw;
+            display: flex;
+            flex-direction: column;
+            section{
+                display: flex;
+                justify-content: space-around;
+                min-width: 60vw;
+                font-size: 1.2em;
+                input{
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    text-align: center;
+                    border: 0.2px solid rgba($color: #000000, $alpha: .5);
+                    min-height: 25px;
+                    border-radius: 2px;
+                    min-width: 14vw;
+                }
+              
+            }
+        }
+        .conatinerMessage{
+            min-width: 50vw;
+            min-height: 50px;
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .buttonAddUser{
+            margin-top: 20px;
+            margin-bottom: 50px;
+            min-width: 50vw;
+            
+            display: flex;
+            justify-content: center;
+            div{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border: 1px solid green;
+                background-color: green;
+                color: aliceblue;
+                font-size: 1.2em;
+                min-width: 150px;
+                border-radius: 20px;
+                min-height: 40px;
+                padding-left: 5px;
+                padding-right: 5px;
+                
+            }
+            div:hover{
+                transition-duration: 0.3s;
+                transform: scale(1.1);
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+    .containerEditUserOption{
+        h1{
+            text-align: center;
+        }
+        .sectionClose{
+            min-width: 80vw;
+            min-height: 30px;
+            display: flex;
+            justify-content: flex-end;
+            button{
+                cursor: pointer;
+                min-width: 40px;
+                min-height: 20px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border: none;
+                background-color: transparent;
+                .lineaUno{
+                    position: absolute;
+                    min-width: 20px;
+                    min-height: 3px;
+                    background-color: red;
+                    transform: rotate(45deg);
+                }
+                .lineaDos{
+                    position: absolute;
+                    min-width: 20px;
+                    min-height: 3px;
+                    rotate: -45deg;
+                    background-color: red;
+                }
+            }
+        }
+        .TablaAddUser{
+            margin-top: 20px;
+            min-width: 60vw;
+            display: flex;
+            flex-direction: column;
+            section{
+                display: flex;
+                justify-content: space-around;
+                min-width: 60vw;
+                font-size: 1.2em;
+                input{
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    text-align: center;
+                    border: 0.2px solid rgba($color: #000000, $alpha: .5);
+                    min-height: 25px;
+                    border-radius: 2px;
+                    min-width: 14vw;
+                }
+              
+            }
+        }
+        .conatinerMessage{
+            min-width: 50vw;
+            min-height: 50px;
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .buttonAddUser{
+            margin-top: 20px;
+            margin-bottom: 50px;
+            min-width: 50vw;
+            
+            display: flex;
+            justify-content: center;
+            div{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border: 1px solid yellow;
+                background-color: yellow;
+                color: black;
+                font-size: 1.2em;
+                min-width: 150px;
+                border-radius: 20px;
+                min-height: 40px;
+                padding-left: 5px;
+                padding-right: 5px;
+                
+            }
+            div:hover{
+                transition-duration: 0.3s;
+                transform: scale(1.1);
+            }
+        }
+    }
+ 
+}   
