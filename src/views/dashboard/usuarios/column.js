@@ -4,7 +4,12 @@ export const COLUMNS = [
   {
     Header: "id",
     accessor: "user_id",
-    disableFilters: true
+    disableFilters: true,
+    Cell: ({value}) => {
+      return (
+      <div id="checkOpcion">
+        <input type="checkbox" onClick={()=>console.log(value)} />
+      </div>)}
   },
   {
     Header: "Nombre",
@@ -22,15 +27,7 @@ export const COLUMNS = [
     Header: "Contraseña",
     accessor: "usr_pass",
   },
-  {
-    Header: "Opcion",
-    accessor: "user_id",
-    Cell: ({ value }) => {
-      return (
-      <div id="checkOpcion">
-        <input type="checkbox" onClick={()=>console.log("-->",value)} />
-      </div>)}
-  },
+
   /*
   {
     Header: "Contraseña",

@@ -8,6 +8,8 @@ const Table = ({ mockData }) => {
   const columns = useMemo(() => COLUMNS, []); // memoize before adding to useTable hook
   const data = useMemo(() => [...mockData], [mockData]);
 
+  console.log("******---->" , columns)
+
   // default column component
   const defaultColumn = useMemo(() => {
     return {
@@ -45,6 +47,12 @@ const Table = ({ mockData }) => {
     usePagination
   );
 
+
+  function ValoresSeleccionados(id){
+    console.log("--->", id)
+  }
+
+
   return (
     <>
       <GlobalFilter globalFilter={globalFilter} setGlobalFilter={setGlobalFilter} />
@@ -56,6 +64,8 @@ const Table = ({ mockData }) => {
             headerGroups.map((headerGroup) => (
               // Apply the header row props
               <tr {...headerGroup.getHeaderGroupProps()}>
+                
+              
                 {
                   // Loop over the headers in each row
                   headerGroup.headers.map((column) => (
@@ -79,7 +89,9 @@ const Table = ({ mockData }) => {
               // Prepare the row for display
               prepareRow(row);
               return (
-                <tr {...row.getRowProps()}>
+                <tr {...row.getRowProps()}> 
+               
+              
                   {
                     // Loop over the rows cells
                     row.cells.map((cell) => {
@@ -87,6 +99,8 @@ const Table = ({ mockData }) => {
                       return <td {...cell.getCellProps()}>{cell.render("Cell")}</td>;
                     })
                   }
+                  
+                              
                 </tr>
               );
             })
@@ -108,13 +122,13 @@ const Table = ({ mockData }) => {
           {">>"}
         </button>{" "}
         <span>
-          Page{" "}
+          Pagina{" "}
           <strong>
             {pageIndex + 1} of {pageOptions.length}
           </strong>{" "}
         </span>
         <span>
-          | Go to page:{" "}
+          | Ir a pagina:{" "}
           <input
             type="number"
             defaultValue={pageIndex + 1}
@@ -125,6 +139,11 @@ const Table = ({ mockData }) => {
             style={{ width: "100px" }}
           />
         </span>{" "}
+
+
+
+
+
         <select
           value={pageSize}
           onChange={(e) => {
