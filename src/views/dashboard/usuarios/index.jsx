@@ -17,6 +17,7 @@ function Usuarios() {
   const[datosGenerales, setDatosGenerales] = useState([])
   const[datosTabla, setDatosTabla] = useState([])
   const[datosSeleccionados, setDatosSeleccionados] = useState('')
+  const[edicionSeleccion, setEdicionSeleccion] = useState([])
   const[vistaPopup, setVistaPopup] = useState([])
   const [Modal, open, close, isOpen] = useModal('root', {
     preventScroll: true,
@@ -100,33 +101,55 @@ function Usuarios() {
   } 
 
   function agregarDatosSeleccionados(elemento){
-    let Valores = datosSeleccionados.split(',')
+    let Valores = [datosSeleccionados]
+    if(datosSeleccionados.length>0) Valores = datosSeleccionados.split(',')
+    
     let valorNuevo = elemento.user_id
     let valoresNuevos =[]
     let strvaloresNuevos =''
-    //Se encuentra en el array ?
     let Existe=0
-
     for(let n=0 ; n<Valores.length; n++){
-      console.log(valorNuevo ,Valores[n])
       if(valorNuevo === parseInt(Valores[n])){
         Existe=1
       }else{
         valoresNuevos.push(Valores[n])
       }
     }
-    console.log(Existe)
     if(Existe ===1){
-      console.log("Existe")
       for(let n=0 ; n<valoresNuevos.length; n++){
-        strvaloresNuevos = strvaloresNuevos+","+valoresNuevos[n]
+        if(n==0){strvaloresNuevos = valoresNuevos[n]}
+        else{
+          strvaloresNuevos = strvaloresNuevos+","+valoresNuevos[n]
+        }
       }
     }else{
-      strvaloresNuevos = datosSeleccionados
-      +","+elemento.user_id
+      if(datosSeleccionados.length == 0){
+        strvaloresNuevos = elemento.user_id
+      }else{
+        strvaloresNuevos = datosSeleccionados+","+elemento.user_id
+      }      
     }
-    
+    OrdenarDatosSeleccionados(strvaloresNuevos) 
     setDatosSeleccionados(strvaloresNuevos)
+  }
+
+
+
+  function OrdenarDatosSeleccionados(Datos){
+    let valores = Datos.toString()
+    let idSeleccion = valores.split(',')
+    idSeleccion.sort(function(a,b){
+      return a - b; 
+    })
+    let arrayNuevo = []
+    for(let n=0; n<data.length; n++ ){
+      let IdDato = data[n].user_id
+      for(let l=0;  l<idSeleccion.length ; l++){
+        if(IdDato == idSeleccion[l]) arrayNuevo.push(data[n])
+      }      
+    }
+    setEdicionSeleccion(arrayNuevo)
+    console.log(arrayNuevo)
   }
 
   return (
@@ -148,12 +171,11 @@ function Usuarios() {
         </div>
       </div>
 
-      {datosSeleccionados}
       <div className="bodyContainerUser">
         <div className='TableUsuarios'>
           <div className='Tabla'>
             <div className='theadTable'>
-              <div>id</div>
+              <div className='containerID'>id</div>
               <div>Nombre</div>
               <div>Apellido</div>
               <div>Email</div>
@@ -164,7 +186,7 @@ function Usuarios() {
                 data.length>0?
                   data.map((elemento)=>      
                     <div className='Fila' key={elemento.user_id}>
-                      <div className='Columna'> <input type="checkbox" onClick={()=>agregarDatosSeleccionados(elemento)} ></input> </div>
+                      <div className='Columnaid'> <input type="checkbox" onClick={()=>agregarDatosSeleccionados(elemento)} ></input> </div>
                       <div>{elemento.usr_name}</div>                    
                       <div>{elemento.usr_lastname}</div>    
                       <div>{elemento.usr_email}</div>    
@@ -190,8 +212,8 @@ function Usuarios() {
                 {
                   vistaPopup == 'AddUser' ?
                   <div className="containerAddUserOption">
-                    <div className="sectionClose" onClick={()=>cerrarPopUsuario()}> 
-                      <button >
+                    <div className="sectionClose" > 
+                      <button  onClick={()=>cerrarPopUsuario()}>
                         <div className='lineaUno' />
                         <div className='lineaDos' />
                       </button>
@@ -199,11 +221,11 @@ function Usuarios() {
                     
                     <h1>Agregar un nuevo Usuario</h1>
                     <div className='TablaAddUser'>
-                      <section>
-                        <div>Nombre</div>
-                        <div>Apellido</div>
-                        <div>Email</div>
-                        <div>Contraseña</div>
+                      <section className='labels'>
+                        <div>Nombre : </div>
+                        <div>Apellido : </div>
+                        <div>Email : </div>
+                        <div>Contraseña : </div>
                       </section>
                       <section>
                         <div><input type="text" id='addUserNombre'></input></div>
@@ -233,18 +255,33 @@ function Usuarios() {
                     </div>
                     
                     <h1>Edicion de Usuarios</h1>
-                    <div className='TablaAddUser'>
-                      <section>
-                        <div>Nombre</div>
-                        <div>Apellido</div>
-                        <div>Email</div>
-                        <div>Contraseña</div>
-                      </section>
-                      <section>
-                        <div><input type="text" id='addUserNombre'></input></div>
-                        <div><input type="text" id='addUserApellido'></input></div>
-                        <div><input type="email" id='addUserEmail'></input></div>
-                        <div><input type="password" id='addUserPassword'></input></div>
+                    <div className='TablaEditUser'>
+                        {
+                          edicionSeleccion.length>0?
+                          <section className='Titulos'>                        
+                            <div>Nombre</div>
+                            <div>Apellido</div>
+                            <div>Email</div>
+                            <div>Contraseña</div>
+                          </section>
+                          :
+                          "No ha seleccionado elementos para editar"
+                        }
+                     
+                      <section className=''>    
+                        { 
+                          edicionSeleccion.length>0?
+                            edicionSeleccion.map((elemento)=>
+                            <div key={elemento.user_id}  className='Fila'>
+                              <input type="text" className='id' value={elemento.user_id}  />
+                              <input type="text" placeholder={elemento.usr_name}   />
+                              <input type="text" placeholder={elemento.usr_lastname}  />
+                              <input type="text" placeholder={elemento.usr_email} />
+                              <input type="text" placeholder={elemento.usr_pass} />
+                            </div>
+                            )
+                          :""
+                        }
                       </section>
                     </div>
                     <div className="conatinerMessage">
@@ -292,8 +329,7 @@ function Usuarios() {
                 }
 
               </div>
-            </Modal>
-      
+            </Modal>                  
     </div>
   );
 }
