@@ -9,7 +9,7 @@ import './index.scss'
 import Catalogos from './catalogos'
 import Usuarios from './usuarios'
 import Ventas from './ventas'
-
+import Proyectos from './proyectos'
 
 const Dashboard = () =>{
 
@@ -35,9 +35,9 @@ const Dashboard = () =>{
                 <ul>
                     <li onClick={()=>changeVista(1)}>CATALOGOS</li>
                     <li onClick={()=>changeVista(2)}>VENTAS</li>
-                    <li onClick={()=>changeVista(3)}>USUARIOS</li>                  
-
-
+                    <li onClick={()=>changeVista(3)}>USUARIOS</li>                                   
+                    <li onClick={()=>changeVista(4)}>PROYECTOS</li>                  
+                 
 
                     
 

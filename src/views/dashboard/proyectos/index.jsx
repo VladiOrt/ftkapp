@@ -14,7 +14,7 @@ import { id } from 'date-fns/locale';
 
 
 
-function Usuarios() {
+function Proyectos() {
   const[datosGenerales, setDatosGenerales] = useState([])
   const[datosTabla, setDatosTabla] = useState([])
   const[datosSeleccionados, setDatosSeleccionados] = useState('')
@@ -470,123 +470,7 @@ function Usuarios() {
   );
 }
 
-export default Usuarios;
+export default Proyectos;
 
 
 
-
-
-
-/*
-
-        <Modal>
-              <div id='containerOptionUser'>
-                {
-                  vistaPopup == 'AddUser' ?
-                  <div className="containerAddUserOption">
-                    <div className="sectionClose" onClick={()=>cerrarPopUsuario()}> 
-                      <button >
-                        <div className='lineaUno' />
-                        <div className='lineaDos' />
-                      </button>
-                    </div>
-                    
-                    <h1>Agregar un nuevo Usuario</h1>
-                    <div className='TablaAddUser'>
-                      <section>
-                        <div>Nombre</div>
-                        <div>Apellido</div>
-                        <div>Email</div>
-                        <div>Contraseña</div>
-                      </section>
-                      <section>
-                        <div><input type="text" id='addUserNombre'></input></div>
-                        <div><input type="text" id='addUserApellido'></input></div>
-                        <div><input type="email" id='addUserEmail'></input></div>
-                        <div><input type="password" id='addUserPassword'></input></div>
-                      </section>
-                    </div>
-                    <div className="conatinerMessage">
-                      {messageAddUser}
-                    </div>
-                    <div className="buttonAddUser">
-                        <div onClick={()=>AgregarUsuario()}>Agregar Usuario</div>
-                    </div>
-                  </div>
-                  :""
-                }
-
-                {
-                  vistaPopup == 'EditUsers' ?
-                  <div className="containerEditUserOption">
-                    <div className="sectionClose" onClick={()=>cerrarPopUsuario()}> 
-                      <button >
-                        <div className='lineaUno' />
-                        <div className='lineaDos' />
-                      </button>
-                    </div>
-                    
-                    <h1>Edicion de Usuarios</h1>
-                    <div className='TablaAddUser'>
-                      <section>
-                        <div>Nombre</div>
-                        <div>Apellido</div>
-                        <div>Email</div>
-                        <div>Contraseña</div>
-                      </section>
-                      <section>
-                        <div><input type="text" id='addUserNombre'></input></div>
-                        <div><input type="text" id='addUserApellido'></input></div>
-                        <div><input type="email" id='addUserEmail'></input></div>
-                        <div><input type="password" id='addUserPassword'></input></div>
-                      </section>
-                    </div>
-                    <div className="conatinerMessage">
-                      {messageAddUser}
-                    </div>
-                    <div className="buttonAddUser">
-                        <div onClick={()=>AgregarUsuario()}>Actualizar</div>
-                    </div>
-                  </div>
-                  :""
-                }
-                {
-                  vistaPopup == 'DeleteUsers' ?
-                  <div className="containerDeleteUserOption">
-                    <div className="sectionClose" onClick={()=>cerrarPopUsuario()}> 
-                      <button >
-                        <div className='lineaUno' />
-                        <div className='lineaDos' />
-                      </button>
-                    </div>
-                    
-                    <h1>Agregar un nuevo Usuario</h1>
-                    <div className='TablaAddUser'>
-                      <section>
-                        <div>Nombre</div>
-                        <div>Apellido</div>
-                        <div>Email</div>
-                        <div>Contraseña</div>
-                      </section>
-                      <section>
-                        <div><input type="text" id='addUserNombre'></input></div>
-                        <div><input type="text" id='addUserApellido'></input></div>
-                        <div><input type="email" id='addUserEmail'></input></div>
-                        <div><input type="password" id='addUserPassword'></input></div>
-                      </section>
-                    </div>
-                    <div className="conatinerMessage">
-                      {messageAddUser}
-                    </div>
-                    <div className="buttonAddUser">
-                        <div onClick={()=>AgregarUsuario()}>Agregar Usuario</div>
-                    </div>
-                  </div>
-                  :""
-                }
-
-              </div>
-            </Modal>
-
-
-*/
