@@ -1,4 +1,4 @@
-.containerUsers{
+.containerProjects{
     min-width: 80vw;
     min-height: 80vh;
     max-height: 80vh;
@@ -7,7 +7,7 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    .titleContainerUsers{
+    .titleContainerProjects{
         min-width: 80vw;
         min-height: 50px;
         display: flex;
@@ -15,7 +15,7 @@
         align-items: center;
         font-size: 2em;
     }
-    .headerConatainerUsers{
+    .headerConatainerProjects{
         min-width: 80vw;
         min-height: 50px;
         margin-top: 20px;
@@ -38,7 +38,7 @@
             transition-duration: 0.2s;
             transform: scale(1.1);
         }
-        .containerPopUsers{
+        .containerPopProjects{
             button{
                 background: none;
                 border: none;
@@ -55,7 +55,7 @@
         justify-content: center;
         align-items: flex-start;
 
-        .TableUsuarios{
+        .TableProyectos{
             min-width: 78vw;
             min-height: 50vh;        
             .Tabla{
@@ -69,8 +69,8 @@
                     justify-content: center;
                     div{
                         border: 1px solid rgba($color: #000000, $alpha: .5);
-                        min-width: 18vw;
-                        max-width: 18vw;
+                        min-width: 12vw;
+                        max-width: 12vw;
                         text-align: center;
                         font-size: 1.2em;
                         padding-top: 5px;
@@ -96,7 +96,7 @@
                             padding-top: 10px;
                             padding-bottom: 10px;
                             padding-left: 0.5vw;
-                            min-width: 17.5vw;
+                            min-width: 11.5vw;
                             border: 1px solid rgba($color: #000000, $alpha: .5);
                         }
                         .Columnaid{
@@ -113,6 +113,9 @@
         }
     }
 }   
+
+
+
 #containerOptionUser{
     min-width: 80vw;
     min-height: 60vh;

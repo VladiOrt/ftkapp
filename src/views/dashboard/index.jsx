@@ -59,6 +59,9 @@ const Dashboard = () =>{
                         {
                             vista===3?<Usuarios />:""
                         }
+                        {
+                            vista===4?<Proyectos />:""
+                        }
                     </div>
                 </div>
             </div>

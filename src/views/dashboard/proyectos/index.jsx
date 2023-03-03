@@ -34,7 +34,7 @@ function Proyectos() {
  
   const fetchData = async () => {
     
-    const datos = await axios.get('http://localhost:5000/user/All', {
+    const datos = await axios.get('http://localhost:5000/projects/All', {
       headers: {       
       }
     })
@@ -47,33 +47,43 @@ function Proyectos() {
   }, []);
 
 
-  async function AgregarUsuario(){
+  async function AgregarProyecto(){
     setMessageAddUser("Procesando ...")
 
-    let Nombre = document.getElementById("addUserNombre").value
-    let Apellido = document.getElementById("addUserApellido").value
-    let Correo = document.getElementById("addUserEmail").value
-    let Pass = document.getElementById("addUserPassword").value
 
-    if(Nombre==''||  Nombre== null){
-      setMessageAddUser("Ingrese un nombre")
-    }else if(Apellido==''||  Apellido== null){
-      setMessageAddUser("Ingrese un Apellido")
-    }else if(Correo==''||  Correo== null){
-      setMessageAddUser("Ingrese un Correo")
-    }else if(Pass==''||  Pass== null){
-      setMessageAddUser("Ingrese una Contraseña")
+
+    let TituloO = document.getElementById("addProjectTO").value
+    let TituloA = document.getElementById("addProjectTA").value
+    let Cliente = document.getElementById("addProjectCliente").value
+    let Genero = document.getElementById("addProjectGenero").value
+    let Duracion = document.getElementById("addProjectDuracion").value
+    let Capitulo = document.getElementById("addProjectCapitulos").value
+
+    if(TituloO==''||  TituloO== null){
+      setMessageAddUser("Ingrese el Titulo Original")
+    }else if(TituloA==''||  TituloA== null){
+      setMessageAddUser("Ingrese el Titulo Autorizado")
+    }else if(Cliente==''||  Cliente== null){
+      setMessageAddUser("Ingrese un Cliente")
+    }else if(Genero==''||  Genero== null){
+      setMessageAddUser("Ingrese un Genero")
+    }else if(Duracion==''||  Duracion== null){
+      setMessageAddUser("Ingrese una Duracion")
+    }else if(Capitulo==''||  Capitulo== null){
+      setMessageAddUser("Ingrese una Capitulo")
     }else{
-      const enviarUsuario = await axios.post('http://localhost:5000/user/createUser', {
-        nombre: Nombre,
-        apellido: Apellido,
-        email: Correo,
-        contraseña: Pass
+      const enviarProyecto = await axios.post('http://localhost:5000/projects/createProject', {
+        TituloOriginal: TituloO,
+        TituloAutorizado: TituloA,
+        Cliente: Cliente,
+        Genero: Genero,
+        Duracion: Duracion,
+        Capitulos: Capitulo
       })
-      let dadtosUsuario = (enviarUsuario.data)
-      let Valid = dadtosUsuario.valido
+      let dadtosProyecto = (enviarProyecto.data)
+      let Valid = dadtosProyecto.valido
       if(Valid == 1){
-        const datos = await axios.get('http://localhost:5000/user/All', {
+        const datos = await axios.get('http://localhost:5000/projects/All', {
           headers: {       
           }
         })
@@ -89,28 +99,35 @@ function Proyectos() {
     if(dato =='Add'){
       setVistaPopup('AddUser')
     }else if(dato =='Edit'){
-      setVistaPopup('EditUsers')
+      setVistaPopup('EditProjects')
     }else if(dato =='Delete'){
-      setVistaPopup('DeleteUsers')
+      setVistaPopup('DeleteProjects')
     }
     
     open()
   }
 
-  function cerrarPopUsuario(){
+  function cerrarPopProyecto(){
     close();
     setMessageAddUser("");
   } 
 
+
+
+
+
+
+
   function agregarDatosSeleccionados(elemento){
     let Valores = [datosSeleccionados]
     if(datosSeleccionados.length>0) Valores = datosSeleccionados.split(',')
-    
-    let valorNuevo = elemento.user_id
+    console.log("<<<<<<" , datosSeleccionados)
+    let valorNuevo = elemento.id_project
     let valoresNuevos =[]
     let strvaloresNuevos =''
     let Existe=0
     for(let n=0 ; n<Valores.length; n++){
+      console.log("*****" , valorNuevo, "**", Valores[n])
       if(valorNuevo === parseInt(Valores[n])){
         Existe=1
       }else{
@@ -126,16 +143,19 @@ function Proyectos() {
       }
     }else{
       if(datosSeleccionados.length == 0){
-        strvaloresNuevos = elemento.user_id
+        strvaloresNuevos = elemento.id_project
       }else{
-        strvaloresNuevos = datosSeleccionados+","+elemento.user_id
+        strvaloresNuevos = datosSeleccionados+","+elemento.id_project
       }      
     }
     OrdenarDatosSeleccionados(strvaloresNuevos) 
     setDatosSeleccionados(strvaloresNuevos)
   }
 
+
+
   function OrdenarDatosSeleccionados(Datos){
+    console.log("--->" , Datos)
     let valores = Datos.toString()
     let idSeleccion = valores.split(',')
     idSeleccion.sort(function(a,b){
@@ -160,51 +180,69 @@ function Proyectos() {
 
 
 
-  async function EditarUsuario(){
+  async function EditarProyecto(){
    
     let  datosProcesar = (datosSeleccionados.toString()).split(',')
     console.log(datosProcesar)
     for(let n=0;n<datosProcesar.length; n++){
-      let nombre = document.getElementById(datosProcesar[n]+"-usr_name").value
-      let apellido= document.getElementById(datosProcesar[n]+"-usr_lastname").value
-      let email= document.getElementById(datosProcesar[n]+"-usr_email").value
-      let contraseña= document.getElementById(datosProcesar[n]+"-usr_pass").value
+      let TituloO = document.getElementById(datosProcesar[n]+"-usr_name").value
+      let TituloA= document.getElementById(datosProcesar[n]+"-usr_lastname").value
+      let Cliente= document.getElementById(datosProcesar[n]+"-usr_email").value
+      let Genero= document.getElementById(datosProcesar[n]+"-usr_pass").value
+      let Duracion= document.getElementById(datosProcesar[n]+"-usr_pass").value
+      let Capitulos= document.getElementById(datosProcesar[n]+"-usr_pass").value
 
-      if(nombre =='' || nombre==null){
+      if(TituloO =='' || TituloO==null){
         for(let f=0; f<edicionSeleccion.length; f++){
-          if(edicionSeleccion[f].user_id == datosProcesar[n]){
-            nombre = edicionSeleccion[f].usr_name
+          if(edicionSeleccion[f].TituloO == datosProcesar[n]){
+            TituloO = edicionSeleccion[f].TituloO
           }
         }
       }
-      if(apellido =='' || apellido==null){
+      if(TituloA =='' || TituloA==null){
         for(let f=0; f<edicionSeleccion.length; f++){
           if(edicionSeleccion[f].user_id == datosProcesar[n]){
-            apellido = edicionSeleccion[f].usr_lastname
+            TituloA = edicionSeleccion[f].usr_lastname
           }
         }
       }
-      if(email =='' || email==null){
+      if(Cliente =='' || Cliente==null){
         for(let f=0; f<edicionSeleccion.length; f++){
-          if(edicionSeleccion[f].user_id == datosProcesar[n]){
-            email = edicionSeleccion[f].usr_email
+          if(edicionSeleccion[f].TituloA == datosProcesar[n]){
+            Cliente = edicionSeleccion[f].usr_email
           }
         }
       }
-      if(contraseña =='' || contraseña==null){
+      if(Genero =='' || Genero==null){
         for(let f=0; f<edicionSeleccion.length; f++){
           if(edicionSeleccion[f].user_id == datosProcesar[n]){
-            contraseña = edicionSeleccion[f].usr_pass
+            Genero = edicionSeleccion[f].usr_pass
+          }
+        }
+      }
+      if(Duracion =='' || Duracion==null){
+        for(let f=0; f<edicionSeleccion.length; f++){
+          if(edicionSeleccion[f].user_id == datosProcesar[n]){
+            Duracion = edicionSeleccion[f].usr_pass
           }
         }
       }
 
+      if(Capitulos =='' || Capitulos==null){
+        for(let f=0; f<edicionSeleccion.length; f++){
+          if(edicionSeleccion[f].user_id == datosProcesar[n]){
+            Capitulos = edicionSeleccion[f].usr_pass
+          }
+        }
+      }
 
       const datos = await axios.patch('http://localhost:5000/user/updateUser', {
-        nombre,
-        apellido,
-        email,
-        contraseña,
+        TituloOriginal : TituloO,
+        TituloAutorizado: TituloA,
+        Cliente,
+        Genero,
+        Duracion,
+        Capitulos,
         id: parseInt(datosProcesar[n])
       })
       let Dat = (datos.data).data
@@ -225,8 +263,8 @@ function Proyectos() {
 
     let Dat = (datos.data).data
     setData(Dat);
-    //setDatosSeleccionados('')
-    //setEdicionSeleccion([])
+    setDatosSeleccionados('')
+    setEdicionSeleccion([])
     setMessageDeleteUser("")
     close()
    
@@ -236,7 +274,7 @@ function Proyectos() {
 
 
 
-  async function EliminarUsuario(){
+  async function EliminarProyecto(){
     let DatosSelect = datosSeleccionados.toString()
     let IDS =  DatosSelect.split(',')
     let validos = 0
@@ -271,13 +309,13 @@ function Proyectos() {
 
 
   return (
-    <div className="containerUsers">
-      <div className="titleContainerUsers">
-        <div className="title">Catalogo de Usuarios</div>            
+    <div className="containerProjects">
+      <div className="titleContainerProjects">
+        <div className="title">Catalogo de Proyectos</div>            
       </div>
-      <div className="headerConatainerUsers">
+      <div className="headerConatainerProjects">
         <div className="button" onClick={()=>AbrirPopup('Add')}>
-          <div className='containerPopUsers'>
+          <div className='containerPopProjects'>
             <button >OPEN</button>             
           </div>                  
         </div>
@@ -290,25 +328,30 @@ function Proyectos() {
       </div>
 
       <div className="bodyContainerUser">
-        <div className='TableUsuarios'>
+        <div className='TableProyectos'>
           <div className='Tabla'>
             <div className='theadTable'>
               <div className='containerID'>id</div>
-              <div>Nombre</div>
-              <div>Apellido</div>
-              <div>Email</div>
-              <div>Contraseña</div>
+              <div>Titulo Original </div>
+              <div>Titulo Autorizado </div>
+              <div>Cliente</div>
+              <div>Genero</div>
+              <div>Duracion</div>
+              <div>Capitulos</div>
             </div>
             <div className='bodyTable'>
               {
                 data.length>0?
                   data.map((elemento)=>      
-                    <div className='Fila' key={elemento.user_id}>
+                    <div className='Fila' key={elemento.id_project}>
                       <div className='Columnaid'> <input type="checkbox" onClick={()=>agregarDatosSeleccionados(elemento)} ></input> </div>
-                      <div>{elemento.usr_name}</div>                    
-                      <div>{elemento.usr_lastname}</div>    
-                      <div>{elemento.usr_email}</div>    
-                      <div>{elemento.usr_pass}</div>    
+                      <div>{elemento.pjct_TituloOriginal}</div>                    
+                      <div>{elemento.pjct_TituloAutorizado}</div>    
+                      <div>{elemento.pjct_Cliente}</div>    
+                      <div>{elemento.pjct_Genero}</div>    
+                      <div>{elemento.pjct_Duracion}</div>    
+                      <div>{elemento.pjct_Capitulos}</div>    
+                     
                     </div>
                   )
                   :"No se encontraron datos para mostrar"
@@ -331,48 +374,52 @@ function Proyectos() {
                   vistaPopup == 'AddUser' ?
                   <div className="containerAddUserOption">
                     <div className="sectionClose" > 
-                      <button  onClick={()=>cerrarPopUsuario()}>
+                      <button  onClick={()=>cerrarPopProyecto()}>
                         <div className='lineaUno' />
                         <div className='lineaDos' />
                       </button>
                     </div>
                     
-                    <h1>Agregar un nuevo Usuario</h1>
+                    <h1>Agregar un nuevo Proyecto</h1>
                     <div className='TablaAddUser'>
                       <section className='labels'>
-                        <div>Nombre : </div>
-                        <div>Apellido : </div>
-                        <div>Email : </div>
-                        <div>Contraseña : </div>
+                      <div>Titulo Original : </div>
+                      <div>Titulo Autorizado :  </div>
+                      <div>Cliente : </div>
+                      <div>Genero : </div>
+                      <div>Duracion : </div>
+                      <div>Capitulos :</div>
                       </section>
                       <section>
-                        <div><input type="text" id='addUserNombre'></input></div>
-                        <div><input type="text" id='addUserApellido'></input></div>
-                        <div><input type="email" id='addUserEmail'></input></div>
-                        <div><input type="password" id='addUserPassword'></input></div>
+                        <div><input type="text" id='addProjectTO'></input></div>
+                        <div><input type="text" id='addProjectTA'></input></div>
+                        <div><input type="text" id='addProjectCliente'></input></div>
+                        <div><input type="text" id='addProjectGenero'></input></div>
+                        <div><input type="text" id='addProjectDuracion'></input></div>
+                        <div><input type="text" id='addProjectCapitulos'></input></div>
                       </section>
                     </div>
                     <div className="conatinerMessage">
                       {messageAddUser}
                     </div>
                     <div className="buttonAddUser">
-                        <div onClick={()=>AgregarUsuario()}>Agregar Usuario</div>
+                        <div onClick={()=>AgregarProyecto()}>Agregar Proyecto</div>
                     </div>
                   </div>
                   :""
                 }
 
                 {
-                  vistaPopup == 'EditUsers' ?
+                  vistaPopup == 'EditProjects' ?
                   <div className="containerEditUserOption">
-                    <div className="sectionClose" onClick={()=>cerrarPopUsuario()}> 
+                    <div className="sectionClose" onClick={()=>cerrarPopProyecto()}> 
                       <button >
                         <div className='lineaUno' />
                         <div className='lineaDos' />
                       </button>
                     </div>
                     
-                    <h1>Edicion de Usuarios</h1>
+                    <h1>Edicion de Proyectos</h1>
                     <div className='TablaEditUser'>
                         {
                           edicionSeleccion.length>0?
@@ -406,22 +453,22 @@ function Proyectos() {
                       {messageAddUser}
                     </div>
                     <div className="buttonAddUser">
-                        <div onClick={()=>EditarUsuario()}>Actualizar</div>
+                        <div onClick={()=>EditarProyecto()}>Actualizar</div>
                     </div>
                   </div>
                   :""
                 }
                 {
-                  vistaPopup == 'DeleteUsers' ?
+                  vistaPopup == 'DeleteProjects' ?
                   <div className="containerDeleteUserOption">
-                    <div className="sectionClose" onClick={()=>cerrarPopUsuario()}> 
+                    <div className="sectionClose" onClick={()=>cerrarPopProyecto()}> 
                       <button >
                         <div className='lineaUno' />
                         <div className='lineaDos' />
                       </button>
                     </div>
                     
-                    <h1>Eliminar Usuario(s)</h1>
+                    <h1>Eliminar Proyecto(s)</h1>
                     <label>
                       Se eliminaran los siguientes elementos
                     </label>
@@ -458,7 +505,7 @@ function Proyectos() {
                       {messageAddUser}
                     </div>
                     <div className="buttonAddUser">
-                        <div onClick={()=>EliminarUsuario()}>Eliminar Usuario(s)</div>
+                        <div onClick={()=>EliminarProyecto()}>Eliminar Proyecto(s)</div>
                     </div>
                   </div>
                   :""
