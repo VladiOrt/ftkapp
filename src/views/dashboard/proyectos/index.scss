@@ -235,7 +235,7 @@
 
 
 
-    .containerEditUserOption{
+    .containerEditProjectsOption{
         min-width: 60vw;        
         display: flex;
         align-items: center;
@@ -273,7 +273,7 @@
                 }
             }          
         }
-        .TablaEditUser{
+        .TablaEditProjects{
             min-width: 50vw;
             min-height: 30vh;
             max-height: 30vh;
@@ -303,14 +303,14 @@
                     input{
                         margin-top: 0px;
                         margin-bottom: 0px;
-                        min-width: 12vw;
-                        max-width: 12vw;
+                        min-width: 7.5vw;
+                        max-width: 7.5vw;
                     }
                     .id{
                         margin-top: 0px;
                         margin-bottom: 0px;
-                        min-width: 2vw;
-                        max-width: 2vw;
+                        min-width: 3vw;
+                        max-width: 3vw;
                         font-size: 0.9em;
                     }
 

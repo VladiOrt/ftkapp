@@ -129,8 +129,10 @@ function Proyectos() {
     for(let n=0 ; n<Valores.length; n++){
       console.log("*****" , valorNuevo, "**", Valores[n])
       if(valorNuevo === parseInt(Valores[n])){
+        console.log("Existe")
         Existe=1
       }else{
+        console.log("Entro")
         valoresNuevos.push(Valores[n])
       }
     }
@@ -163,13 +165,14 @@ function Proyectos() {
     })
     let arrayNuevo = []
     for(let n=0; n<data.length; n++ ){
-      let IdDato = data[n].user_id
+      let IdDato = data[n].id_project
       for(let l=0;  l<idSeleccion.length ; l++){
         if(IdDato == idSeleccion[l]) arrayNuevo.push(data[n])
       }      
     }
+    console.log("<-->", arrayNuevo)
     setEdicionSeleccion(arrayNuevo)
-    console.log(arrayNuevo)
+   
   }
 
 
@@ -185,45 +188,45 @@ function Proyectos() {
     let  datosProcesar = (datosSeleccionados.toString()).split(',')
     console.log(datosProcesar)
     for(let n=0;n<datosProcesar.length; n++){
-      let TituloO = document.getElementById(datosProcesar[n]+"-usr_name").value
-      let TituloA= document.getElementById(datosProcesar[n]+"-usr_lastname").value
-      let Cliente= document.getElementById(datosProcesar[n]+"-usr_email").value
-      let Genero= document.getElementById(datosProcesar[n]+"-usr_pass").value
-      let Duracion= document.getElementById(datosProcesar[n]+"-usr_pass").value
-      let Capitulos= document.getElementById(datosProcesar[n]+"-usr_pass").value
+      let TituloO = document.getElementById(datosProcesar[n]+"-pjct_TituloOriginal").value
+      let TituloA= document.getElementById(datosProcesar[n]+"-pjct_TituloAutorizado").value
+      let Cliente= document.getElementById(datosProcesar[n]+"-pjct_Cliente").value
+      let Genero= document.getElementById(datosProcesar[n]+"-pjct_Genero").value
+      let Duracion= document.getElementById(datosProcesar[n]+"-pjct_Duracion").value
+      let Capitulos= document.getElementById(datosProcesar[n]+"-pjct_Capitulos").value
 
       if(TituloO =='' || TituloO==null){
         for(let f=0; f<edicionSeleccion.length; f++){
           if(edicionSeleccion[f].TituloO == datosProcesar[n]){
-            TituloO = edicionSeleccion[f].TituloO
+            TituloO = edicionSeleccion[f].pjct_TituloOriginal
           }
         }
       }
       if(TituloA =='' || TituloA==null){
         for(let f=0; f<edicionSeleccion.length; f++){
           if(edicionSeleccion[f].user_id == datosProcesar[n]){
-            TituloA = edicionSeleccion[f].usr_lastname
+            TituloA = edicionSeleccion[f].pjct_TituloAutorizado
           }
         }
       }
       if(Cliente =='' || Cliente==null){
         for(let f=0; f<edicionSeleccion.length; f++){
           if(edicionSeleccion[f].TituloA == datosProcesar[n]){
-            Cliente = edicionSeleccion[f].usr_email
+            Cliente = edicionSeleccion[f].pjct_Cliente
           }
         }
       }
       if(Genero =='' || Genero==null){
         for(let f=0; f<edicionSeleccion.length; f++){
           if(edicionSeleccion[f].user_id == datosProcesar[n]){
-            Genero = edicionSeleccion[f].usr_pass
+            Genero = edicionSeleccion[f].pjct_Genero
           }
         }
       }
       if(Duracion =='' || Duracion==null){
         for(let f=0; f<edicionSeleccion.length; f++){
           if(edicionSeleccion[f].user_id == datosProcesar[n]){
-            Duracion = edicionSeleccion[f].usr_pass
+            Duracion = edicionSeleccion[f].pjct_Duracion
           }
         }
       }
@@ -231,12 +234,12 @@ function Proyectos() {
       if(Capitulos =='' || Capitulos==null){
         for(let f=0; f<edicionSeleccion.length; f++){
           if(edicionSeleccion[f].user_id == datosProcesar[n]){
-            Capitulos = edicionSeleccion[f].usr_pass
+            Capitulos = edicionSeleccion[f].pjct_Capitulos
           }
         }
       }
 
-      const datos = await axios.patch('http://localhost:5000/user/updateUser', {
+      const datos = await axios.patch('http://localhost:5000/projects/updateProject', {
         TituloOriginal : TituloO,
         TituloAutorizado: TituloA,
         Cliente,
@@ -254,7 +257,7 @@ function Proyectos() {
 
 
 
-    const datos = await axios.get('http://localhost:5000/user/All', {
+    const datos = await axios.get('http://localhost:5000/Proyectos/All', {
       headers: {       
       }
     })
@@ -280,7 +283,7 @@ function Proyectos() {
     let validos = 0
     let errores = 0
     for(let n=0;n<IDS.length; n++){
-      const datos = await axios.patch('http://localhost:5000/user/deleteUser', {
+      const datos = await axios.patch('http://localhost:5000/Proyectos/deleteProject', {
         id: IDS[n]
       })
       let Dat = (datos.data).data
@@ -290,7 +293,7 @@ function Proyectos() {
         errores  = errores + 1
       }
     }
-    const datos = await axios.get('http://localhost:5000/user/All', {
+    const datos = await axios.get('http://localhost:5000/Proyectos/All', {
       headers: {       
       }
     })
@@ -409,25 +412,45 @@ function Proyectos() {
                   :""
                 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 {
                   vistaPopup == 'EditProjects' ?
-                  <div className="containerEditUserOption">
+                  <div className="containerEditProjectsOption">
                     <div className="sectionClose" onClick={()=>cerrarPopProyecto()}> 
                       <button >
                         <div className='lineaUno' />
                         <div className='lineaDos' />
                       </button>
                     </div>
-                    
+                                        
                     <h1>Edicion de Proyectos</h1>
-                    <div className='TablaEditUser'>
+                    <div className='TablaEditProjects'>
                         {
                           edicionSeleccion.length>0?
                           <section className='Titulos'>                        
-                            <div>Nombre</div>
-                            <div>Apellido</div>
-                            <div>Email</div>
-                            <div>Contraseña</div>
+                            <div>Titulo Original : </div>
+                            <div>Titulo Autorizado :  </div>
+                            <div>Cliente : </div>
+                            <div>Genero : </div>
+                            <div>Duracion : </div>
+                            <div>Capitulos :</div>
                           </section>
                           :
                           "No ha seleccionado elementos para editar"
@@ -437,12 +460,14 @@ function Proyectos() {
                         { 
                           edicionSeleccion.length>0?
                             edicionSeleccion.map((elemento)=>
-                            <div key={elemento.user_id}  className='Fila'>
-                              <input type="text" className='id' value={elemento.user_id} id={elemento.user_id+"-user_id"} />
-                              <input type="text" placeholder={elemento.usr_name}  id={elemento.user_id+"-usr_name"} />
-                              <input type="text" placeholder={elemento.usr_lastname} id={elemento.user_id+"-usr_lastname"} />
-                              <input type="text" placeholder={elemento.usr_email} id={elemento.user_id+"-usr_email"}  />
-                              <input type="text" placeholder={elemento.usr_pass} id={elemento.user_id+"-usr_pass"}  />
+                            <div key={elemento.id_project}  className='Fila'>
+                              <input type="text" className='id' value={elemento.id_project} id={elemento.id_project+"-id_project"} />
+                              <input type="text" placeholder={elemento.pjct_TituloOriginal}  id={elemento.id_project+"-pjct_TituloOriginal"} />
+                              <input type="text" placeholder={elemento.pjct_TituloAutorizado} id={elemento.id_project+"-pjct_TituloAutorizado"} />
+                              <input type="text" placeholder={elemento.pjct_Cliente} id={elemento.id_project+"-pjct_Cliente"}  />
+                              <input type="text" placeholder={elemento.pjct_Genero} id={elemento.id_project+"-pjct_Genero"}  />
+                              <input type="text" placeholder={elemento.pjct_Duracion} id={elemento.id_project+"-pjct_Duracion"}  />
+                              <input type="text" placeholder={elemento.pjct_Capitulos} id={elemento.id_project+"-pjct_Capitulos"}  />
                             </div>
                             )
                           :""
@@ -452,15 +477,27 @@ function Proyectos() {
                     <div className="conatinerMessage">
                       {messageAddUser}
                     </div>
-                    <div className="buttonAddUser">
+                    <div className="buttonAddProject">
                         <div onClick={()=>EditarProyecto()}>Actualizar</div>
                     </div>
                   </div>
                   :""
                 }
+
+
+
+
+
+
+
+
+
+
+
+
                 {
                   vistaPopup == 'DeleteProjects' ?
-                  <div className="containerDeleteUserOption">
+                  <div className="containerDeleteProjectOption">
                     <div className="sectionClose" onClick={()=>cerrarPopProyecto()}> 
                       <button >
                         <div className='lineaUno' />
@@ -472,7 +509,7 @@ function Proyectos() {
                     <label>
                       Se eliminaran los siguientes elementos
                     </label>
-                    <div className='TablaEditUser'>
+                    <div className='TablaEditProject'>
                         {
                           edicionSeleccion.length>0?
                           <section className='Titulos'>                        
