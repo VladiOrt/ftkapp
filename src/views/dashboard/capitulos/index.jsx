@@ -14,7 +14,7 @@ import { id } from 'date-fns/locale';
 
 
 
-function Proyectos() {
+function Capitulos() {
   const[datosGenerales, setDatosGenerales] = useState([])
   const[datosTabla, setDatosTabla] = useState([])
   const[datosSeleccionados, setDatosSeleccionados] = useState('')
@@ -98,8 +98,6 @@ function Proyectos() {
       setVistaPopup('EditProjects')
     }else if(dato =='Delete'){
       setVistaPopup('DeleteProjects')
-    }else if(dato =='Capitulo'){
-      setVistaPopup('AddCapitulos')
     }
     
     open()
@@ -119,11 +117,13 @@ function Proyectos() {
   function agregarDatosSeleccionados(elemento){
     let Valores = [datosSeleccionados]
     if(datosSeleccionados.length>0) Valores = datosSeleccionados.split(',')
+    console.log("<<<<<<" , datosSeleccionados)
     let valorNuevo = elemento.id_project
     let valoresNuevos =[]
     let strvaloresNuevos =''
     let Existe=0
     for(let n=0 ; n<Valores.length; n++){
+      console.log("*****" , valorNuevo, "**", Valores[n])
       if(valorNuevo === parseInt(Valores[n])){
         console.log("Existe")
         Existe=1
@@ -153,6 +153,7 @@ function Proyectos() {
 
 
   function OrdenarDatosSeleccionados(Datos){
+    console.log("--->" , Datos)
     let valores = Datos.toString()
     let idSeleccion = valores.split(',')
     idSeleccion.sort(function(a,b){
@@ -165,6 +166,7 @@ function Proyectos() {
         if(IdDato == idSeleccion[l]) arrayNuevo.push(data[n])
       }      
     }
+    console.log("<-->", arrayNuevo)
     setEdicionSeleccion(arrayNuevo)
    
   }
@@ -180,6 +182,8 @@ function Proyectos() {
   async function EditarProyecto(){
    
     let datosProcesar = (datosSeleccionados.toString()).split(',')
+    console.log("Datos a procesar --->",datosProcesar)
+   
     for(let n=0;n<datosProcesar.length; n++){
       let TituloO = document.getElementById(datosProcesar[n]+"-pjct_TituloOriginal").value
       let TituloA= document.getElementById(datosProcesar[n]+"-pjct_TituloAutorizado").value
@@ -191,6 +195,7 @@ function Proyectos() {
       if(TituloO =='' || TituloO==null){
         for(let f=0; f<edicionSeleccion.length; f++){
           if(edicionSeleccion[f].id_project == datosProcesar[n]){
+            console.log("Datos a procesar --->",edicionSeleccion[f])
             TituloO = edicionSeleccion[f].pjct_TituloOriginal
           }
         }
@@ -256,16 +261,25 @@ function Proyectos() {
 
     let Dat = (datos.data).data
     setData(Dat);
+
     let arrayNuevoActualizado = []
+    console.log("Dat--- 1 >", datosSeleccionados)
     let DatosSeleccionadosNow = (datosSeleccionados.toString()).split(',')
+    console.log("Dat--- 2 >", DatosSeleccionadosNow)
     for(let ns = 0 ; ns <DatosSeleccionadosNow.length; ns++ ){
         for(let n=0; n<Dat.length; n++ ){
+          console.log("****" ,DatosSeleccionadosNow[ns] , "****",Dat[n].id_project )
           if(parseInt(DatosSeleccionadosNow[ns]) == Dat[n].id_project){
             arrayNuevoActualizado.push(Dat[n])
           }
         }
     }
     setEdicionSeleccion(arrayNuevoActualizado)
+
+    console.log("----<" , datosSeleccionados,"<<<-")
+    console.log("----<" , edicionSeleccion,"<<<-")
+
+    
     setMessageDeleteUser("")
     close()
    
@@ -325,9 +339,6 @@ function Proyectos() {
         </div>        
         <div className="button" onClick={()=>AbrirPopup('Delete')}>
             Eliminar
-        </div>        
-        <div className="button" onClick={()=>AbrirPopup('Capitulo')}>
-            Agregar Capitulo
         </div>        
       </div>
 
@@ -555,103 +566,13 @@ function Proyectos() {
                   :""
                 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                {
-                  vistaPopup == 'AddCapitulos' ?
-                  <div className="containerDeleteProjectsOption">
-                    <div className="sectionClose" onClick={()=>cerrarPopProyecto()}> 
-                      <button >
-                        <div className='lineaUno' />
-                        <div className='lineaDos' />
-                      </button>
-                    </div>
-                    
-                    <h1>Agregar Capitulos(s)</h1>
-                    <label>
-                      Se eliminaran los siguientes elementos
-                    </label>
-                    <div className='TablaEditProjects'>
-                        {
-                          edicionSeleccion.length>0?
-                          <section className='Titulos'>                        
-                            <div className='id'>Id</div>
-                            <div>Titulo Original</div>
-                            <div>Titulo Autorizado</div>
-                            <div>Cliente</div>
-                            <div>Genero</div>
-                            <div>Duracion</div>
-                            <div>Capitulos</div>
-                          </section>
-                          :
-                          "No ha seleccionado elementos para eliminar"
-                        }
-                     
-                      <section className=''>    
-                        { 
-                          edicionSeleccion.length>0?
-                            edicionSeleccion.map((elemento)=>
-                            <div key={elemento.id_project}  className='Fila'>
-                              <input type="text" className='id' value={elemento.id_project} disabled/>
-                              <input type="text" placeholder={elemento.pjct_TituloOriginal} disabled />
-                              <input type="text" placeholder=""  />
-                              <input type="text" placeholder=""  />
-                              <input type="text" placeholder="" />
-                              <input type="text" placeholder="" />
-                              <input type="text" placeholder="" />                            
-                            </div>
-                            )
-                          :""
-                        }
-                      </section>
-                    </div>
-                    <div className="conatinerMessage">
-                      {messageAddUser}
-                    </div>
-                    <div className="buttonAddUser">
-                        <div onClick={()=>EliminarProyecto()}>Eliminar Proyecto(s)</div>
-                    </div>
-                  </div>
-                  :""
-                }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
               </div>
             </Modal>                  
     </div>
   );
 }
 
-export default Proyectos;
+export default Capitulos;
 
 
 

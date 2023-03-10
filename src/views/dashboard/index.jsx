@@ -10,6 +10,8 @@ import Catalogos from './catalogos'
 import Usuarios from './usuarios'
 import Ventas from './ventas'
 import Proyectos from './proyectos'
+import Capitulos from './capitulos'
+
 
 const Dashboard = () =>{
 
@@ -37,7 +39,7 @@ const Dashboard = () =>{
                     <li onClick={()=>changeVista(2)}>VENTAS</li>
                     <li onClick={()=>changeVista(3)}>USUARIOS</li>                                   
                     <li onClick={()=>changeVista(4)}>PROYECTOS</li>                  
-                 
+                    <li onClick={()=>changeVista(5)}>CAPITULOS</li>    
 
                     
 
@@ -61,6 +63,9 @@ const Dashboard = () =>{
                         }
                         {
                             vista===4?<Proyectos />:""
+                        }
+                        {
+                            vista===5?<Capitulos />:""
                         }
                     </div>
                 </div>
