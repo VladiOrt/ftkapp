@@ -309,6 +309,62 @@ function Proyectos() {
 
 
 
+  async function agregarcapitulos(){
+    let DatosSelect = datosSeleccionados.toString()
+    let IDS =  DatosSelect.split(',')
+    let validos = 0
+    let errores = 0
+
+
+
+    for(let n=0;n<IDS.length; n++){
+      
+      let IdProyecto
+      let NombreCapt
+      let DuracionCapt
+      let DirectorCapt
+      let TraductorCapt
+
+    }
+
+
+
+
+
+/*
+
+                  <input type="text" id={elemento.id_project+"-Nombre"} placeholder="Nombre del capitulo" />
+                              <input type="text" id={elemento.id_project+"-Duracion"} placeholder="Duracion"  />
+                              <input type="text" id={elemento.id_project+"-Director"} placeholder="Director"  />
+                              <input type="text" id={elemento.id_project+"-Traductor"} placeholder="Traductor" />
+
+
+*/
+
+
+    const datos = await axios.get('http://localhost:5000/projects/All', {
+      headers: {       
+      }
+    })
+    let Dat = (datos.data).data
+
+
+
+
+
+
+
+
+    setData(Dat);
+    setDatosSeleccionados('')
+    setEdicionSeleccion([])
+    setMessageDeleteUser("")
+    close()
+   
+  }
+  
+  
+
   return (
     <div className="containerProjects">
       <div className="titleContainerProjects">
@@ -585,19 +641,17 @@ function Proyectos() {
                     
                     <h1>Agregar Capitulos(s)</h1>
                     <label>
-                      Se eliminaran los siguientes elementos
+                      Se agregaran capitulo(s) a los siguientes elementos                
                     </label>
                     <div className='TablaEditProjects'>
                         {
                           edicionSeleccion.length>0?
                           <section className='Titulos'>                        
-                            <div className='id'>Id</div>
-                            <div>Titulo Original</div>
-                            <div>Titulo Autorizado</div>
-                            <div>Cliente</div>
-                            <div>Genero</div>
+                            <div className='id'>Id-P</div>
+                            <div>Nombre</div>
                             <div>Duracion</div>
-                            <div>Capitulos</div>
+                            <div>Director</div>
+                            <div>Traductor</div>
                           </section>
                           :
                           "No ha seleccionado elementos para eliminar"
@@ -609,12 +663,11 @@ function Proyectos() {
                             edicionSeleccion.map((elemento)=>
                             <div key={elemento.id_project}  className='Fila'>
                               <input type="text" className='id' value={elemento.id_project} disabled/>
-                              <input type="text" placeholder={elemento.pjct_TituloOriginal} disabled />
-                              <input type="text" placeholder=""  />
-                              <input type="text" placeholder=""  />
-                              <input type="text" placeholder="" />
-                              <input type="text" placeholder="" />
-                              <input type="text" placeholder="" />                            
+                              <input type="text" id={elemento.id_project+"-Nombre"} placeholder="Nombre del capitulo" />
+                              <input type="text" id={elemento.id_project+"-Duracion"} placeholder="Duracion"  />
+                              <input type="text" id={elemento.id_project+"-Director"} placeholder="Director"  />
+                              <input type="text" id={elemento.id_project+"-Traductor"} placeholder="Traductor" />
+                                        
                             </div>
                             )
                           :""
@@ -625,7 +678,7 @@ function Proyectos() {
                       {messageAddUser}
                     </div>
                     <div className="buttonAddUser">
-                        <div onClick={()=>EliminarProyecto()}>Eliminar Proyecto(s)</div>
+                        <div onClick={()=>agregarcapitulos()}>Agregar Capitulo(s)</div>
                     </div>
                   </div>
                   :""

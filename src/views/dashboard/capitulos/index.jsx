@@ -535,10 +535,11 @@ function Capitulos() {
                             <div>Capitulos</div>
                           </section>
                           :
-                          "No ha seleccionado elementos para eliminar"
+                          "No ha seleccionado elementos para afectar"
                         }
                      
                       <section className=''>    
+                      
                         { 
                           edicionSeleccion.length>0?
                             edicionSeleccion.map((elemento)=>
