@@ -40,6 +40,7 @@ const Dashboard = () =>{
                     <li onClick={()=>changeVista(3)}>USUARIOS</li>                                   
                     <li onClick={()=>changeVista(4)}>PROYECTOS</li>                  
                     <li onClick={()=>changeVista(5)}>CAPITULOS</li>    
+ 
 
                     
 

@@ -2,7 +2,6 @@
 import React, { useState, useEffect, useLayoutEffect, useCallback } from 'react';
 import { render } from 'react-dom';
 import { useModal } from 'react-hooks-use-modal';
-import * as XLSX from 'xlsx'
 
 import Table from "./components/Table";
 import axios from "axios";
@@ -15,7 +14,7 @@ import { id } from 'date-fns/locale';
 
 
 
-function Capitulos() {
+function Proyectos() {
   const[datosGenerales, setDatosGenerales] = useState([])
   const[datosTabla, setDatosTabla] = useState([])
   const[datosSeleccionados, setDatosSeleccionados] = useState('')
@@ -35,7 +34,7 @@ function Capitulos() {
  
   const fetchData = async () => {
     
-    const datos = await axios.get('http://localhost:5000/capitulos/All', {
+    const datos = await axios.get('http://localhost:5000/projects/All', {
       headers: {       
       }
     })
@@ -99,6 +98,8 @@ function Capitulos() {
       setVistaPopup('EditProjects')
     }else if(dato =='Delete'){
       setVistaPopup('DeleteProjects')
+    }else if(dato =='Capitulo'){
+      setVistaPopup('AddCapitulos')
     }
     
     open()
@@ -118,13 +119,11 @@ function Capitulos() {
   function agregarDatosSeleccionados(elemento){
     let Valores = [datosSeleccionados]
     if(datosSeleccionados.length>0) Valores = datosSeleccionados.split(',')
-    console.log("<<<<<<" , datosSeleccionados)
     let valorNuevo = elemento.id_project
     let valoresNuevos =[]
     let strvaloresNuevos =''
     let Existe=0
     for(let n=0 ; n<Valores.length; n++){
-      console.log("*****" , valorNuevo, "**", Valores[n])
       if(valorNuevo === parseInt(Valores[n])){
         console.log("Existe")
         Existe=1
@@ -154,7 +153,6 @@ function Capitulos() {
 
 
   function OrdenarDatosSeleccionados(Datos){
-    console.log("--->" , Datos)
     let valores = Datos.toString()
     let idSeleccion = valores.split(',')
     idSeleccion.sort(function(a,b){
@@ -167,7 +165,6 @@ function Capitulos() {
         if(IdDato == idSeleccion[l]) arrayNuevo.push(data[n])
       }      
     }
-    console.log("<-->", arrayNuevo)
     setEdicionSeleccion(arrayNuevo)
    
   }
@@ -183,8 +180,6 @@ function Capitulos() {
   async function EditarProyecto(){
    
     let datosProcesar = (datosSeleccionados.toString()).split(',')
-    console.log("Datos a procesar --->",datosProcesar)
-   
     for(let n=0;n<datosProcesar.length; n++){
       let TituloO = document.getElementById(datosProcesar[n]+"-pjct_TituloOriginal").value
       let TituloA= document.getElementById(datosProcesar[n]+"-pjct_TituloAutorizado").value
@@ -196,7 +191,6 @@ function Capitulos() {
       if(TituloO =='' || TituloO==null){
         for(let f=0; f<edicionSeleccion.length; f++){
           if(edicionSeleccion[f].id_project == datosProcesar[n]){
-            console.log("Datos a procesar --->",edicionSeleccion[f])
             TituloO = edicionSeleccion[f].pjct_TituloOriginal
           }
         }
@@ -262,25 +256,16 @@ function Capitulos() {
 
     let Dat = (datos.data).data
     setData(Dat);
-
     let arrayNuevoActualizado = []
-    console.log("Dat--- 1 >", datosSeleccionados)
     let DatosSeleccionadosNow = (datosSeleccionados.toString()).split(',')
-    console.log("Dat--- 2 >", DatosSeleccionadosNow)
     for(let ns = 0 ; ns <DatosSeleccionadosNow.length; ns++ ){
         for(let n=0; n<Dat.length; n++ ){
-          console.log("****" ,DatosSeleccionadosNow[ns] , "****",Dat[n].id_project )
           if(parseInt(DatosSeleccionadosNow[ns]) == Dat[n].id_project){
             arrayNuevoActualizado.push(Dat[n])
           }
         }
     }
     setEdicionSeleccion(arrayNuevoActualizado)
-
-    console.log("----<" , datosSeleccionados,"<<<-")
-    console.log("----<" , edicionSeleccion,"<<<-")
-
-    
     setMessageDeleteUser("")
     close()
    
@@ -324,43 +309,61 @@ function Capitulos() {
 
 
 
+  async function agregarcapitulos(){
+    let DatosSelect = datosSeleccionados.toString()
+    let IDS =  DatosSelect.split(',')
+    let validos = 0
+    let errores = 0
 
-  function handleInputChange(event){
-    const target = event.target;
-    const value = target.type ==='checkbox' ? target.checked : target.value
-    const name = target.name
-    const this2 = this
-    this.setState({
-      [name] : value
-    })
-    let hojas = []
-    if(name === 'file'){
-      let reader = new FileReader()
-      reader.readAsArrayBuffer(target.files[0])
-      render.onloadend =(e) =>{
-        var data =  new Uint8Array(e.targer.result)
-        var workbook = XLSX.read(data, {type:"array"});
 
-        workbook.SheetNames.forEach(function(sheetName){
-          // Here is my project
-          var XL_row = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
-          hojas.push({
-            data: XL_row,
-            sheetName
-          })
-        })
-        console.log(hojas)
-        this2.setState({
-          selectedFileDocument : target.files[0],
-          hojas
-        })
-      }
+
+    for(let n=0;n<IDS.length; n++){
+      
+      let IdProyecto
+      let NombreCapt
+      let DuracionCapt
+      let DirectorCapt
+      let TraductorCapt
+
     }
+
+
+
+
+
+/*
+
+                  <input type="text" id={elemento.id_project+"-Nombre"} placeholder="Nombre del capitulo" />
+                              <input type="text" id={elemento.id_project+"-Duracion"} placeholder="Duracion"  />
+                              <input type="text" id={elemento.id_project+"-Director"} placeholder="Director"  />
+                              <input type="text" id={elemento.id_project+"-Traductor"} placeholder="Traductor" />
+
+
+*/
+
+
+    const datos = await axios.get('http://localhost:5000/projects/All', {
+      headers: {       
+      }
+    })
+    let Dat = (datos.data).data
+
+
+
+
+
+
+
+
+    setData(Dat);
+    setDatosSeleccionados('')
+    setEdicionSeleccion([])
+    setMessageDeleteUser("")
+    close()
+   
   }
-
-
-
-
+  
+  
 
   return (
     <div className="containerProjects">
@@ -370,16 +373,17 @@ function Capitulos() {
       <div className="headerConatainerProjects">
         <div className="button" onClick={()=>AbrirPopup('Add')}>
           <div className='containerPopProjects'>
-            <button>
-              LOAD SCRIPT
-            </button>             
+            <button >OPEN</button>             
           </div>                  
         </div>
         <div className="button" onClick={()=>AbrirPopup('Edit')}>
-            OPEN SCRIPT
+            Editar
         </div>        
         <div className="button" onClick={()=>AbrirPopup('Delete')}>
-            FILES
+            Eliminar
+        </div>        
+        <div className="button" onClick={()=>AbrirPopup('Capitulo')}>
+            Agregar Capitulo
         </div>        
       </div>
 
@@ -388,25 +392,25 @@ function Capitulos() {
           <div className='Tabla'>
             <div className='theadTable'>
               <div className='containerID'>id</div>
-              <div>Nombre</div>
+              <div>Titulo Original </div>
+              <div>Titulo Autorizado </div>
+              <div>Cliente</div>
+              <div>Genero</div>
               <div>Duracion</div>
-              <div>Director</div>
-              <div>Traductor</div>
-              <div>Fecha Creacion</div>
-              <div>Proyecto</div>
+              <div>Capitulos</div>
             </div>
             <div className='bodyTable'>
               {
                 data.length>0?
                   data.map((elemento)=>      
-                    <div className='Fila' key={elemento.id_cap}>
+                    <div className='Fila' key={elemento.id_project}>
                       <div className='Columnaid'> <input type="checkbox" onClick={()=>agregarDatosSeleccionados(elemento)} ></input> </div>
-                      <div>{elemento.cap_Nombre}</div>                    
-                      <div>{elemento.cap_duracion}</div>    
-                      <div>{elemento.cap_director}</div>    
-                      <div>{elemento.cap_traductor}</div>    
-                      <div>{elemento.cap_fechaCreacion}</div>    
-                      <div>{elemento.pjct_TituloOriginal}</div>    
+                      <div>{elemento.pjct_TituloOriginal}</div>                    
+                      <div>{elemento.pjct_TituloAutorizado}</div>    
+                      <div>{elemento.pjct_Cliente}</div>    
+                      <div>{elemento.pjct_Genero}</div>    
+                      <div>{elemento.pjct_Duracion}</div>    
+                      <div>{elemento.pjct_Capitulos}</div>    
                      
                     </div>
                   )
@@ -436,19 +440,24 @@ function Capitulos() {
                       </button>
                     </div>
                     
-                    <h1>Agregar script al proyecto</h1>
+                    <h1>Agregar un nuevo Proyecto</h1>
                     <div className='TablaAddUser'>
                       <section className='labels'>
-
-                      <input type="text"
-                        name="file"
-                        id="file"
-                        onChange={handleInputChange}
-                        placeholder="Achivo de Excel"
-                      ></input>
-
+                      <div>Titulo Original : </div>
+                      <div>Titulo Autorizado :  </div>
+                      <div>Cliente : </div>
+                      <div>Genero : </div>
+                      <div>Duracion : </div>
+                      <div>Capitulos :</div>
                       </section>
- 
+                      <section>
+                        <div><input type="text" id='addProjectTO'></input></div>
+                        <div><input type="text" id='addProjectTA'></input></div>
+                        <div><input type="text" id='addProjectCliente'></input></div>
+                        <div><input type="text" id='addProjectGenero'></input></div>
+                        <div><input type="text" id='addProjectDuracion'></input></div>
+                        <div><input type="text" id='addProjectCapitulos'></input></div>
+                      </section>
                     </div>
                     <div className="conatinerMessage">
                       {messageAddUser}
@@ -571,11 +580,10 @@ function Capitulos() {
                             <div>Capitulos</div>
                           </section>
                           :
-                          "No ha seleccionado elementos para afectar"
+                          "No ha seleccionado elementos para eliminar"
                         }
                      
                       <section className=''>    
-                      
                         { 
                           edicionSeleccion.length>0?
                             edicionSeleccion.map((elemento)=>
@@ -603,13 +611,100 @@ function Capitulos() {
                   :""
                 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                {
+                  vistaPopup == 'AddCapitulos' ?
+                  <div className="containerDeleteProjectsOption">
+                    <div className="sectionClose" onClick={()=>cerrarPopProyecto()}> 
+                      <button >
+                        <div className='lineaUno' />
+                        <div className='lineaDos' />
+                      </button>
+                    </div>
+                    
+                    <h1>Agregar Capitulos(s)</h1>
+                    <label>
+                      Se agregaran capitulo(s) a los siguientes elementos                
+                    </label>
+                    <div className='TablaEditProjects'>
+                        {
+                          edicionSeleccion.length>0?
+                          <section className='Titulos'>                        
+                            <div className='id'>Id-P</div>
+                            <div>Nombre</div>
+                            <div>Duracion</div>
+                            <div>Director</div>
+                            <div>Traductor</div>
+                          </section>
+                          :
+                          "No ha seleccionado elementos para eliminar"
+                        }
+                     
+                      <section className=''>    
+                        { 
+                          edicionSeleccion.length>0?
+                            edicionSeleccion.map((elemento)=>
+                            <div key={elemento.id_project}  className='Fila'>
+                              <input type="text" className='id' value={elemento.id_project} disabled/>
+                              <input type="text" id={elemento.id_project+"-Nombre"} placeholder="Nombre del capitulo" />
+                              <input type="text" id={elemento.id_project+"-Duracion"} placeholder="Duracion"  />
+                              <input type="text" id={elemento.id_project+"-Director"} placeholder="Director"  />
+                              <input type="text" id={elemento.id_project+"-Traductor"} placeholder="Traductor" />
+                                        
+                            </div>
+                            )
+                          :""
+                        }
+                      </section>
+                    </div>
+                    <div className="conatinerMessage">
+                      {messageAddUser}
+                    </div>
+                    <div className="buttonAddUser">
+                        <div onClick={()=>agregarcapitulos()}>Agregar Capitulo(s)</div>
+                    </div>
+                  </div>
+                  :""
+                }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
               </div>
             </Modal>                  
     </div>
   );
 }
 
-export default Capitulos;
+export default Proyectos;
 
 
 

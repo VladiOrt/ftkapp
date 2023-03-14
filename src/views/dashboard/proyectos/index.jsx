@@ -27,6 +27,7 @@ function Proyectos() {
 
   const [data, setData] = useState([]);
   const [messageAddUser, setMessageAddUser] = useState("");
+  const [messageAddCapt, setMessageAddCapt] = useState("")
   const [messageEditUser, setMessageEditUser] = useState("");
   const [messageDeleteUser, setMessageDeleteUser] = useState("");
 
@@ -319,45 +320,41 @@ function Proyectos() {
 
     for(let n=0;n<IDS.length; n++){
       
-      let IdProyecto
-      let NombreCapt
-      let DuracionCapt
-      let DirectorCapt
-      let TraductorCapt
+      let IdProyecto = IDS[n]
+      let NombreCapt = document.getElementById(IDS[n]+"-Nombre").value
+      let DuracionCapt = document.getElementById(IDS[n]+"-Duracion").value
+      let DirectorCapt = document.getElementById(IDS[n]+"-Director").value
+      let TraductorCapt = document.getElementById(IDS[n]+"-Traductor").value
 
+      if(NombreCapt == null || NombreCapt == ''){
+        setMessageAddCapt("por favor inserta un nombre de capitulo")
+        
+      }else if(DuracionCapt == null || DuracionCapt == ''){
+        setMessageAddCapt("por favor inserta unas duracion de Capitulo")        
+      }else if(DirectorCapt == null || DirectorCapt == ''){
+        setMessageAddCapt("por favor inserta un director del Capitulo")        
+      }else if(TraductorCapt == null || TraductorCapt == ''){
+        setMessageAddCapt("por favor inserta un Traductor del Capitulo")        
+      }else{
+        const datos = await axios.post('http://localhost:5000/capitulos/createCapt', {
+          Nombre : NombreCapt,
+          Duracion: DuracionCapt,
+          Director: DirectorCapt,
+          Traductor: TraductorCapt,
+          id: parseInt(IdProyecto)
+        })
+        let Dat = (datos.data).data
+
+
+      }
+    
     }
 
 
 
 
 
-/*
 
-                  <input type="text" id={elemento.id_project+"-Nombre"} placeholder="Nombre del capitulo" />
-                              <input type="text" id={elemento.id_project+"-Duracion"} placeholder="Duracion"  />
-                              <input type="text" id={elemento.id_project+"-Director"} placeholder="Director"  />
-                              <input type="text" id={elemento.id_project+"-Traductor"} placeholder="Traductor" />
-
-
-*/
-
-
-    const datos = await axios.get('http://localhost:5000/projects/All', {
-      headers: {       
-      }
-    })
-    let Dat = (datos.data).data
-
-
-
-
-
-
-
-
-    setData(Dat);
-    setDatosSeleccionados('')
-    setEdicionSeleccion([])
     setMessageDeleteUser("")
     close()
    
@@ -675,7 +672,7 @@ function Proyectos() {
                       </section>
                     </div>
                     <div className="conatinerMessage">
-                      {messageAddUser}
+                      {messageAddCapt}
                     </div>
                     <div className="buttonAddUser">
                         <div onClick={()=>agregarcapitulos()}>Agregar Capitulo(s)</div>
