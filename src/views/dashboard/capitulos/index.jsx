@@ -12,7 +12,7 @@ import 'reactjs-popup/dist/index.css';
 import { ArrowBackIosRounded } from '@mui/icons-material';
 import { id } from 'date-fns/locale';
 
-
+'
 
 
 function Capitulos() {
@@ -323,33 +323,35 @@ function Capitulos() {
 
 
 
-
+const[name,setName] = useState("")
 
   function handleInputChange(event){
     const target = event.target;
     const value = target.type ==='checkbox' ? target.checked : target.value
     const name = target.name
     const this2 = this
-    this.setState({
+    setName({
       [name] : value
     })
     let hojas = []
     if(name === 'file'){
       let reader = new FileReader()
-      reader.readAsArrayBuffer(target.files[0])
+      console.log("<->",reader.readAsArrayBuffer)
+      console.log("---> " , reader)
       render.onloadend =(e) =>{
-        var data =  new Uint8Array(e.targer.result)
+        var data =  new Uint8Array(e.target.result)
         var workbook = XLSX.read(data, {type:"array"});
-
+        console.log("xxxx" ,data )
         workbook.SheetNames.forEach(function(sheetName){
           // Here is my project
-          var XL_row = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
+          
+          var XL_row = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
           hojas.push({
             data: XL_row,
             sheetName
           })
         })
-        console.log(hojas)
+        console.log("Hojas  <-> ", hojas)
         this2.setState({
           selectedFileDocument : target.files[0],
           hojas
@@ -359,6 +361,68 @@ function Capitulos() {
   }
 
 
+
+
+  const uploadFile = async(e) =>{
+    const formData = new FormData();
+    formData().append("file" , file);
+  
+    formData.append("fileName", fileName);
+
+    const Excel = XLSX.readFile(file)
+    var nombreHoja = Excel.sheetNames;
+    console.log("--->",nombreHoja)
+    /*
+    try{
+      const res = await axios.post(
+        "http://localhost:3000/upload",
+        formData
+      );
+      console.log(res);
+    }catch(ex){
+      console.log(ex);
+    };
+    */
+  }
+  const[file, setFile]= useState()
+  const[fileName, setFileName]= useState("")
+
+  const saveFile = (e) =>{
+    setFile(e.target.file[0]);
+    setFileName(e.target.diles[0].name)
+  }
+
+
+
+
+
+
+
+
+
+
+// a local state to store the currently selected file.
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  const handleSubmit = async(event) => {
+    event.preventDefault()
+    const formData = new FormData();
+    formData.append("selectedFile", document.getElementById("Archivo").value );
+    try {
+      const response = await axios({
+        method: "post",
+        url: "http://localhost:5000/Excel/id/1",
+        data: formData,
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+    } catch(error) {
+      console.log(error)
+    }
+  }
+
+  const handleFileSelect = (event) => {
+    setSelectedFile(event.target.files[0])
+  }
 
 
 
@@ -439,23 +503,34 @@ function Capitulos() {
                     <h1>Agregar script al proyecto</h1>
                     <div className='TablaAddUser'>
                       <section className='labels'>
+                        
 
-                      <input type="text"
-                        name="file"
-                        id="file"
-                        onChange={handleInputChange}
-                        placeholder="Achivo de Excel"
-                      ></input>
 
+
+
+
+
+
+
+
+
+                      <form onSubmit={handleSubmit}>
+                        <input type="file" id="Archivo" onChange={handleFileSelect}/>
+                        <input type="submit" value="Upload File" />
+                      </form>
+
+
+
+
+
+                    
                       </section>
  
                     </div>
                     <div className="conatinerMessage">
                       {messageAddUser}
                     </div>
-                    <div className="buttonAddUser">
-                        <div onClick={()=>AgregarProyecto()}>Agregar Proyecto</div>
-                    </div>
+                    
                   </div>
                   :""
                 }
