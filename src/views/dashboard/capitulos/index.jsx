@@ -2,7 +2,13 @@
 import React, { useState, useEffect, useLayoutEffect, useCallback } from 'react';
 import { render } from 'react-dom';
 import { useModal } from 'react-hooks-use-modal';
-import * as XLSX from 'xlsx'
+
+
+
+
+import * as XLSX from "xlsx";
+
+
 
 import Table from "./components/Table";
 import axios from "axios";
@@ -12,10 +18,11 @@ import 'reactjs-popup/dist/index.css';
 import { ArrowBackIosRounded } from '@mui/icons-material';
 import { id } from 'date-fns/locale';
 
-'
 
 
 function Capitulos() {
+  const[messageScript, setMessageScript] = useState('')
+  const[scriptProcesado, setScriptProcesado] = useState(null)
   const[datosGenerales, setDatosGenerales] = useState([])
   const[datosTabla, setDatosTabla] = useState([])
   const[datosSeleccionados, setDatosSeleccionados] = useState('')
@@ -48,37 +55,14 @@ function Capitulos() {
   }, []);
 
 
-  async function AgregarProyecto(){
-    setMessageAddUser("Procesando ...")
-    let TituloO = document.getElementById("addProjectTO").value
-    let TituloA = document.getElementById("addProjectTA").value
-    let Cliente = document.getElementById("addProjectCliente").value
-    let Genero = document.getElementById("addProjectGenero").value
-    let Duracion = document.getElementById("addProjectDuracion").value
-    let Capitulo = document.getElementById("addProjectCapitulos").value
-    if(TituloO==''||  TituloO== null){
-      setMessageAddUser("Ingrese el Titulo Original")
-    }else if(TituloA==''||  TituloA== null){
-      setMessageAddUser("Ingrese el Titulo Autorizado")
-    }else if(Cliente==''||  Cliente== null){
-      setMessageAddUser("Ingrese un Cliente")
-    }else if(Genero==''||  Genero== null){
-      setMessageAddUser("Ingrese un Genero")
-    }else if(Duracion==''||  Duracion== null){
-      setMessageAddUser("Ingrese una Duracion")
-    }else if(Capitulo==''||  Capitulo== null){
-      setMessageAddUser("Ingrese una Capitulo")
-    }else{
-      const enviarProyecto = await axios.post('http://localhost:5000/projects/createProject', {
-        TituloOriginal: TituloO,
-        TituloAutorizado: TituloA,
-        Cliente: Cliente,
-        Genero: Genero,
-        Duracion: Duracion,
-        Capitulos: Capitulo
+  async function GuardarScript(){
+      const enviarProyecto = await axios.post('http://localhost:5000/Excel/id/1', {
+        scriptProcesado       
       })
       let dadtosProyecto = (enviarProyecto.data)
       let Valid = dadtosProyecto.valido
+
+      /*
       if(Valid == 1){
         const datos = await axios.get('http://localhost:5000/projects/All', {
           headers: {       
@@ -89,7 +73,8 @@ function Capitulos() {
         setMessageAddUser("")
         close()
       }
-    }
+      */
+    
   }
 
   function AbrirPopup (dato){
@@ -290,6 +275,13 @@ function Capitulos() {
 
 
 
+
+
+
+
+
+
+
   async function EliminarProyecto(){
     let DatosSelect = datosSeleccionados.toString()
     let IDS =  DatosSelect.split(',')
@@ -319,77 +311,81 @@ function Capitulos() {
    
   }
   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  const onChange = (e) => {
+    const [file] = e.target.files;
+    const reader = new FileReader();
+
+    reader.onload = (evt) => {
+      const bstr = evt.target.result;
+      const wb = XLSX.read(bstr, { type: "binary" });
+      const wsname = wb.SheetNames[0];
+      const ws = wb.Sheets[wsname];
+      const data = XLSX.utils.sheet_to_json(ws, { header: 1 });
+
+      let CeldasV = CeldasVacia(data);
+      console.log("****" , CeldasV)
+      if(CeldasV.FilasVacias == ''|| CeldasV.FilasVacias==null){
+        setMessageScript("Archivo cargado correctamente")
+        console.log("Entro--->" , CeldasV.datos)
+        setScriptProcesado(CeldasV.datos)
+      }else{
+        console.log("Filas con datos vacios")
+        setMessageScript('Celdas vacias encontradas ', CeldasV.FilasVacias)
+      }
+    };
+    reader.readAsBinaryString(file);
+  };
+
   
 
 
-
-const[name,setName] = useState("")
-
-  function handleInputChange(event){
-    const target = event.target;
-    const value = target.type ==='checkbox' ? target.checked : target.value
-    const name = target.name
-    const this2 = this
-    setName({
-      [name] : value
-    })
-    let hojas = []
-    if(name === 'file'){
-      let reader = new FileReader()
-      console.log("<->",reader.readAsArrayBuffer)
-      console.log("---> " , reader)
-      render.onloadend =(e) =>{
-        var data =  new Uint8Array(e.target.result)
-        var workbook = XLSX.read(data, {type:"array"});
-        console.log("xxxx" ,data )
-        workbook.SheetNames.forEach(function(sheetName){
-          // Here is my project
-          
-          var XL_row = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
-          hojas.push({
-            data: XL_row,
-            sheetName
-          })
-        })
-        console.log("Hojas  <-> ", hojas)
-        this2.setState({
-          selectedFileDocument : target.files[0],
-          hojas
-        })
+  function CeldasVacia(data){
+    let script=[]
+    let Filas =''
+    for(let n=0 ; n<data.length; n++){   
+      if(data[n][0]==undefined && data[n][1]==undefined && data[n][2]===undefined){
+      //Filas Vacias
+      }else{
+        script.push(data[n])
+        if(data[n][0]==undefined || data[n][1]==undefined || data[n][2]===undefined){
+          if(Filas ==''){
+            Filas = (n+1)
+          }else{
+            Filas = Filas+","+(n+1)
+          }  
+        }               
       }
     }
-  }
-
-
-
-
-  const uploadFile = async(e) =>{
-    const formData = new FormData();
-    formData().append("file" , file);
-  
-    formData.append("fileName", fileName);
-
-    const Excel = XLSX.readFile(file)
-    var nombreHoja = Excel.sheetNames;
-    console.log("--->",nombreHoja)
-    /*
-    try{
-      const res = await axios.post(
-        "http://localhost:3000/upload",
-        formData
-      );
-      console.log(res);
-    }catch(ex){
-      console.log(ex);
-    };
-    */
-  }
-  const[file, setFile]= useState()
-  const[fileName, setFileName]= useState("")
-
-  const saveFile = (e) =>{
-    setFile(e.target.file[0]);
-    setFileName(e.target.diles[0].name)
+    let Respuesta ={datos:{script}, FilasVacias:Filas}
+    return Respuesta
   }
 
 
@@ -401,28 +397,17 @@ const[name,setName] = useState("")
 
 
 
-// a local state to store the currently selected file.
-  const [selectedFile, setSelectedFile] = useState(null);
 
-  const handleSubmit = async(event) => {
-    event.preventDefault()
-    const formData = new FormData();
-    formData.append("selectedFile", document.getElementById("Archivo").value );
-    try {
-      const response = await axios({
-        method: "post",
-        url: "http://localhost:5000/Excel/id/1",
-        data: formData,
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-    } catch(error) {
-      console.log(error)
-    }
-  }
 
-  const handleFileSelect = (event) => {
-    setSelectedFile(event.target.files[0])
-  }
+
+
+
+
+
+
+
+
+
 
 
 
@@ -499,34 +484,27 @@ const[name,setName] = useState("")
                         <div className='lineaDos' />
                       </button>
                     </div>
-                    
+
                     <h1>Agregar script al proyecto</h1>
                     <div className='TablaAddUser'>
                       <section className='labels'>
-                        
-
-
-
-
-
-
-
-
-
-
-                      <form onSubmit={handleSubmit}>
-                        <input type="file" id="Archivo" onChange={handleFileSelect}/>
-                        <input type="submit" value="Upload File" />
-                      </form>
-
-
-
-
-
-                    
+                        <input type="file" onChange={onChange} />
+                      </section> 
+                      <section>
+                          {messageScript}
                       </section>
- 
+                      <section>                       
+                      {
+                        scriptProcesado != null?
+                        <button onClick={()=>GuardarScript()}>Guardar Scrript</button>:""
+                      }
+                      </section>
                     </div>
+
+
+
+
+
                     <div className="conatinerMessage">
                       {messageAddUser}
                     </div>
@@ -540,9 +518,7 @@ const[name,setName] = useState("")
 
 
 
-
-
-
+         
 
 
 
