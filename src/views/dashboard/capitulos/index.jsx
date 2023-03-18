@@ -2,21 +2,7 @@
 import React, { useState, useLayoutEffect } from 'react';
 import { useModal } from 'react-hooks-use-modal';
 
-import ReactDOM from "react-dom";
-import {
-  AlignmentType,
-  Document,
-  HeadingLevel,
-  Packer,
-  Paragraph,
-  TabStopPosition,
-  TabStopType,
-  TextRun
-} from "docx";
-import ReactPDF from '@react-pdf/renderer';
-
-import MyDocument from './components/pdf';
-
+import { Paragraph, Document, Packer } from "docx";
 import { saveAs } from "file-saver";
 
 
@@ -33,6 +19,7 @@ import 'reactjs-popup/dist/index.css';
 function Capitulos() {
   const[messageScript, setMessageScript] = useState('')
   const[scriptProcesado, setScriptProcesado] = useState(null)
+  const[versionesCapitulo, setVersoionesCapitulo] = useState(null)
   const[datosGenerales, setDatosGenerales] = useState([])
   const[datosTabla, setDatosTabla] = useState([])
   const[datosSeleccionados, setDatosSeleccionados] = useState('')
@@ -45,8 +32,6 @@ function Capitulos() {
 
   const [data, setData] = useState([]);
   const [messageAddUser, setMessageAddUser] = useState("");
-  const [messageEditUser, setMessageEditUser] = useState("");
-  const [messageDeleteUser, setMessageDeleteUser] = useState("");
 
 
  
@@ -81,12 +66,18 @@ function Capitulos() {
       }       
   }
 
-  function AbrirPopup (dato){
+  async function AbrirPopup (dato){
     if(dato =='Add'){
       setVistaPopup('AddUser')
     }else if(dato =='Edit'){
       setVistaPopup('EditProjects')
     }else if(dato =='Delete'){
+
+
+ 
+    
+      let conseguirVersiones = await getVersions();
+
       setVistaPopup('DeleteProjects')
     }
     
@@ -100,7 +91,13 @@ function Capitulos() {
 
 
 
-
+async function getVersions(){
+  let Id = edicionSeleccion[0].id_cap
+  const enviarProyecto = await axios.get('http://localhost:5000/Excel/versiones/'+Id, {
+  })
+  let datosProyecto = (enviarProyecto.data)
+  setVersoionesCapitulo(datosProyecto.data)
+}
 
 
 
@@ -230,45 +227,52 @@ function Capitulos() {
   }
 
 
+  async function getScriptByCapt(version){
+    let Id = edicionSeleccion[0].id_cap
+    const getSCRIPT = await axios.post('http://localhost:5000/Excel/script/'+Id, {
+      Capitulo:Id,
+      Version:version
+    })
+    let datosScript = (getSCRIPT.data)
+    return datosScript
+  }
 
+  async function generate(version){
+    let DataScript = await getScriptByCapt( version)     
+    console.log("---->" ,DataScript.data)
+    
+    let children =  {        
+      children: [
+        
+        new Paragraph({
+          text: DataScript.data[0].scr_script,
+          bullet: {
+            level: 0 //How deep you want the bullet to be
+          }
+        }),
+        new Paragraph({
+          text: "testing",
+          bullet: {
+            level: 0
+          }
+        })
+      ]
+    }
 
-
-
-
-
-
-
-
-
-
-
-  function saveDocumentToFile(doc, fileName) {
-    const packer = new Packer();
-    const mimeType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
-    console.log("1-->")
-    packer.toBlob(doc).then(blob => {
-      console.log("2-->")
-      const docblob = blob.slice(0, blob.size, mimeType);
-      console.log("3-->")
-      saveAs(docblob, fileName);
-      console.log("4-->")
+    const doc = new Document({
+      sections: [
+        children
+      ]
     });
-  }
 
-  function generateWorkRayado(){
+    Packer.toBlob(doc).then((blob) => {
+      console.log(blob);
+      saveAs(blob, "example.docx");
+      console.log("Document created successfully");
+    });
 
-console.log("Entrando")
-/*
-    let doc = new Document();
-    console.log("1-->")
-    saveDocumentToFile(doc, "New Document.docx");
-    */
-  }
-
-
-
-
-
+    
+  };
 
 
 
@@ -338,6 +342,9 @@ console.log("Entrando")
 
 
 
+
+
+
          <Modal>
               <div id='containerOptionUser'>
                 {
@@ -373,11 +380,6 @@ console.log("Entrando")
                       }
                       </section>
                     </div>
-
-
-
-
-
                     <div className="conatinerMessage">
                       {messageAddUser}
                     </div>
@@ -385,21 +387,6 @@ console.log("Entrando")
                   </div>
                   :""
                 }
-
-
-
-
-
-
-         
-
-
-
-
-
-
-
-
 
 
                 {
@@ -452,16 +439,6 @@ console.log("Entrando")
                 }
 
 
-
-
-
-
-
-
-
-
-
-
                 {
                   vistaPopup == 'DeleteProjects' ?
                   <div className="containerDeleteProjectsOption">
@@ -473,15 +450,25 @@ console.log("Entrando")
                     </div>
                     
                     <h1>Archivos</h1>
+
                     <label>
                       Seleccione el archivo que desea descargar
                     </label>
                     <div className='opcionesFiles'>
-                     { 
-                          edicionSeleccion.length>0?
-                            edicionSeleccion.map((elemento)=>
-                            <div key={elemento.Fila}  className='Fila'>
-                              <button onClick={()=>generateWorkRayado()}>Archivo</button>
+
+                        <div className='OpcionesVersiones'>
+                          <div>Version</div>
+                          <div>Archivos</div>
+                        </div>
+                        {                         
+                          versionesCapitulo.length>0?
+                          versionesCapitulo.map((elemento)=>
+                            <div key={elemento.Version} className='Fila'>
+                                <div>Version {elemento.Version}</div>
+                                <div className='Opciones'>
+                                  <div className='ButtonMaster' onClick={()=>generate(elemento.Version)}>Master</div>
+                                  <div className='ButtonScript' onClick={()=>generate(elemento.Version)}>Script</div>
+                                </div>
                             </div>
                             )
                           :""
@@ -490,16 +477,14 @@ console.log("Entrando")
                     </div>
                     <div className="conatinerMessage">
                       {messageAddUser}
-                    </div>
-                    <div className="buttonAddUser">
-                        <div >Descargar</div>
-                    </div>
+                    </div>                  
                   </div>
                   :""
                 }
 
               </div>
-            </Modal>                  
+          
+          </Modal>                  
     </div>
   );
 }
