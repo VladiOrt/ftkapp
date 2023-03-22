@@ -408,8 +408,8 @@
                 }
             }          
         }
-        .TablaEditProjects{
-            min-width: 50vw;
+        .opcionesFiles{
+            min-width: 30vw;
             min-height: 30vh;
             max-height: 30vh;
             overflow-y: auto;
@@ -417,63 +417,36 @@
             display: flex;
             flex-direction: column;
 
-            section{
-                min-width: 60vw;
-                flex-direction: column;
-
-                input{
-                    min-height: 30px;
-                    min-width: 500px;
-                    padding-left: 20px;
-                    margin-top: 10px;
-                    margin-bottom: 10px;
-                    font-size: 1.2em;
-                }
-
-                .Fila{
-                    min-width: 60vw;
-                    max-width: 60vw;
-                    display: flex;
-                    justify-content: space-around;    
-                    input{
-                        margin-top: 0px;
-                        margin-bottom: 0px;
-                        min-width: 7.5vw;
-                        max-width: 7.5vw;
-                    }
-                    .id{
-                        margin-top: 0px;
-                        margin-bottom: 0px;
-                        min-width: 2vw;
-                        max-width: 2vw;
-                        font-size: 0.9em;
-                    }
-
-                }
-            }
-            .Titulos{
-                min-width: 15vw;
-                min-height: 100%;
-                display: flex;
-                flex-direction: row;
-                justify-content: space-around;
-                align-items: flex-end;                
+           .OpcionesVersiones{
+                display: flex;                
+                min-width: 30vw;                
+                justify-content: space-between;
                 div{
-                    margin-right: 15px;
-                    font-size: 1.2em;
-                    min-width: 7.5vw;
-                    max-width: 7.5vw;
                     text-align: center;
-                    font-size: 16px;
-                }        
-                .id{
-                    margin-top: 0px;
-                    margin-bottom: 0px;
-                    min-width: 2vw;
-                    max-width: 2vw;
-                    font-size: 0.9em;
+                    min-width: 15vw;
+                    border: 1px solid rgba($color: #000000, $alpha: .5);
                 }
-            }           
+           }
+           .Fila{
+                display: flex;                
+                min-width: 30vw;                
+                justify-content: space-between;
+                div{
+                    text-align: center;
+                    min-width: 15vw;
+                    border: 1px solid rgba($color: #000000, $alpha: .5);
+                }
+                .Opciones{                    
+                    min-width: 15vw;
+                    display: flex;
+                    justify-content: space-around;
+                    div{
+                        min-width: 5vw;
+                        border: none;
+                    }
+
+                }
+           }
         }
         .conatinerMessage{
             display: flex;

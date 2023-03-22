@@ -2,7 +2,15 @@
 import React, { useState, useLayoutEffect } from 'react';
 import { useModal } from 'react-hooks-use-modal';
 
-import { Paragraph, Document, Packer } from "docx";
+import { 
+  Paragraph, 
+  Document, 
+  Packer , 
+  Table,
+  TableCell, 
+  TableRow, 
+  WidthType 
+} from "docx";
 import { saveAs } from "file-saver";
 
 
@@ -185,12 +193,9 @@ async function getVersions(){
       const wsname = wb.SheetNames[0];
       const ws = wb.Sheets[wsname];
       const data = XLSX.utils.sheet_to_json(ws, { header: 1 });
-
       let CeldasV = CeldasVacia(data);
-      console.log("****" , CeldasV)
       if(CeldasV.FilasVacias == ''|| CeldasV.FilasVacias==null){
         setMessageScript("Archivo cargado correctamente")
-        console.log("Entro--->" , CeldasV.datos)
         setScriptProcesado(CeldasV.datos)
       }else{
         console.log("Filas con datos vacios",CeldasV.FilasVacias)
@@ -236,35 +241,99 @@ async function getVersions(){
     let datosScript = (getSCRIPT.data)
     return datosScript
   }
+  async function getScriptMasterByCapt(version){
+    let Id = edicionSeleccion[0].id_cap
+    const getSCRIPT = await axios.post('http://localhost:5000/Excel/scriptMaster/'+Id, {
+      Capitulo:Id,
+      Version:version
+    })
+    let datosScript = (getSCRIPT.data)
+    return datosScript
+  }
 
-  async function generate(version){
+
+
+
+
+  async function generateScript(version){
     let DataScript = await getScriptByCapt( version)     
-    console.log("---->" ,DataScript.data)
     
-    let children =  {        
-      children: [
-        
-        new Paragraph({
-          text: DataScript.data[0].scr_script,
-          bullet: {
-            level: 0 //How deep you want the bullet to be
-          }
-        }),
-        new Paragraph({
-          text: "testing",
-          bullet: {
-            level: 0
-          }
-        })
-      ]
-    }
-
+    //Header Tabla Script
+    const AdaptacionScript = [
+      new TableRow({
+          children: [
+              new TableCell({
+                  width: {
+                      size: 3505,
+                      type: WidthType.DXA,
+                  },
+                  children: [new Paragraph("TC")],
+              }),
+              new TableCell({
+                  width: {
+                      size: 5505,
+                      type: WidthType.DXA,
+                  },
+                  children: [new Paragraph("Personaje")],
+              }),
+              new TableCell({
+                width: {
+                    size: 5505,
+                    type: WidthType.DXA,
+                },
+                children: [new Paragraph("Dialogo")],
+            }),
+          ],
+      }),
+    ]
+    //Adaptacion de Script en la Tabla    
+    for(let n=0 ; n<(DataScript.data).length; n++){
+      let Dato = DataScript.data
+      const{tc,dialogo,personaje} = Dato[n]
+      console.log("--->" , Dato[n])
+     
+      AdaptacionScript.push(
+        new TableRow({
+          children: [
+            new TableCell({
+                width: {
+                    size: 3505,
+                    type: WidthType.DXA,
+                },
+                children: [new Paragraph(tc)],
+            }),
+            new TableCell({
+                width: {
+                    size: 5505,
+                    type: WidthType.DXA,
+                },
+                children: [new Paragraph(personaje)],
+            }),
+            new TableCell({
+              width: {
+                  size: 5505,
+                  type: WidthType.DXA,
+              },
+              children: [new Paragraph(dialogo)],
+          }),
+        ], 
+      })
+      )      
+    }  
+    //Inserccion de datos para Tabla
+    const TableScript = new Table({
+      rows: AdaptacionScript,
+    })
+    //Inserccion de Tabla
     const doc = new Document({
-      sections: [
-        children
-      ]
+      creator: "Vladimir Ortega Campos",
+      description: "Script de doblaje",
+      title: "Script",
+      sections: [{
+        children : [TableScript],
+      }]
     });
-
+    //Descargar Archivo
     Packer.toBlob(doc).then((blob) => {
       console.log(blob);
       saveAs(blob, "example.docx");
@@ -273,6 +342,107 @@ async function getVersions(){
 
     
   };
+
+  async function generateMaster(version){
+    let DataScript = await getScriptMasterByCapt(version)     
+    
+    //Header Tabla Script
+    const AdaptacionScript = [
+      new TableRow({
+          children: [
+              new TableCell({
+                  width: {
+                      size: 3505,
+                      type: WidthType.DXA,
+                  },
+                  children: [new Paragraph("TC")],
+              }),
+              new TableCell({
+                  width: {
+                      size: 5505,
+                      type: WidthType.DXA,
+                  },
+                  children: [new Paragraph("Personaje")],
+              }),
+              new TableCell({
+                width: {
+                    size: 5505,
+                    type: WidthType.DXA,
+                },
+                children: [new Paragraph("Dialogo")],
+            }),
+          ],
+      }),
+    ]
+    //Adaptacion de Script en la Tabla    
+    for(let n=0 ; n<(DataScript.data).length; n++){
+      let Dato = DataScript.data
+      const{tc,dialogo,personaje} = Dato[n]
+      console.log("--->" , Dato[n])
+     
+      AdaptacionScript.push(
+        new TableRow({
+          children: [
+            new TableCell({
+                width: {
+                    size: 3505,
+                    type: WidthType.DXA,
+                },
+                children: [new Paragraph(tc)],
+            }),
+            new TableCell({
+                width: {
+                    size: 5505,
+                    type: WidthType.DXA,
+                },
+                children: [new Paragraph(personaje)],
+            }),
+            new TableCell({
+              width: {
+                  size: 5505,
+                  type: WidthType.DXA,
+              },
+              children: [new Paragraph(dialogo)],
+          }),
+        ], 
+      })
+      )      
+    }  
+    //Inserccion de datos para Tabla
+    const TableScript = new Table({
+      rows: AdaptacionScript,
+    })
+    //Inserccion de Tabla
+    const doc = new Document({
+      creator: "Vladimir Ortega Campos",
+      description: "Script de doblaje",
+      title: "Script",
+      sections: [{
+        children : [TableScript],
+      }]
+    });
+    //Descargar Archivo
+    Packer.toBlob(doc).then((blob) => {
+      console.log(blob);
+      saveAs(blob, "example.docx");
+      console.log("Document created successfully");
+    });
+
+    
+  };
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -464,10 +634,10 @@ async function getVersions(){
                           versionesCapitulo.length>0?
                           versionesCapitulo.map((elemento)=>
                             <div key={elemento.Version} className='Fila'>
-                                <div>Version {elemento.Version}</div>
+                                <div> {elemento.Version}</div>
                                 <div className='Opciones'>
-                                  <div className='ButtonMaster' onClick={()=>generate(elemento.Version)}>Master</div>
-                                  <div className='ButtonScript' onClick={()=>generate(elemento.Version)}>Script</div>
+                                  <div className='ButtonMaster' onClick={()=>generateMaster(elemento.Version)}>Master</div>
+                                  <div className='ButtonScript' onClick={()=>generateScript(elemento.Version)}>Script</div>
                                 </div>
                             </div>
                             )
