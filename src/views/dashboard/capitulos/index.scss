@@ -272,7 +272,7 @@
                 }
             }          
         }
-        .TablaEditProjects{
+        .TablaEditScript{
             min-width: 50vw;
             min-height: 30vh;
             max-height: 30vh;
@@ -281,57 +281,68 @@
             display: flex;
             flex-direction: column;
 
-            section{
-                min-width: 60vw;
-                flex-direction: column;
-
-                input{
-                    min-height: 30px;
-                    min-width: 500px;
-                    padding-left: 20px;
-                    margin-top: 10px;
-                    margin-bottom: 10px;
-                    font-size: 1.2em;
-                }
-
-                .Fila{
-                    min-width: 60vw;
-                    max-width: 60vw;
+            .OpcionesVersiones{
+                min-width: 50vw;
+                display: flex;
+                justify-content: space-around;
+            
+                .Id{
+                    min-width: 30px;
                     display: flex;
-                    justify-content: space-around;    
-                    input{
-                        margin-top: 0px;
-                        margin-bottom: 0px;
-                        min-width: 7.5vw;
-                        max-width: 7.5vw;
-                    }
-                    .id{
-                        margin-top: 0px;
-                        margin-bottom: 0px;
-                        min-width: 3vw;
-                        max-width: 3vw;
-                        font-size: 0.9em;
-                    }
-
+                    text-align: center;
+                    margin-bottom: 15px;
+                    font-weight: 600;
+                }
+                .Tc{
+                    min-width: 50px;
+                    display: flex;
+                    text-align: center;
+                    font-weight: 600;
+                }
+                .Personaje{
+                    min-width: 100px;
+                    display: flex;
+                    text-align: center;
+                    font-weight: 600;
+                }
+                .Dialogo{
+                    min-width: 350px;
+                    display: flex;
+                    text-align: center;
+                    font-weight: 600;
                 }
             }
-            .Titulos{
-                min-width: 7.5vw;
-                min-height: 100%;
+            .Fila{
+                min-width: 50vw;
                 display: flex;
-                flex-direction: row;
                 justify-content: space-around;
-                align-items: flex-end;                
-                div{
-                    margin-right: 15px;
-                    font-size: 1.2em;
-                    min-width: 7.5vw;
-                }        
-                .id{
-                    min-width: 3vw;
-                    max-width: 3vw;
+
+
+                .Id{
+                    min-width: 30px;
+                    display: flex;
                 }
-            }           
+                .Tc{
+                    min-width: 50px;
+                    display: flex;
+                }
+                .Personaje{
+                    min-width: 100px;
+                    display: flex;
+                }
+                .Dialogo{
+                    min-width: 350px;
+                    display: flex;
+                }
+                input{
+                    margin: 0px;
+                    padding: 0px;
+                    min-width: 200px;
+                    min-height: 40px;
+                }
+            }
+           
+            
         }
         .conatinerMessage{
             display: flex;

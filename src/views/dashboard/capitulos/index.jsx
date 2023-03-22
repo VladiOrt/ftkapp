@@ -28,6 +28,7 @@ function Capitulos() {
   const[messageScript, setMessageScript] = useState('')
   const[scriptProcesado, setScriptProcesado] = useState(null)
   const[versionesCapitulo, setVersoionesCapitulo] = useState(null)
+  const[lasVersion, setLastVersion] = useState(null)
   const[datosGenerales, setDatosGenerales] = useState([])
   const[datosTabla, setDatosTabla] = useState([])
   const[datosSeleccionados, setDatosSeleccionados] = useState('')
@@ -78,14 +79,11 @@ function Capitulos() {
     if(dato =='Add'){
       setVistaPopup('AddUser')
     }else if(dato =='Edit'){
+      let conseguirUltimaVersion = await getLastVersions();
       setVistaPopup('EditProjects')
     }else if(dato =='Delete'){
-
-
- 
-    
+     
       let conseguirVersiones = await getVersions();
-
       setVistaPopup('DeleteProjects')
     }
     
@@ -105,6 +103,15 @@ async function getVersions(){
   })
   let datosProyecto = (enviarProyecto.data)
   setVersoionesCapitulo(datosProyecto.data)
+}
+
+async function getLastVersions(){
+  let Id = edicionSeleccion[0].id_cap
+  const enviarProyecto = await axios.post('http://localhost:5000/Excel/lastscript/'+Id, {
+  })
+  let datosProyecto = (enviarProyecto.data)
+  console.log("--<" , datosProyecto)
+  setLastVersion(datosProyecto.data)
 }
 
 
@@ -355,14 +362,14 @@ async function getVersions(){
                       size: 3505,
                       type: WidthType.DXA,
                   },
-                  children: [new Paragraph("TC")],
+                  children: [new Paragraph("LOOP")],
               }),
               new TableCell({
                   width: {
                       size: 5505,
                       type: WidthType.DXA,
                   },
-                  children: [new Paragraph("Personaje")],
+                  children: [new Paragraph("TC")],
               }),
               new TableCell({
                 width: {
@@ -377,7 +384,7 @@ async function getVersions(){
     //Adaptacion de Script en la Tabla    
     for(let n=0 ; n<(DataScript.data).length; n++){
       let Dato = DataScript.data
-      const{tc,dialogo,personaje} = Dato[n]
+      const{LoopIndividual,TC,Dialogo,Personaje} = Dato[n]
       console.log("--->" , Dato[n])
      
       AdaptacionScript.push(
@@ -388,25 +395,55 @@ async function getVersions(){
                     size: 3505,
                     type: WidthType.DXA,
                 },
-                children: [new Paragraph(tc)],
+                children: [new Paragraph(LoopIndividual)],
             }),
             new TableCell({
                 width: {
                     size: 5505,
                     type: WidthType.DXA,
                 },
-                children: [new Paragraph(personaje)],
+                children: [new Paragraph(TC)],
             }),
             new TableCell({
               width: {
                   size: 5505,
                   type: WidthType.DXA,
               },
-              children: [new Paragraph(dialogo)],
+              children: [new Paragraph(Personaje)],
           }),
         ], 
       })
       )      
+      
+      AdaptacionScript.push(
+        new TableRow({
+          children: [
+            new TableCell({
+                width: {
+                    size: 3505,
+                    type: WidthType.DXA,
+                },
+                children: "",
+            }),
+            new TableCell({
+                width: {
+                    size: 5505,
+                    type: WidthType.DXA,
+                },
+                children: "",
+            }),
+            new TableCell({
+              width: {
+                  size: 5505,
+                  type: WidthType.DXA,
+              },
+              children: [new Paragraph(Dialogo)],
+          }),
+        ], 
+      })
+      )      
+
+
     }  
     //Inserccion de datos para Tabla
     const TableScript = new Table({
@@ -570,40 +607,37 @@ async function getVersions(){
                     </div>
                                         
                     <h1>Edicion de Script</h1>
-                    <div className='TablaEditProjects'>
-                        {
-                          edicionSeleccion.length>0?
-                          <section className='Titulos'>                        
-                            <div className='id'>FILA</div>
-                            <div>TC</div>
-                            <div>PERSONAJE</div>
-                            <div>DIALOGO</div>                        
-                          </section>
-                          :
-                          "No ha seleccionado elementos para editar"
-                        }
-                     
-                      <section className='TableScript'>    
-                        { 
-                          edicionSeleccion.length>0?
-                            edicionSeleccion.map((elemento)=>
-                            <div key={elemento.Fila}  className='Fila'>
-                              <input type="text" className='id' id={elemento.id_project+"-id_project"} />
-                              <input type="text" placeholder={elemento.pjct_TituloOriginal}  id={elemento.id_project+"-pjct_TituloOriginal"} />
-                              <input type="text" placeholder={elemento.pjct_TituloAutorizado} id={elemento.id_project+"-pjct_TituloAutorizado"} />                              
-                              <input type="text"  className='Dialogo' placeholder={elemento.pjct_TituloAutorizado} id={elemento.id_project+"-pjct_TituloAutorizado"} />                              
+                    <label>
+                      Seleccione el archivo que desea descargar
+                    </label>
+                    <div className='TablaEditScript'>
+
+                        <div className='OpcionesVersiones'>
+                          <div className='Id'>Fila</div>
+                          <div className='Tc'>TC</div>
+                          <div className='Personaje'>Personaje</div>
+                          <div  className='Dialogo'>Dialogo</div>
+                          
+                        </div>
+                        {                         
+                          lasVersion.length>0?
+                          lasVersion.map((elemento)=>
+                            <div key={elemento.id_script} className='Fila'>
+                                <div className='Id'> {elemento.Fila}</div>
+                                <div className='Tc'> {elemento.tc}</div>
+                                <div className='Personaje'> {elemento.personaje}</div>
+                                <input type="text" placeholder={elemento.dialogo} className="Dialogo" /> 
                             </div>
                             )
                           :""
                         }
-                      </section>
+
+
+                     
                     </div>
                     <div className="conatinerMessage">
                       {messageAddUser}
-                    </div>
-                    <div className="buttonAddProject">
-                        <div >Actualizar</div>
-                    </div>
+                    </div>                  
                   </div>
                   :""
                 }
