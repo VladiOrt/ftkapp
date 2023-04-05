@@ -22,28 +22,11 @@
         display: flex;
         justify-content: flex-start;
         align-items: center;
-        .button{
-            cursor: pointer;
-            border: 1px solid rgba($color: #000000, $alpha: .5);
-            min-width: 120px;
-            min-height: 30px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 1.2em;
-            margin: 20px;
-            border-radius: 15px;
-        }
-        .button:hover{
-            transition-duration: 0.2s;
-            transform: scale(1.1);
-        }
-        .containerPopUsers{
-            button{
-                background: none;
-                border: none;
-            }
-        }
+       .BotonesOpciones{
+           min-width: 500px;
+           display: flex;
+           justify-content: space-around;
+       }
     }   
     .bodyContainerUser{
         min-width: 80vw;
@@ -69,16 +52,16 @@
                     justify-content: center;
                     div{
                         border: 1px solid rgba($color: #000000, $alpha: .5);
-                        min-width: 18vw;
-                        max-width: 18vw;
+                        min-width: 15vw;
+                        max-width: 15vw;
                         text-align: center;
                         font-size: 1.2em;
                         padding-top: 5px;
                         padding-bottom: 5px;
                     }
                     .containerID{
-                        min-width: 6vw;
-                        max-width: 6vw;
+                        min-width: 3vw;
+                        max-width: 3vw;
                         text-align: center;
                     }
                 }
@@ -91,17 +74,18 @@
                         min-width: 78vw;
                         max-width: 78vw;
                         display: flex;
-                        justify-content: space-around;
+                        justify-content: space-between;
                         div{
                             padding-top: 10px;
                             padding-bottom: 10px;
                             padding-left: 0.5vw;
-                            min-width: 17.5vw;
+                            min-width:  15vw;
                             border: 1px solid rgba($color: #000000, $alpha: .5);
+                            
                         }
                         .Columnaid{
                             padding-left: 0vw;
-                            min-width: 6vw;
+                            min-width: 3vw;
                             display: flex;
                             justify-content: center;
                         }
@@ -170,7 +154,7 @@
             section{
                 min-width: 25vw;
 
-                input{
+                input, select{
                     min-height: 30px;
                     min-width: 500px;
                     padding-left: 20px;
@@ -284,46 +268,47 @@
                 flex-direction: column;
 
                 input{
-                    min-height: 30px;
-                    min-width: 500px;
-                    padding-left: 20px;
-                    margin-top: 10px;
-                    margin-bottom: 10px;
-                    font-size: 1.2em;
                 }
 
                 .Fila{
                     min-width: 60vw;
                     max-width: 60vw;
                     display: flex;
-                    justify-content: space-around;    
+                    justify-content: space-between;    
                     input{
                         margin-top: 0px;
                         margin-bottom: 0px;
-                        min-width: 12vw;
-                        max-width: 12vw;
+                        min-width: 11.4vw;
+                        max-width: 11.4vw;
+                        padding-left: 0.4vw;
                     }
                     .id{
                         margin-top: 0px;
                         margin-bottom: 0px;
-                        min-width: 2vw;
-                        max-width: 2vw;
+                        min-width: 3vw;
+                        max-width: 3vw;
                         font-size: 0.9em;
                     }
 
                 }
             }
             .Titulos{
-                min-width: 15vw;
+                min-width: 60vw;
                 min-height: 100%;
                 display: flex;
                 flex-direction: row;
-                justify-content: space-around;
-                align-items: flex-end;                
-                div{
-                    margin-right: 15px;
+                justify-content: space-between;
+                align-items: flex-end;  
+                
+                div{                
                     font-size: 1.2em;
+                    min-width:11.4vw;
+                    text-align: center;
                 }        
+                .containerId{
+                    min-width: 3vw;
+                    max-width: 3vw;
+                }
             }           
         }
         .conatinerMessage{
@@ -334,19 +319,20 @@
             min-width: 50vw;
             min-height: 100px;
         }
-        .buttonAddUser{
+        .buttonEditUser{
             min-width: 200px;
             min-height: 30px;
             border-radius: 15px;
             display: flex;
             justify-content: center;
             align-items: center;            
-            border: 1px solid green;
+            border: 1px solid #0d6efd;
+            color: #0d6efd;
             font-size: 1.2em;
         }
-        .buttonAddUser:hover{
+        .buttonEditUser:hover{
             transform: scale(1.1);
-            background-color: green;
+            background-color: #0d6efd;
             transition-duration: 0.3s;
             color: #FFF;
       
@@ -422,7 +408,7 @@
                     margin-bottom: 10px;
                     font-size: 1.2em;
                 }
-
+                
                 .Fila{
                     min-width: 60vw;
                     max-width: 60vw;
@@ -442,6 +428,8 @@
                         font-size: 0.9em;
                     }
 
+                  
+    
                 }
             }
             .Titulos{
@@ -454,7 +442,9 @@
                 div{
                     margin-right: 15px;
                     font-size: 1.2em;
+                 
                 }        
+                
             }           
         }
         .conatinerMessage{
@@ -465,7 +455,7 @@
             min-width: 50vw;
             min-height: 100px;
         }
-        .buttonAddUser{
+        .buttonDeleteUser{
             min-width: 200px;
             min-height: 30px;
             border-radius: 15px;
@@ -473,9 +463,10 @@
             justify-content: center;
             align-items: center;            
             border: 1px solid red;
+            color: red;
             font-size: 1.2em;
         }
-        .buttonAddUser:hover{
+        .buttonDeleteUser:hover{
             transform: scale(1.1);
             background-color: red;
             transition-duration: 0.3s;

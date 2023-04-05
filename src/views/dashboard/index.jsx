@@ -18,8 +18,10 @@ const Dashboard = () =>{
     const[vista,setVista] = useState(0)
 
 
-    let miNombre = localStorage.getItem("apiKeyAcceso");
-    console.log("---->", miNombre)
+    let keyAcceso = localStorage.getItem("apiKeyAcceso");
+    let Nombre = localStorage.getItem("nameUser");
+    let idUser = localStorage.getItem("idUser");
+    let Empresa = localStorage.getItem("empresa");
 
     const changeVista = (id) =>{
         setVista(id)
@@ -31,27 +33,33 @@ const Dashboard = () =>{
                 <div className="containerAvatar">
                 <AccountCircleIcon sx={{color:"#FFF", fontSize:"120px"}}></AccountCircleIcon>
                 <div>
-                    <label>Usuario :</label>
+                    <label>Usuario : {Nombre}</label>
+                    <br />
+                    <label>Empresa : {Empresa}</label>
                 </div>
                 </div>
                 <ul>
                     <li onClick={()=>changeVista(1)}>CATALOGOS</li>
                     <li onClick={()=>changeVista(2)}>VENTAS</li>
                     <li onClick={()=>changeVista(3)}>USUARIOS</li>                                   
-                    <li onClick={()=>changeVista(4)}>PROYECTOS</li>                  
-                    <li onClick={()=>changeVista(5)}>CAPITULOS</li>    
- 
+                    <li onClick={()=>changeVista(4)}>ARCHIVOS</li>                  
+                    <li onClick={()=>changeVista(5)}>PERMISOS</li>    
+                </ul>             
 
-                    
 
-                </ul>                
+
+
+                
+
+                   
             </div>
+            <div className="footerMenu"></div>
             <div className="containerPageOne">
                 <div className="containerPageOneContent">
                     <div className="containerPageOneContentHeader"></div>
                     <div className="containerPageOneContentView">
                         {
-                            vista===0?"Bienvendido":""
+                            vista===0? <>Bienvendido {Nombre} </> : ""
                         }
                         {
                             vista===1?<Catalogos />:""

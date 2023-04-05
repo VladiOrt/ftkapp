@@ -22,27 +22,10 @@
         display: flex;
         justify-content: flex-start;
         align-items: center;
-        .button{
-            cursor: pointer;
-            border: 1px solid rgba($color: #000000, $alpha: .5);
-            min-width: 120px;
-            min-height: 30px;
+        .botones{
             display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 1.2em;
-            margin: 20px;
-            border-radius: 15px;
-        }
-        .button:hover{
-            transition-duration: 0.2s;
-            transform: scale(1.1);
-        }
-        .containerPopProjects{
-            button{
-                background: none;
-                border: none;
-            }
+            min-width: 700px;
+            justify-content: space-between;
         }
     }   
     .bodyContainerUser{
@@ -63,14 +46,14 @@
                 flex-direction: column;
                 margin: 0px;
                 padding: 0px;
-                .theadTable{
+                .theadTableArchivos{
                     border: 1px solid rgba($color: #000000, $alpha: .5);
                     display: flex;
                     justify-content: center;
                     div{
                         border: 1px solid rgba($color: #000000, $alpha: .5);
-                        min-width: 12vw;
-                        max-width: 12vw;
+                        min-width: 24vw;
+                        max-width: 24vw;
                         text-align: center;
                         font-size: 1.2em;
                         padding-top: 5px;
@@ -82,7 +65,7 @@
                         text-align: center;
                     }
                 }
-                .bodyTable{
+                .bodyTableArchivos{
                     display: flex;
                     flex-direction: column;
                     justify-content: center;
@@ -91,12 +74,14 @@
                         min-width: 78vw;
                         max-width: 78vw;
                         display: flex;
-                        justify-content: space-around;
+                        justify-content: center;
+                        align-items: center;
                         div{
-                            padding-top: 10px;
-                            padding-bottom: 10px;
+                            padding-top: 0px;
+                            padding-bottom: 00px;
                             padding-left: 0.5vw;
-                            min-width: 11.5vw;
+                            min-width: 24vw; 
+                            min-height: 28px;                           
                             border: 1px solid rgba($color: #000000, $alpha: .5);
                         }
                         .Columnaid{

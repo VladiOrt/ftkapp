@@ -11,10 +11,42 @@ import 'reactjs-popup/dist/index.css';
 import { ArrowBackIosRounded } from '@mui/icons-material';
 import { id } from 'date-fns/locale';
 
-
+import { Button } from '@mui/material';
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
+import PersonalVideoIcon from '@mui/icons-material/PersonalVideo';
+import BadgeIcon from '@mui/icons-material/Badge';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 
 function Proyectos() {
+
+  const[archivos, setArchivos] =  useState(null)
+
+
+  const subirArchivos = e =>{
+    setArchivos(e)
+  }
+
+
+  const insertarArchivos = async() =>{
+    const f =  new FormData();
+    f.append(archivos[0])
+
+    const datos = await axios.post('http://localhost:5000/Pdf/upload', f)
+
+
+    console.log(datos)
+
+
+  } 
+
+
+  async function EnviarArchivos (){
+
+  }
+
+
+
   const[datosGenerales, setDatosGenerales] = useState([])
   const[datosTabla, setDatosTabla] = useState([])
   const[datosSeleccionados, setDatosSeleccionados] = useState('')
@@ -50,32 +82,12 @@ function Proyectos() {
 
   async function AgregarProyecto(){
     setMessageAddUser("Procesando ...")
-    let TituloO = document.getElementById("addProjectTO").value
-    let TituloA = document.getElementById("addProjectTA").value
-    let Cliente = document.getElementById("addProjectCliente").value
-    let Genero = document.getElementById("addProjectGenero").value
-    let Duracion = document.getElementById("addProjectDuracion").value
-    let Capitulo = document.getElementById("addProjectCapitulos").value
-    if(TituloO==''||  TituloO== null){
-      setMessageAddUser("Ingrese el Titulo Original")
-    }else if(TituloA==''||  TituloA== null){
-      setMessageAddUser("Ingrese el Titulo Autorizado")
-    }else if(Cliente==''||  Cliente== null){
-      setMessageAddUser("Ingrese un Cliente")
-    }else if(Genero==''||  Genero== null){
-      setMessageAddUser("Ingrese un Genero")
-    }else if(Duracion==''||  Duracion== null){
-      setMessageAddUser("Ingrese una Duracion")
-    }else if(Capitulo==''||  Capitulo== null){
-      setMessageAddUser("Ingrese una Capitulo")
+    let Archivo = document.getElementById("filePDF").value
+    if(Archivo==''||  Archivo== null){
+      setMessageAddUser("Ingrese un archivo pdf por favor")
     }else{
       const enviarProyecto = await axios.post('http://localhost:5000/projects/createProject', {
-        TituloOriginal: TituloO,
-        TituloAutorizado: TituloA,
-        Cliente: Cliente,
-        Genero: Genero,
-        Duracion: Duracion,
-        Capitulos: Capitulo
+        Archivo
       })
       let dadtosProyecto = (enviarProyecto.data)
       let Valid = dadtosProyecto.valido
@@ -93,13 +105,13 @@ function Proyectos() {
   }
 
   function AbrirPopup (dato){
-    if(dato =='Add'){
+    if(dato =='Pdf'){
       setVistaPopup('AddUser')
-    }else if(dato =='Edit'){
+    }else if(dato =='Video'){
       setVistaPopup('EditProjects')
-    }else if(dato =='Delete'){
+    }else if(dato =='Permisos'){
       setVistaPopup('DeleteProjects')
-    }else if(dato =='Capitulo'){
+    }else if(dato =='Eliminar'){
       setVistaPopup('AddCapitulos')
     }
     
@@ -167,7 +179,6 @@ function Proyectos() {
       }      
     }
     setEdicionSeleccion(arrayNuevo)
-   
   }
 
 
@@ -327,8 +338,7 @@ function Proyectos() {
       let TraductorCapt = document.getElementById(IDS[n]+"-Traductor").value
 
       if(NombreCapt == null || NombreCapt == ''){
-        setMessageAddCapt("por favor inserta un nombre de capitulo")
-        
+        setMessageAddCapt("por favor inserta un nombre de capitulo")        
       }else if(DuracionCapt == null || DuracionCapt == ''){
         setMessageAddCapt("por favor inserta unas duracion de Capitulo")        
       }else if(DirectorCapt == null || DirectorCapt == ''){
@@ -365,38 +375,40 @@ function Proyectos() {
   return (
     <div className="containerProjects">
       <div className="titleContainerProjects">
-        <div className="title">Catalogo de Proyectos</div>            
+        <div className="title">Catalogo de Archivos</div>            
       </div>
       <div className="headerConatainerProjects">
-        <div className="button" onClick={()=>AbrirPopup('Add')}>
-          <div className='containerPopProjects'>
-            <button >OPEN</button>             
-          </div>                  
-        </div>
-        <div className="button" onClick={()=>AbrirPopup('Edit')}>
-            Editar
-        </div>        
-        <div className="button" onClick={()=>AbrirPopup('Delete')}>
-            Eliminar
-        </div>        
-        <div className="button" onClick={()=>AbrirPopup('Capitulo')}>
-            Agregar Capitulo
-        </div>        
+        <div className="botones">
+          <Button variant="outlined"  color='info' onClick={()=>AbrirPopup('Pdf')}>
+            PDF
+            <PictureAsPdfIcon />
+          </Button>
+          <Button variant="outlined"  color='info' onClick={()=>AbrirPopup('Video')}>
+            VIDEO
+            <PersonalVideoIcon />
+          </Button>
+          <Button variant="outlined"  color='error' onClick={()=>AbrirPopup('Permisos')}>
+            ELIMINAR
+            <DeleteIcon />
+          </Button>
+          <Button variant="outlined"  color='success' onClick={()=>AbrirPopup('Eliminar')}>
+            PERMISOS
+            <BadgeIcon />
+          </Button>
+          
+        </div>                         
       </div>
 
       <div className="bodyContainerUser">
         <div className='TableProyectos'>
           <div className='Tabla'>
-            <div className='theadTable'>
+            <div className='theadTableArchivos'>
               <div className='containerID'>id</div>
-              <div>Titulo Original </div>
-              <div>Titulo Autorizado </div>
-              <div>Cliente</div>
-              <div>Genero</div>
-              <div>Duracion</div>
-              <div>Capitulos</div>
+              <div>Nombre de Archivo </div>
+              <div>Propietario</div>
+              <div>Fecha</div>             
             </div>
-            <div className='bodyTable'>
+            <div className='bodyTableArchivos'>
               {
                 data.length>0?
                   data.map((elemento)=>      
@@ -404,11 +416,7 @@ function Proyectos() {
                       <div className='Columnaid'> <input type="checkbox" onClick={()=>agregarDatosSeleccionados(elemento)} ></input> </div>
                       <div>{elemento.pjct_TituloOriginal}</div>                    
                       <div>{elemento.pjct_TituloAutorizado}</div>    
-                      <div>{elemento.pjct_Cliente}</div>    
-                      <div>{elemento.pjct_Genero}</div>    
-                      <div>{elemento.pjct_Duracion}</div>    
-                      <div>{elemento.pjct_Capitulos}</div>    
-                     
+                      <div>{elemento.pjct_Cliente}</div>                                               
                     </div>
                   )
                   :"No se encontraron datos para mostrar"
@@ -437,36 +445,61 @@ function Proyectos() {
                       </button>
                     </div>
                     
-                    <h1>Agregar un nuevo Proyecto</h1>
+                    <h1>Agregar PDF</h1>
                     <div className='TablaAddUser'>
                       <section className='labels'>
-                      <div>Titulo Original : </div>
-                      <div>Titulo Autorizado :  </div>
-                      <div>Cliente : </div>
-                      <div>Genero : </div>
-                      <div>Duracion : </div>
-                      <div>Capitulos :</div>
+                      <div>Nombre de archivo : </div>
+                      <div>Archivo : </div>
+                     
                       </section>
                       <section>
-                        <div><input type="text" id='addProjectTO'></input></div>
-                        <div><input type="text" id='addProjectTA'></input></div>
-                        <div><input type="text" id='addProjectCliente'></input></div>
-                        <div><input type="text" id='addProjectGenero'></input></div>
-                        <div><input type="text" id='addProjectDuracion'></input></div>
-                        <div><input type="text" id='addProjectCapitulos'></input></div>
+                        <div><input type="text" id='NombrePDF'></input></div>                      
+                        <div><input type="file"  id='archivoPDF' onChange={(e) => subirArchivos(e.target.files) }></input></div>                      
                       </section>
                     </div>
                     <div className="conatinerMessage">
                       {messageAddUser}
                     </div>
                     <div className="buttonAddUser">
-                        <div onClick={()=>AgregarProyecto()}>Agregar Proyecto</div>
+                        <div onClick={()=>insertarArchivos()}>Subir PDF</div>
                     </div>
                   </div>
                   :""
                 }
 
 
+
+                {
+                  vistaPopup == 'AddVideo' ?
+                  <div className="containerAddUserOption">
+                    <div className="sectionClose" > 
+                      <button  onClick={()=>cerrarPopProyecto()}>
+                        <div className='lineaUno' />
+                        <div className='lineaDos' />
+                      </button>
+                    </div>
+                    
+                    <h1>Agregar Video</h1>
+                    <div className='TablaAddUser'>
+                      <section className='labels'>
+                      <div>Nombre de video : </div>
+                      <div>Video : </div>
+                     
+                      </section>
+                      <section>
+                        <div><input type="text" id='NombreVideo'></input></div>                      
+                        <div><input id="filePDF" type="file"  /></div>                      
+                      </section>
+                    </div>
+                    <div className="conatinerMessage">
+                      {messageAddUser}
+                    </div>
+                    <div className="buttonAddVideo">
+                        <div onClick={()=>AgregarProyecto()}>Subir PDF</div>
+                    </div>
+                  </div>
+                  :""
+                }
 
 
 
@@ -494,46 +527,23 @@ function Proyectos() {
                       </button>
                     </div>
                                         
-                    <h1>Edicion de Proyectos</h1>
-                    <div className='TablaEditProjects'>
-                        {
-                          edicionSeleccion.length>0?
-                          <section className='Titulos'>                        
-                            <div className='id'>Id: </div>
-                            <div>Titulo Original : </div>
-                            <div>Titulo Autorizado :  </div>
-                            <div>Cliente : </div>
-                            <div>Genero : </div>
-                            <div>Duracion : </div>
-                            <div>Capitulos :</div>
-                          </section>
-                          :
-                          "No ha seleccionado elementos para editar"
-                        }
+                    <h1>Agregar Video</h1>
+                    <div className='TablaAddUser'>
+                      <section className='labels'>
+                      <div>Nombre de video : </div>
+                      <div>Video : </div>
                      
-                      <section className=''>    
-                        { 
-                          edicionSeleccion.length>0?
-                            edicionSeleccion.map((elemento)=>
-                            <div key={elemento.id_project}  className='Fila'>
-                              <input type="text" className='id' id={elemento.id_project+"-id_project"} />
-                              <input type="text" placeholder={elemento.pjct_TituloOriginal}  id={elemento.id_project+"-pjct_TituloOriginal"} />
-                              <input type="text" placeholder={elemento.pjct_TituloAutorizado} id={elemento.id_project+"-pjct_TituloAutorizado"} />
-                              <input type="text" placeholder={elemento.pjct_Cliente} id={elemento.id_project+"-pjct_Cliente"}  />
-                              <input type="text" placeholder={elemento.pjct_Genero} id={elemento.id_project+"-pjct_Genero"}  />
-                              <input type="text" placeholder={elemento.pjct_Duracion} id={elemento.id_project+"-pjct_Duracion"}  />
-                              <input type="text" placeholder={elemento.pjct_Capitulos} id={elemento.id_project+"-pjct_Capitulos"}  />
-                            </div>
-                            )
-                          :""
-                        }
+                      </section>
+                      <section>
+                        <div><input type="text" id='NombreVideo'></input></div>                      
+                        <div><input id="fileVideo" type="file" accept="video/mp4,video/mkv, video/x-m4v,video/*" /></div>                      
                       </section>
                     </div>
                     <div className="conatinerMessage">
                       {messageAddUser}
                     </div>
-                    <div className="buttonAddProject">
-                        <div onClick={()=>EditarProyecto()}>Actualizar</div>
+                    <div className="buttonAddVideo">
+                        <div onClick={()=>AgregarProyecto()}>Subir PDF</div>
                     </div>
                   </div>
                   :""
@@ -636,9 +646,9 @@ function Proyectos() {
                       </button>
                     </div>
                     
-                    <h1>Agregar Capitulos(s)</h1>
+                    <h1>Agregaro/Quitar Permisos para ver los Archivos</h1>
                     <label>
-                      Se agregaran capitulo(s) a los siguientes elementos                
+                      Se agregaran o quitaran los permisos seleccionados               
                     </label>
                     <div className='TablaEditProjects'>
                         {
@@ -651,7 +661,7 @@ function Proyectos() {
                             <div>Traductor</div>
                           </section>
                           :
-                          "No ha seleccionado elementos para eliminar"
+                          "No ha seleccionado elementos para administrar permisos"
                         }
                      
                       <section className=''>    
@@ -675,7 +685,7 @@ function Proyectos() {
                       {messageAddCapt}
                     </div>
                     <div className="buttonAddUser">
-                        <div onClick={()=>agregarcapitulos()}>Agregar Capitulo(s)</div>
+                        <div onClick={()=>agregarcapitulos()}>Agregar Permiso(s)</div>
                     </div>
                   </div>
                   :""

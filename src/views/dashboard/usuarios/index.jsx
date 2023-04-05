@@ -1,18 +1,19 @@
 
 import React, { useState, useEffect, useLayoutEffect, useCallback } from 'react';
-import { render } from 'react-dom';
 import { useModal } from 'react-hooks-use-modal';
 
-import Table from "./components/Table";
 import axios from "axios";
 import './index.scss'
-import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
-import { ArrowBackIosRounded } from '@mui/icons-material';
 import { id } from 'date-fns/locale';
 
+import { Button } from '@mui/material';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import PersonAddDisabledIcon from '@mui/icons-material/PersonAddDisabled';
+import SettingsAccessibilityIcon from '@mui/icons-material/SettingsAccessibility';
 
 
+//import Button from 
 
 function Usuarios() {
   const[datosGenerales, setDatosGenerales] = useState([])
@@ -54,6 +55,7 @@ function Usuarios() {
     let Apellido = document.getElementById("addUserApellido").value
     let Correo = document.getElementById("addUserEmail").value
     let Pass = document.getElementById("addUserPassword").value
+    let Empresa = document.getElementById("addUserEmpresa").value
 
     if(Nombre==''||  Nombre== null){
       setMessageAddUser("Ingrese un nombre")
@@ -68,7 +70,8 @@ function Usuarios() {
         nombre: Nombre,
         apellido: Apellido,
         email: Correo,
-        contraseña: Pass
+        contraseña: Pass,
+        Empresa
       })
       let dadtosUsuario = (enviarUsuario.data)
       let Valid = dadtosUsuario.valido
@@ -169,6 +172,7 @@ function Usuarios() {
       let apellido= document.getElementById(datosProcesar[n]+"-usr_lastname").value
       let email= document.getElementById(datosProcesar[n]+"-usr_email").value
       let contraseña= document.getElementById(datosProcesar[n]+"-usr_pass").value
+      let Empresa= document.getElementById(datosProcesar[n]+"-empresa").value
 
       if(nombre =='' || nombre==null){
         for(let f=0; f<edicionSeleccion.length; f++){
@@ -205,7 +209,8 @@ function Usuarios() {
         apellido,
         email,
         contraseña,
-        id: parseInt(datosProcesar[n])
+        id: parseInt(datosProcesar[n]),
+        Empresa
       })
       let Dat = (datos.data).data
     }
@@ -221,12 +226,21 @@ function Usuarios() {
       }
     })
 
-
-
     let Dat = (datos.data).data
     setData(Dat);
-    //setDatosSeleccionados('')
-    //setEdicionSeleccion([])
+    let arrayNuevoActualizado = []
+    let DatosSeleccionadosNow = (datosSeleccionados.toString()).split(',')
+    for(let ns = 0 ; ns <DatosSeleccionadosNow.length; ns++ ){
+        for(let n=0; n<Dat.length; n++ ){
+          if(parseInt(DatosSeleccionadosNow[ns]) == Dat[n].user_id){
+            arrayNuevoActualizado.push(Dat[n])
+          }
+        }
+    }
+    setEdicionSeleccion(arrayNuevoActualizado)
+
+
+    setData(Dat);
     setMessageDeleteUser("")
     close()
    
@@ -276,28 +290,32 @@ function Usuarios() {
         <div className="title">Catalogo de Usuarios</div>            
       </div>
       <div className="headerConatainerUsers">
-        <div className="button" onClick={()=>AbrirPopup('Add')}>
-          <div className='containerPopUsers'>
-            <button >OPEN</button>             
-          </div>                  
-        </div>
-        <div className="button" onClick={()=>AbrirPopup('Edit')}>
+        <div className='BotonesOpciones'>
+          <Button variant="outlined" color='success'  onClick={()=>AbrirPopup('Add')}>
+            Agregar
+            <PersonAddIcon />
+          </Button>
+          <Button variant="outlined"  onClick={()=>AbrirPopup('Edit')}>
             Editar
-        </div>        
-        <div className="button" onClick={()=>AbrirPopup('Delete')}>
+            <SettingsAccessibilityIcon />
+          </Button>
+          <Button variant="outlined" color='error' onClick={()=>AbrirPopup('Delete')}>
             Eliminar
-        </div>        
+            <PersonAddDisabledIcon />
+          </Button>                    
+        </div>
       </div>
 
       <div className="bodyContainerUser">
         <div className='TableUsuarios'>
           <div className='Tabla'>
             <div className='theadTable'>
-              <div className='containerID'>id</div>
+              <div className='containerID'>Id</div>
               <div>Nombre</div>
               <div>Apellido</div>
               <div>Email</div>
               <div>Contraseña</div>
+              <div>Empresa</div>
             </div>
             <div className='bodyTable'>
               {
@@ -309,6 +327,7 @@ function Usuarios() {
                       <div>{elemento.usr_lastname}</div>    
                       <div>{elemento.usr_email}</div>    
                       <div>{elemento.usr_pass}</div>    
+                      <div>{elemento.empresa}</div>   
                     </div>
                   )
                   :"No se encontraron datos para mostrar"
@@ -344,12 +363,28 @@ function Usuarios() {
                         <div>Apellido : </div>
                         <div>Email : </div>
                         <div>Contraseña : </div>
+                        <div>Empresa</div>
+
+
+
+                        
+
+
                       </section>
                       <section>
                         <div><input type="text" id='addUserNombre'></input></div>
                         <div><input type="text" id='addUserApellido'></input></div>
                         <div><input type="email" id='addUserEmail'></input></div>
                         <div><input type="password" id='addUserPassword'></input></div>
+                        <div>                        
+                          <select  id='addUserEmpresa'>
+                            <option value="Resvera">Resvera</option>
+                            <option value="Vine Vera - Orogold">Vine Vera - Orogold</option>
+                            <option value="FTK">FTK</option>
+                            <option value="G. Insurgentes y T. Manacar- VV">TBE</option>
+                            <option value="G. Insurgentes y T. Manacar- VV">Noir Niche</option>
+                          </select>
+                        </div>
                       </section>
                     </div>
                     <div className="conatinerMessage">
@@ -377,10 +412,12 @@ function Usuarios() {
                         {
                           edicionSeleccion.length>0?
                           <section className='Titulos'>                        
+                            <div className='containerId'>Id</div>
                             <div>Nombre</div>
                             <div>Apellido</div>
                             <div>Email</div>
                             <div>Contraseña</div>
+                            <div>Empresa</div>
                           </section>
                           :
                           "No ha seleccionado elementos para editar"
@@ -391,11 +428,12 @@ function Usuarios() {
                           edicionSeleccion.length>0?
                             edicionSeleccion.map((elemento)=>
                             <div key={elemento.user_id}  className='Fila'>
-                              <input type="text" className='id' value={elemento.user_id} id={elemento.user_id+"-user_id"} />
-                              <input type="text" placeholder={elemento.usr_name}  id={elemento.user_id+"-usr_name"} />
-                              <input type="text" placeholder={elemento.usr_lastname} id={elemento.user_id+"-usr_lastname"} />
-                              <input type="text" placeholder={elemento.usr_email} id={elemento.user_id+"-usr_email"}  />
-                              <input type="text" placeholder={elemento.usr_pass} id={elemento.user_id+"-usr_pass"}  />
+                              <input type="text" className='id' value={elemento.user_id} id={elemento.user_id+"-user_id"} readOnly />
+                              <input type="text" defaultValue={elemento.usr_name}  id={elemento.user_id+"-usr_name"} />
+                              <input type="text" defaultValue={elemento.usr_lastname} id={elemento.user_id+"-usr_lastname"} />
+                              <input type="text" defaultValue={elemento.usr_email} id={elemento.user_id+"-usr_email"}  />
+                              <input type="text" defaultValue={elemento.usr_pass} id={elemento.user_id+"-usr_pass"}  />
+                              <input type="text" defaultValue={elemento.empresa} id={elemento.user_id+"-empresa"}  />
                             </div>
                             )
                           :""
@@ -405,7 +443,7 @@ function Usuarios() {
                     <div className="conatinerMessage">
                       {messageAddUser}
                     </div>
-                    <div className="buttonAddUser">
+                    <div className="buttonEditUser">
                         <div onClick={()=>EditarUsuario()}>Actualizar</div>
                     </div>
                   </div>
@@ -457,7 +495,7 @@ function Usuarios() {
                     <div className="conatinerMessage">
                       {messageAddUser}
                     </div>
-                    <div className="buttonAddUser">
+                    <div className="buttonDeleteUser">
                         <div onClick={()=>EliminarUsuario()}>Eliminar Usuario(s)</div>
                     </div>
                   </div>
@@ -475,118 +513,3 @@ export default Usuarios;
 
 
 
-
-
-/*
-
-        <Modal>
-              <div id='containerOptionUser'>
-                {
-                  vistaPopup == 'AddUser' ?
-                  <div className="containerAddUserOption">
-                    <div className="sectionClose" onClick={()=>cerrarPopUsuario()}> 
-                      <button >
-                        <div className='lineaUno' />
-                        <div className='lineaDos' />
-                      </button>
-                    </div>
-                    
-                    <h1>Agregar un nuevo Usuario</h1>
-                    <div className='TablaAddUser'>
-                      <section>
-                        <div>Nombre</div>
-                        <div>Apellido</div>
-                        <div>Email</div>
-                        <div>Contraseña</div>
-                      </section>
-                      <section>
-                        <div><input type="text" id='addUserNombre'></input></div>
-                        <div><input type="text" id='addUserApellido'></input></div>
-                        <div><input type="email" id='addUserEmail'></input></div>
-                        <div><input type="password" id='addUserPassword'></input></div>
-                      </section>
-                    </div>
-                    <div className="conatinerMessage">
-                      {messageAddUser}
-                    </div>
-                    <div className="buttonAddUser">
-                        <div onClick={()=>AgregarUsuario()}>Agregar Usuario</div>
-                    </div>
-                  </div>
-                  :""
-                }
-
-                {
-                  vistaPopup == 'EditUsers' ?
-                  <div className="containerEditUserOption">
-                    <div className="sectionClose" onClick={()=>cerrarPopUsuario()}> 
-                      <button >
-                        <div className='lineaUno' />
-                        <div className='lineaDos' />
-                      </button>
-                    </div>
-                    
-                    <h1>Edicion de Usuarios</h1>
-                    <div className='TablaAddUser'>
-                      <section>
-                        <div>Nombre</div>
-                        <div>Apellido</div>
-                        <div>Email</div>
-                        <div>Contraseña</div>
-                      </section>
-                      <section>
-                        <div><input type="text" id='addUserNombre'></input></div>
-                        <div><input type="text" id='addUserApellido'></input></div>
-                        <div><input type="email" id='addUserEmail'></input></div>
-                        <div><input type="password" id='addUserPassword'></input></div>
-                      </section>
-                    </div>
-                    <div className="conatinerMessage">
-                      {messageAddUser}
-                    </div>
-                    <div className="buttonAddUser">
-                        <div onClick={()=>AgregarUsuario()}>Actualizar</div>
-                    </div>
-                  </div>
-                  :""
-                }
-                {
-                  vistaPopup == 'DeleteUsers' ?
-                  <div className="containerDeleteUserOption">
-                    <div className="sectionClose" onClick={()=>cerrarPopUsuario()}> 
-                      <button >
-                        <div className='lineaUno' />
-                        <div className='lineaDos' />
-                      </button>
-                    </div>
-                    
-                    <h1>Agregar un nuevo Usuario</h1>
-                    <div className='TablaAddUser'>
-                      <section>
-                        <div>Nombre</div>
-                        <div>Apellido</div>
-                        <div>Email</div>
-                        <div>Contraseña</div>
-                      </section>
-                      <section>
-                        <div><input type="text" id='addUserNombre'></input></div>
-                        <div><input type="text" id='addUserApellido'></input></div>
-                        <div><input type="email" id='addUserEmail'></input></div>
-                        <div><input type="password" id='addUserPassword'></input></div>
-                      </section>
-                    </div>
-                    <div className="conatinerMessage">
-                      {messageAddUser}
-                    </div>
-                    <div className="buttonAddUser">
-                        <div onClick={()=>AgregarUsuario()}>Agregar Usuario</div>
-                    </div>
-                  </div>
-                  :""
-                }
-
-              </div>
-            </Modal>
-
-
-*/

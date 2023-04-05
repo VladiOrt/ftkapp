@@ -2,6 +2,10 @@ import './index.scss'
 import { useState } from 'react';
 import axios from 'axios';
 
+
+import Button from '@mui/material/Button';
+
+
 const Login =() =>{
     const[mensaje,setMensaje] =useState('')
  
@@ -13,6 +17,9 @@ const Login =() =>{
                 setMensaje(Datos.mensaje)
                 let DatosRes = Datos.data
                 localStorage.setItem("apiKeyAcceso", DatosRes[0].keyPass);
+                localStorage.setItem("idUser", DatosRes[0].user_id);
+                localStorage.setItem("empresa", DatosRes[0].empresa);
+                localStorage.setItem("nameUser", (DatosRes[0].usr_name + " " + DatosRes[0].usr_lastname));
                 setMensaje(Datos.mensaje)
                 //let miNombre = localStorage.getItem("apiKeyAcceso");
                 setTimeout(window.location.replace(`/dashboard`),3000)                
@@ -49,7 +56,10 @@ const Login =() =>{
                 <div className="mensajes">
                     {mensaje}
                 </div>         
-                <div className='BotonIngreso' onClick={()=>validarDatos()}>INGRESAR</div>
+               
+                <Button variant="outlined" color="success" href="#outlined-buttons" onClick={()=>validarDatos()}>
+                    INGRESAR
+                </Button>
           
             </div>
             <div className="image"></div>
