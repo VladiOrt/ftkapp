@@ -9,9 +9,9 @@ import './index.scss'
 import Catalogos from './catalogos'
 import Usuarios from './usuarios'
 import Ventas from './ventas'
-import Proyectos from './proyectos'
+import Proyectos from './archivos'
 import Capitulos from './capitulos'
-
+import Paciente from './Paciente';
 
 const Dashboard = () =>{
 
@@ -44,6 +44,9 @@ const Dashboard = () =>{
                     <li onClick={()=>changeVista(3)}>USUARIOS</li>                                   
                     <li onClick={()=>changeVista(4)}>ARCHIVOS</li>                  
                     <li onClick={()=>changeVista(5)}>PERMISOS</li>    
+                    <li onClick={()=>changeVista(6)}>PACIENTE</li>    
+
+
                 </ul>             
 
 
@@ -75,6 +78,9 @@ const Dashboard = () =>{
                         }
                         {
                             vista===5?<Capitulos />:""
+                        }
+                        {
+                            vista===6?<Paciente />:""
                         }
                     </div>
                 </div>

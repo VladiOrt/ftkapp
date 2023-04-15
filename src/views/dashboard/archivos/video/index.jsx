@@ -3,7 +3,6 @@ import React, { useState, useEffect, useLayoutEffect, useCallback } from 'react'
 import { render } from 'react-dom';
 import { useModal } from 'react-hooks-use-modal';
 
-import Table from "./components/Table";
 import axios from "axios";
 import './index.scss'
 import Popup from 'reactjs-popup';
@@ -16,28 +15,48 @@ import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import PersonalVideoIcon from '@mui/icons-material/PersonalVideo';
 import BadgeIcon from '@mui/icons-material/Badge';
 import DeleteIcon from '@mui/icons-material/Delete';
+import Moment from 'react-moment';
+import 'moment-timezone';
 
-
-function Proyectos() {
+function Video() {
 
   const[archivos, setArchivos] =  useState(null)
-
-
   const subirArchivos = e =>{
     setArchivos(e)
   }
 
+  const insertarArchivos = async(tipo) =>{
 
-  const insertarArchivos = async() =>{
-    const f =  new FormData();
-    f.append(archivos[0])
+    if(tipo==='pdf'){
+      const f =  new FormData();
+      f.append(undefined,archivos[0])
+      const datos = await axios.post('http://localhost:5000/Video/upload', f)
+      setMessageAddPdf(datos.data.message)
+      if(datos.data.message=='Archivo Cargado'){
+        const datos = await axios.get('http://localhost:5000/Video/files', {
+          headers: {       
+          }
+        })
+        let Dat = (datos.data).data
+        setData(Dat);
+      }
+    }
 
-    const datos = await axios.post('http://localhost:5000/Pdf/upload', f)
-
-
-    console.log(datos)
-
-
+    if(tipo==='video'){
+      const f =  new FormData();
+      f.append(undefined,archivos[0])
+      const datos = await axios.post('http://localhost:5000/Video/upload', f)
+      setMessageAddPdf(datos.data.message)
+      if(datos.data.message=='Archivo Cargado'){
+        const datos = await axios.get('http://localhost:5000/Video/files', {
+          headers: {       
+          }
+        })
+        let Dat = (datos.data).data
+        setData(Dat);
+      }
+    }
+   
   } 
 
 
@@ -47,8 +66,6 @@ function Proyectos() {
 
 
 
-  const[datosGenerales, setDatosGenerales] = useState([])
-  const[datosTabla, setDatosTabla] = useState([])
   const[datosSeleccionados, setDatosSeleccionados] = useState('')
   const[edicionSeleccion, setEdicionSeleccion] = useState([])
   const[vistaPopup, setVistaPopup] = useState([])
@@ -58,6 +75,8 @@ function Proyectos() {
   });
 
   const [data, setData] = useState([]);
+  const [messageAddPdf, setMessageAddPdf] = useState("");
+  const [messageAddVideo, setMessageAddVideo] = useState("");
   const [messageAddUser, setMessageAddUser] = useState("");
   const [messageAddCapt, setMessageAddCapt] = useState("")
   const [messageEditUser, setMessageEditUser] = useState("");
@@ -67,7 +86,7 @@ function Proyectos() {
  
   const fetchData = async () => {
     
-    const datos = await axios.get('http://localhost:5000/projects/All', {
+    const datos = await axios.get('http://localhost:5000/Video/files', {
       headers: {       
       }
     })
@@ -81,10 +100,10 @@ function Proyectos() {
 
 
   async function AgregarProyecto(){
-    setMessageAddUser("Procesando ...")
+    setMessageAddPdf("Procesando ...")
     let Archivo = document.getElementById("filePDF").value
     if(Archivo==''||  Archivo== null){
-      setMessageAddUser("Ingrese un archivo pdf por favor")
+      setMessageAddPdf("Ingrese un archivo pdf por favor")
     }else{
       const enviarProyecto = await axios.post('http://localhost:5000/projects/createProject', {
         Archivo
@@ -98,7 +117,7 @@ function Proyectos() {
         })
         let Dat = (datos.data).data
         setData(Dat);
-        setMessageAddUser("")
+        setMessageAddPdf("")
         close()
       }
     }
@@ -106,9 +125,9 @@ function Proyectos() {
 
   function AbrirPopup (dato){
     if(dato =='Pdf'){
-      setVistaPopup('AddUser')
+      setVistaPopup('addPdf')
     }else if(dato =='Video'){
-      setVistaPopup('EditProjects')
+      setVistaPopup('addVideo')
     }else if(dato =='Permisos'){
       setVistaPopup('DeleteProjects')
     }else if(dato =='Eliminar'){
@@ -120,7 +139,7 @@ function Proyectos() {
 
   function cerrarPopProyecto(){
     close();
-    setMessageAddUser("");
+    setMessageAddPdf("");
   } 
 
 
@@ -154,9 +173,9 @@ function Proyectos() {
       }
     }else{
       if(datosSeleccionados.length == 0){
-        strvaloresNuevos = elemento.id_project
+        strvaloresNuevos = elemento.id_pdf
       }else{
-        strvaloresNuevos = datosSeleccionados+","+elemento.id_project
+        strvaloresNuevos = datosSeleccionados+","+elemento.id_pdf
       }      
     }
     OrdenarDatosSeleccionados(strvaloresNuevos) 
@@ -166,6 +185,7 @@ function Proyectos() {
 
 
   function OrdenarDatosSeleccionados(Datos){
+    console.log("...>-----" ,Datos )
     let valores = Datos.toString()
     let idSeleccion = valores.split(',')
     idSeleccion.sort(function(a,b){
@@ -354,14 +374,8 @@ function Proyectos() {
           id: parseInt(IdProyecto)
         })
         let Dat = (datos.data).data
-
-
       }
-    
     }
-
-
-
 
 
 
@@ -373,16 +387,10 @@ function Proyectos() {
   
 
   return (
-    <div className="containerProjects">
-      <div className="titleContainerProjects">
-        <div className="title">Catalogo de Archivos</div>            
-      </div>
-      <div className="headerConatainerProjects">
-        <div className="botones">
-          <Button variant="outlined"  color='info' onClick={()=>AbrirPopup('Pdf')}>
-            PDF
-            <PictureAsPdfIcon />
-          </Button>
+    <div className="containerVideo">
+ 
+      <div className="headerConatainerVideo">
+        <div className="botones">        
           <Button variant="outlined"  color='info' onClick={()=>AbrirPopup('Video')}>
             VIDEO
             <PersonalVideoIcon />
@@ -399,24 +407,24 @@ function Proyectos() {
         </div>                         
       </div>
 
-      <div className="bodyContainerUser">
-        <div className='TableProyectos'>
+      <div className="bodyContainerVideo">
+        <div className='TableVideo'>
           <div className='Tabla'>
-            <div className='theadTableArchivos'>
+            <div className='theadTableVideo'>
               <div className='containerID'>id</div>
               <div>Nombre de Archivo </div>
-              <div>Propietario</div>
-              <div>Fecha</div>             
+              <div>Fecha</div>
+              <div>Descargar</div>             
             </div>
-            <div className='bodyTableArchivos'>
+            <div className='bodyTableVideo'>
               {
                 data.length>0?
                   data.map((elemento)=>      
-                    <div className='Fila' key={elemento.id_project}>
+                    <div className='Fila' key={elemento.id_pdf}>
                       <div className='Columnaid'> <input type="checkbox" onClick={()=>agregarDatosSeleccionados(elemento)} ></input> </div>
-                      <div>{elemento.pjct_TituloOriginal}</div>                    
-                      <div>{elemento.pjct_TituloAutorizado}</div>    
-                      <div>{elemento.pjct_Cliente}</div>                                               
+                      <div>{elemento.pdf_name}</div>                    
+                      <div><Moment format="YYYY/MM/DD">{elemento.fechaIngreso}</Moment></div>    
+                      <div></div>                                               
                     </div>
                   )
                   :"No se encontraron datos para mostrar"
@@ -436,7 +444,7 @@ function Proyectos() {
          <Modal>
               <div id='containerOptionUser'>
                 {
-                  vistaPopup == 'AddUser' ?
+                  vistaPopup == 'addPdf' ?
                   <div className="containerAddUserOption">
                     <div className="sectionClose" > 
                       <button  onClick={()=>cerrarPopProyecto()}>
@@ -448,20 +456,17 @@ function Proyectos() {
                     <h1>Agregar PDF</h1>
                     <div className='TablaAddUser'>
                       <section className='labels'>
-                      <div>Nombre de archivo : </div>
-                      <div>Archivo : </div>
-                     
+                      <div>Archivo PDF : </div>                     
                       </section>
                       <section>
-                        <div><input type="text" id='NombrePDF'></input></div>                      
                         <div><input type="file"  id='archivoPDF' onChange={(e) => subirArchivos(e.target.files) }></input></div>                      
                       </section>
                     </div>
                     <div className="conatinerMessage">
-                      {messageAddUser}
+                      {messageAddPdf}
                     </div>
                     <div className="buttonAddUser">
-                        <div onClick={()=>insertarArchivos()}>Subir PDF</div>
+                        <div onClick={()=>insertarArchivos('pdf')}>Subir PDF</div>
                     </div>
                   </div>
                   :""
@@ -470,7 +475,7 @@ function Proyectos() {
 
 
                 {
-                  vistaPopup == 'AddVideo' ?
+                  vistaPopup == 'addVideo' ?
                   <div className="containerAddUserOption">
                     <div className="sectionClose" > 
                       <button  onClick={()=>cerrarPopProyecto()}>
@@ -482,20 +487,19 @@ function Proyectos() {
                     <h1>Agregar Video</h1>
                     <div className='TablaAddUser'>
                       <section className='labels'>
-                      <div>Nombre de video : </div>
-                      <div>Video : </div>
-                     
+                        <div>Video : </div>
                       </section>
                       <section>
-                        <div><input type="text" id='NombreVideo'></input></div>                      
-                        <div><input id="filePDF" type="file"  /></div>                      
+                        <div>
+                          <input id="fileVideo" type="file"  />
+                        </div>
                       </section>
                     </div>
                     <div className="conatinerMessage">
-                      {messageAddUser}
+                      {messageAddVideo}
                     </div>
                     <div className="buttonAddVideo">
-                        <div onClick={()=>AgregarProyecto()}>Subir PDF</div>
+                        <div onClick={()=>insertarArchivos('video')}>Subir Video</div>
                     </div>
                   </div>
                   :""
@@ -669,7 +673,7 @@ function Proyectos() {
                           edicionSeleccion.length>0?
                             edicionSeleccion.map((elemento)=>
                             <div key={elemento.id_project}  className='Fila'>
-                              <input type="text" className='id' value={elemento.id_project} disabled/>
+                              <input type="text" className='id' value={elemento.id_pdf} disabled/>
                               <input type="text" id={elemento.id_project+"-Nombre"} placeholder="Nombre del capitulo" />
                               <input type="text" id={elemento.id_project+"-Duracion"} placeholder="Duracion"  />
                               <input type="text" id={elemento.id_project+"-Director"} placeholder="Director"  />
@@ -706,12 +710,12 @@ function Proyectos() {
 
 
               </div>
-            </Modal>                  
+         </Modal>                  
     </div>
   );
 }
 
-export default Proyectos;
+export default Video;
 
 
 

@@ -1,0 +1,493 @@
+.containerVideo{
+    min-width: 80vw;
+    min-height: 60vh;
+    max-height: 60vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    .headerConatainerVideo{
+        min-width: 78vw;
+        min-height: 50px;
+        margin-top: 20px;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        .botones{
+            display: flex;
+            min-width: 700px;
+            justify-content: space-between;
+        }
+    }   
+    .bodyContainerVideo{
+        min-width: 78vw;
+        max-width: 78vw;
+        min-height: 50vh;
+        margin-top: 20px;
+        padding-top: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+
+        .TableVideo{
+            min-width: 78vw;
+            min-height: 45vh;       
+            max-height: 45vh;   
+            .Tabla{
+                display: flex;
+                flex-direction: column;
+                margin: 0px;
+                padding: 0px;
+                .theadTableVideo{
+                    border: 1px solid rgba($color: #000000, $alpha: .5);
+                    display: flex;
+                    justify-content: center;
+                    div{
+                        border: 1px solid rgba($color: #000000, $alpha: .5);
+                        min-width: 25vw;
+                        max-width: 25vw;
+                        text-align: center;
+                        font-size: 1.2em;
+                        padding-top: 5px;
+                        padding-bottom: 5px;
+                    }
+                    .containerID{
+                        min-width: 3vw;
+                        max-width: 3vw;
+                        min-height: 100%;
+                        text-align: center;
+                    }
+                }
+                .bodyTableVideo{
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    .Fila{
+                        min-width: 78vw;
+                        max-width: 78vw;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        div{
+                            padding-top: 0px;
+                            padding-bottom: 00px;
+                            padding-left: 0.5vw;
+                            min-width: 25vw; 
+                            max-width: 25vw; 
+                            font-size: 1rem;
+                            min-height: 28px;                           
+                            max-height: 28px;                                                       
+                            overflow-x: scroll;
+                            border: 1px solid rgba($color: #000000, $alpha: .5);
+                        }
+                        .Columnaid{
+                            padding-left: 0vw;
+                            min-width: 3vw;                            
+                            display: flex;
+                            justify-content: center;
+                        }
+                    }
+                }
+
+            }
+
+        }
+    }
+}   
+
+
+
+#containerOptionUser{
+    min-width: 80vw;
+    min-height: 60vh;
+    max-height: 60vh;
+    border-radius: 10px;
+    background-color: #FFF;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+
+    .containerAddUserOption{
+        min-width: 60vw;        
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        flex-direction: column;
+
+        .sectionClose{
+            min-width: 78vw;
+            min-height: 20px;
+            background-color: #FFF;
+            display: flex;
+            justify-content: flex-end;
+            button{
+                cursor: pointer;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-width: 30px;
+                min-height: 30px;
+                background-color: #FFF;
+                border: none;
+                .lineaUno{
+                    position: absolute;
+                    min-width: 25px;
+                    min-height: 3px;
+                    transform: rotate(45deg);
+                }
+                .lineaDos{
+                    position: absolute;
+                    min-width: 25px;
+                    min-height: 3px;
+                    transform: rotate(-45deg);
+                }
+            }          
+        }
+        .TablaAddUser{
+            min-width: 50vw;
+            margin-top: 5vh;
+            display: flex;
+            flex-wrap: wrap;
+
+            section{
+                min-width: 25vw;
+
+                input{
+                    min-height: 30px;
+                    min-width: 500px;
+                    padding-left: 20px;
+                    margin-top: 10px;
+                    margin-bottom: 10px;
+                    font-size: 1.2em;
+                }
+            }
+            .labels{
+                min-width: 15vw;
+                min-height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-around;
+                align-items: flex-end;
+                
+                div{
+                    margin-right: 15px;
+                    font-size: 1.2em;
+                }
+        
+            }           
+        }
+        .conatinerMessage{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.9em;
+            min-width: 50vw;
+            min-height: 100px;
+        }
+        .buttonAddUser{
+            min-width: 200px;
+            min-height: 30px;
+            border-radius: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;            
+            border: 1px solid green;
+            font-size: 1.2em;
+        }
+        .buttonAddUser:hover{
+            transform: scale(1.1);
+            background-color: green;
+            transition-duration: 0.3s;
+            color: #FFF;      
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+    .containerEditProjectsOption{
+        min-width: 60vw;        
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        flex-direction: column;
+
+        .sectionClose{
+            min-width: 78vw;
+            min-height: 20px;
+            background-color: #FFF;
+            display: flex;
+            justify-content: flex-end;
+            button{
+                cursor: pointer;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-width: 30px;
+                min-height: 30px;
+                background-color: #FFF;
+                border: none;
+                .lineaUno{
+                    position: absolute;
+                    min-width: 25px;
+                    min-height: 3px;
+                    background-color: red;
+                    transform: rotate(45deg);
+                }
+                .lineaDos{
+                    position: absolute;
+                    min-width: 25px;
+                    min-height: 3px;
+                    background-color: red;
+                    transform: rotate(-45deg);
+                }
+            }          
+        }
+        .TablaEditProjects{
+            min-width: 50vw;
+            min-height: 30vh;
+            max-height: 30vh;
+            overflow-y: auto;
+            margin-top: 5vh;
+            display: flex;
+            flex-direction: column;
+
+            section{
+                min-width: 60vw;
+                flex-direction: column;
+
+                input{
+                    min-height: 30px;
+                    min-width: 500px;
+                    padding-left: 20px;
+                    margin-top: 10px;
+                    margin-bottom: 10px;
+                    font-size: 1.2em;
+                }
+
+                .Fila{
+                    min-width: 60vw;
+                    max-width: 60vw;
+                    display: flex;
+                    justify-content: space-around;    
+                    input{
+                        margin-top: 0px;
+                        margin-bottom: 0px;
+                        min-width: 7.5vw;
+                        max-width: 7.5vw;
+                    }
+                    .id{
+                        margin-top: 0px;
+                        margin-bottom: 0px;
+                        min-width: 3vw;
+                        max-width: 3vw;
+                        font-size: 0.9em;
+                    }
+
+                }
+            }
+            .Titulos{
+                min-width: 7.5vw;
+                min-height: 100%;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-around;
+                align-items: flex-end;                
+                div{
+                    margin-right: 15px;
+                    font-size: 1.2em;
+                    min-width: 7.5vw;
+                }        
+                .id{
+                    min-width: 3vw;
+                    max-width: 3vw;
+                }
+            }           
+        }
+        .conatinerMessage{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.9em;
+            min-width: 50vw;
+            min-height: 100px;
+        }
+        .buttonAddUser{
+            min-width: 200px;
+            min-height: 30px;
+            border-radius: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;            
+            border: 1px solid green;
+            font-size: 1.2em;
+        }
+        .buttonAddUser:hover{
+            transform: scale(1.1);
+            background-color: green;
+            transition-duration: 0.3s;
+            color: #FFF;
+      
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+    .containerDeleteProjectsOption{
+        min-width: 60vw;        
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        flex-direction: column;
+
+        .sectionClose{
+            min-width: 78vw;
+            min-height: 20px;
+            background-color: #FFF;
+            display: flex;
+            justify-content: flex-end;
+            button{
+                cursor: pointer;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-width: 30px;
+                min-height: 30px;
+                background-color: #FFF;
+                border: none;
+                .lineaUno{
+                    position: absolute;
+                    min-width: 25px;
+                    min-height: 3px;
+                    background-color: red;
+                    transform: rotate(45deg);
+                }
+                .lineaDos{
+                    position: absolute;
+                    min-width: 25px;
+                    min-height: 3px;
+                    background-color: red;
+                    transform: rotate(-45deg);
+                }
+            }          
+        }
+        .TablaEditProjects{
+            min-width: 50vw;
+            min-height: 30vh;
+            max-height: 30vh;
+            overflow-y: auto;
+            margin-top: 5vh;
+            display: flex;
+            flex-direction: column;
+
+            section{
+                min-width: 60vw;
+                flex-direction: column;
+
+                input{
+                    min-height: 30px;
+                    min-width: 500px;
+                    padding-left: 20px;
+                    margin-top: 10px;
+                    margin-bottom: 10px;
+                    font-size: 1.2em;
+                }
+
+                .Fila{
+                    min-width: 60vw;
+                    max-width: 60vw;
+                    display: flex;
+                    justify-content: space-around;    
+                    input{
+                        margin-top: 0px;
+                        margin-bottom: 0px;
+                        min-width: 7.5vw;
+                        max-width: 7.5vw;
+                    }
+                    .id{
+                        margin-top: 0px;
+                        margin-bottom: 0px;
+                        min-width: 2vw;
+                        max-width: 2vw;
+                        font-size: 0.9em;
+                    }
+
+                }
+            }
+            .Titulos{
+                min-width: 15vw;
+                min-height: 100%;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-around;
+                align-items: flex-end;                
+                div{
+                    margin-right: 15px;
+                    font-size: 1.2em;
+                    min-width: 7.5vw;
+                    max-width: 7.5vw;
+                    text-align: center;
+                    font-size: 16px;
+                }        
+                .id{
+                    margin-top: 0px;
+                    margin-bottom: 0px;
+                    min-width: 2vw;
+                    max-width: 2vw;
+                    font-size: 0.9em;
+                }
+            }           
+        }
+        .conatinerMessage{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.9em;
+            min-width: 50vw;
+            min-height: 100px;
+        }
+        .buttonAddUser{
+            min-width: 200px;
+            min-height: 30px;
+            border-radius: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;            
+            border: 1px solid red;
+            font-size: 1.2em;
+        }
+        .buttonAddUser:hover{
+            transform: scale(1.1);
+            background-color: red;
+            transition-duration: 0.3s;
+            color: #FFF;
+      
+        }
+    }
+
+
+
+
+
+
+
+
+}
