@@ -20,11 +20,19 @@ import 'moment-timezone';
 
 function Video() {
 
+  const[otherUserData,setOtherUsersData] = useState([])
+  const[permisosData,setPermisosData] = useState([])
   const[archivos, setArchivos] =  useState(null)
+  const[video, setVideo] =  useState(null)
   const subirArchivos = e =>{
+    console.log("1--->")
     setArchivos(e)
   }
 
+  const subirVideo = e =>{
+    console.log("2--****--" , e)
+    setVideo(e)
+  }
   const insertarArchivos = async(tipo) =>{
 
     if(tipo==='pdf'){
@@ -43,6 +51,7 @@ function Video() {
     }
 
     if(tipo==='video'){
+      console.log("Entro--->")
       const f =  new FormData();
       f.append(undefined,archivos[0])
       const datos = await axios.post('http://localhost:5000/Video/upload', f)
@@ -124,14 +133,12 @@ function Video() {
   }
 
   function AbrirPopup (dato){
-    if(dato =='Pdf'){
-      setVistaPopup('addPdf')
-    }else if(dato =='Video'){
+    if(dato =='Video'){
       setVistaPopup('addVideo')
     }else if(dato =='Permisos'){
-      setVistaPopup('DeleteProjects')
+      setVistaPopup('permisosVideo')
     }else if(dato =='Eliminar'){
-      setVistaPopup('AddCapitulos')
+      setVistaPopup('deleteVideo')
     }
     
     open()
@@ -143,6 +150,72 @@ function Video() {
   } 
 
 
+  async function EliminarPermiso(id, idVideo){  
+      const Eliminacion = await axios.post('http://localhost:5000/Permisos/delete/file/'+id, {
+        id
+      })
+      let resEliminacion = (Eliminacion.data).data
+      console.log("-->" ,resEliminacion )
+
+
+
+      const datosPermisos = await axios.get('http://localhost:5000/Permisos/permisos/video/'+idVideo, {
+        headers: {       
+        }
+      })
+      let permisosPDF = (datosPermisos.data).data
+      setPermisosData(permisosPDF);
+      
+
+
+      const datosUsuarios = await axios.get('http://localhost:5000/Permisos/otherUsers/video/'+idVideo, {
+        headers: {       
+        }
+      })
+      let dataSelect = (datosUsuarios.data).data
+      setOtherUsersData(dataSelect);        
+  }
+
+
+
+  async function AgregarPermiso(nombre,idVideo){
+    let idUser = document.getElementById('valorUsuario').value;
+    console.log("---><" ,idUser  )
+    console.log("---><" ,nombre  )
+    console.log("---><" ,idVideo  )
+    console.log("-.-.-.-.-." , idUser)
+    if(idUser =='' || idUser ==null || idUser ==undefined) {
+      alert("Selecciona un usuario")
+      return 0
+    }
+    //setMessageAddPdf("Procesando ...")            
+      const enviarProyecto = await axios.post('http://localhost:5000/Permisos/insert/video/'+idVideo, {
+        nombrePdf: nombre,
+        idUser: idUser
+      })
+
+      let insertarPermiso = (enviarProyecto.data)
+      let Valid = insertarPermiso.valido
+      if(Valid == 1){
+        const datosPermisos = await axios.get('http://localhost:5000/Permisos/permisos/video/'+idVideo, {
+          headers: {       
+          }
+        })
+        let permisosPDF = (datosPermisos.data).data
+        setPermisosData(permisosPDF);
+        
+
+
+        const datosUsuarios = await axios.get('http://localhost:5000/Permisos/otherUsers/video/'+idVideo, {
+          headers: {       
+          }
+        })
+        let dataSelect = (datosUsuarios.data).data
+        setOtherUsersData(dataSelect);        
+      }
+    
+  }
+
 
 
 
@@ -151,7 +224,8 @@ function Video() {
   function agregarDatosSeleccionados(elemento){
     let Valores = [datosSeleccionados]
     if(datosSeleccionados.length>0) Valores = datosSeleccionados.split(',')
-    let valorNuevo = elemento.id_project
+    console.log("elementos--->" , elemento)
+    let valorNuevo = elemento.id_video
     let valoresNuevos =[]
     let strvaloresNuevos =''
     let Existe=0
@@ -173,9 +247,9 @@ function Video() {
       }
     }else{
       if(datosSeleccionados.length == 0){
-        strvaloresNuevos = elemento.id_pdf
+        strvaloresNuevos = elemento.id_video
       }else{
-        strvaloresNuevos = datosSeleccionados+","+elemento.id_pdf
+        strvaloresNuevos = datosSeleccionados+","+elemento.id_video
       }      
     }
     OrdenarDatosSeleccionados(strvaloresNuevos) 
@@ -185,7 +259,6 @@ function Video() {
 
 
   function OrdenarDatosSeleccionados(Datos){
-    console.log("...>-----" ,Datos )
     let valores = Datos.toString()
     let idSeleccion = valores.split(',')
     idSeleccion.sort(function(a,b){
@@ -193,7 +266,7 @@ function Video() {
     })
     let arrayNuevo = []
     for(let n=0; n<data.length; n++ ){
-      let IdDato = data[n].id_project
+      let IdDato = data[n].id_video
       for(let l=0;  l<idSeleccion.length ; l++){
         if(IdDato == idSeleccion[l]) arrayNuevo.push(data[n])
       }      
@@ -313,7 +386,7 @@ function Video() {
     let validos = 0
     let errores = 0
     for(let n=0;n<IDS.length; n++){
-      const datos = await axios.patch('http://localhost:5000/projects/deleteProject', {
+      const datos = await axios.post('http://localhost:5000/Video/delete/'+IDS[n], {
         id: IDS[n]
       })
       let Dat = (datos.data).data
@@ -323,7 +396,7 @@ function Video() {
         errores  = errores + 1
       }
     }
-    const datos = await axios.get('http://localhost:5000/projects/All', {
+    const datos = await axios.get('http://localhost:5000/Pdf/files', {
       headers: {       
       }
     })
@@ -333,7 +406,6 @@ function Video() {
     setEdicionSeleccion([])
     setMessageDeleteUser("")
     close()
-   
   }
   
   
@@ -395,11 +467,11 @@ function Video() {
             VIDEO
             <PersonalVideoIcon />
           </Button>
-          <Button variant="outlined"  color='error' onClick={()=>AbrirPopup('Permisos')}>
+          <Button variant="outlined"  color='error' onClick={()=>AbrirPopup('Eliminar')}>
             ELIMINAR
             <DeleteIcon />
           </Button>
-          <Button variant="outlined"  color='success' onClick={()=>AbrirPopup('Eliminar')}>
+          <Button variant="outlined"  color='success' onClick={()=>AbrirPopup('Permisos')}>
             PERMISOS
             <BadgeIcon />
           </Button>
@@ -422,7 +494,7 @@ function Video() {
                   data.map((elemento)=>      
                     <div className='Fila' key={elemento.id_pdf}>
                       <div className='Columnaid'> <input type="checkbox" onClick={()=>agregarDatosSeleccionados(elemento)} ></input> </div>
-                      <div>{elemento.pdf_name}</div>                    
+                      <div>{elemento.video_name}</div>                    
                       <div><Moment format="YYYY/MM/DD">{elemento.fechaIngreso}</Moment></div>    
                       <div></div>                                               
                     </div>
@@ -444,37 +516,6 @@ function Video() {
          <Modal>
               <div id='containerOptionUser'>
                 {
-                  vistaPopup == 'addPdf' ?
-                  <div className="containerAddUserOption">
-                    <div className="sectionClose" > 
-                      <button  onClick={()=>cerrarPopProyecto()}>
-                        <div className='lineaUno' />
-                        <div className='lineaDos' />
-                      </button>
-                    </div>
-                    
-                    <h1>Agregar PDF</h1>
-                    <div className='TablaAddUser'>
-                      <section className='labels'>
-                      <div>Archivo PDF : </div>                     
-                      </section>
-                      <section>
-                        <div><input type="file"  id='archivoPDF' onChange={(e) => subirArchivos(e.target.files) }></input></div>                      
-                      </section>
-                    </div>
-                    <div className="conatinerMessage">
-                      {messageAddPdf}
-                    </div>
-                    <div className="buttonAddUser">
-                        <div onClick={()=>insertarArchivos('pdf')}>Subir PDF</div>
-                    </div>
-                  </div>
-                  :""
-                }
-
-
-
-                {
                   vistaPopup == 'addVideo' ?
                   <div className="containerAddUserOption">
                     <div className="sectionClose" > 
@@ -487,36 +528,21 @@ function Video() {
                     <h1>Agregar Video</h1>
                     <div className='TablaAddUser'>
                       <section className='labels'>
-                        <div>Video : </div>
+                      <div>Archivo de Video : </div>                     
                       </section>
                       <section>
-                        <div>
-                          <input id="fileVideo" type="file"  />
-                        </div>
+                        <div><input type="file"  id='archivoPDF' onChange={(e) => subirArchivos(e.target.files) }></input></div>                      
                       </section>
                     </div>
                     <div className="conatinerMessage">
-                      {messageAddVideo}
+                      {messageAddPdf}
                     </div>
-                    <div className="buttonAddVideo">
+                    <div className="buttonAddUser">
                         <div onClick={()=>insertarArchivos('video')}>Subir Video</div>
                     </div>
                   </div>
                   :""
                 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -540,7 +566,7 @@ function Video() {
                       </section>
                       <section>
                         <div><input type="text" id='NombreVideo'></input></div>                      
-                        <div><input id="fileVideo" type="file" accept="video/mp4,video/mkv, video/x-m4v,video/*" /></div>                      
+                      <div><input type="file"  id='archivoVideo' onChange={(e) => subirVideo(e.target.files) }></input></div>                         
                       </section>
                     </div>
                     <div className="conatinerMessage">
@@ -565,7 +591,7 @@ function Video() {
 
 
                 {
-                  vistaPopup == 'DeleteProjects' ?
+                  vistaPopup == 'deleteVideo' ?
                   <div className="containerDeleteProjectsOption">
                     <div className="sectionClose" onClick={()=>cerrarPopProyecto()}> 
                       <button >
@@ -574,7 +600,7 @@ function Video() {
                       </button>
                     </div>
                     
-                    <h1>Eliminar Proyecto(s)</h1>
+                    <h1>Eliminar Video(s)</h1>
                     <label>
                       Se eliminaran los siguientes elementos
                     </label>
@@ -583,12 +609,9 @@ function Video() {
                           edicionSeleccion.length>0?
                           <section className='Titulos'>                        
                             <div className='id'>Id</div>
-                            <div>Titulo Original</div>
-                            <div>Titulo Autorizado</div>
-                            <div>Cliente</div>
-                            <div>Genero</div>
-                            <div>Duracion</div>
-                            <div>Capitulos</div>
+                            <div>Nombre</div>
+                            <div>Fecha</div>
+                          
                           </section>
                           :
                           "No ha seleccionado elementos para eliminar"
@@ -598,14 +621,10 @@ function Video() {
                         { 
                           edicionSeleccion.length>0?
                             edicionSeleccion.map((elemento)=>
-                            <div key={elemento.id_project}  className='Fila'>
-                              <input type="text" className='id' value={elemento.id_project} disabled/>
-                              <input type="text" placeholder={elemento.pjct_TituloOriginal} disabled />
-                              <input type="text" placeholder={elemento.pjct_TituloAutorizado} disabled />
-                              <input type="text" placeholder={elemento.pjct_Cliente} disabled />
-                              <input type="text" placeholder={elemento.pjct_Genero} disabled />
-                              <input type="text" placeholder={elemento.pjct_Duracion} disabled  />
-                              <input type="text" placeholder={elemento.pjct_Capitulos} disabled/>                            
+                            <div key={elemento.id_video}  className='Fila'>
+                              <input type="text" className='id' value={elemento.id_video} disabled/>
+                              <input type="text" placeholder={elemento.video_name} disabled />
+                              <input type="text" placeholder={elemento.video_fechaingreso} disabled />                             
                             </div>
                             )
                           :""
@@ -616,7 +635,7 @@ function Video() {
                       {messageAddUser}
                     </div>
                     <div className="buttonAddUser">
-                        <div onClick={()=>EliminarProyecto()}>Eliminar Proyecto(s)</div>
+                        <div onClick={()=>EliminarProyecto()}>Eliminar video(s)</div>
                     </div>
                   </div>
                   :""
@@ -641,57 +660,85 @@ function Video() {
 
 
                 {
-                  vistaPopup == 'AddCapitulos' ?
-                  <div className="containerDeleteProjectsOption">
-                    <div className="sectionClose" onClick={()=>cerrarPopProyecto()}> 
-                      <button >
-                        <div className='lineaUno' />
-                        <div className='lineaDos' />
-                      </button>
-                    </div>
-                    
-                    <h1>Agregaro/Quitar Permisos para ver los Archivos</h1>
-                    <label>
-                      Se agregaran o quitaran los permisos seleccionados               
-                    </label>
-                    <div className='TablaEditProjects'>
-                        {
-                          edicionSeleccion.length>0?
-                          <section className='Titulos'>                        
-                            <div className='id'>Id-P</div>
-                            <div>Nombre</div>
-                            <div>Duracion</div>
-                            <div>Director</div>
-                            <div>Traductor</div>
-                          </section>
-                          :
-                          "No ha seleccionado elementos para administrar permisos"
-                        }
-                     
-                      <section className=''>    
-                        { 
-                          edicionSeleccion.length>0?
-                            edicionSeleccion.map((elemento)=>
-                            <div key={elemento.id_project}  className='Fila'>
-                              <input type="text" className='id' value={elemento.id_pdf} disabled/>
-                              <input type="text" id={elemento.id_project+"-Nombre"} placeholder="Nombre del capitulo" />
-                              <input type="text" id={elemento.id_project+"-Duracion"} placeholder="Duracion"  />
-                              <input type="text" id={elemento.id_project+"-Director"} placeholder="Director"  />
-                              <input type="text" id={elemento.id_project+"-Traductor"} placeholder="Traductor" />
-                                        
-                            </div>
-                            )
-                          :""
-                        }
-                      </section>
-                    </div>
-                    <div className="conatinerMessage">
-                      {messageAddCapt}
-                    </div>
-                    <div className="buttonAddUser">
-                        <div onClick={()=>agregarcapitulos()}>Agregar Permiso(s)</div>
-                    </div>
+                  vistaPopup == 'permisosVideo' ?
+                  <div className="containerEditPermisosVideo">
+                  <div className="sectionClose" onClick={()=>cerrarPopProyecto()}> 
+                    <button >
+                      <div className='lineaUno' />
+                      <div className='lineaDos' />
+                    </button>
                   </div>
+                  
+                  <h1>Agregar ó quitar permisos para ver los Videos</h1>
+                  <label>
+                    Se agregaran o quitaran los permisos seleccionados               
+                  </label>
+                  <div className='TablaEditPermisos'>                                                        
+                         
+                    <section className='Encabezado'>    
+                    <div className="encabezadoArchivos">
+                      <div>
+                        Id de archivo : 
+                        {
+                          edicionSeleccion.length >0 ?
+                            edicionSeleccion[0].id_video
+                            :""
+                        }
+                      </div>
+                      <div>
+                        Nombre de archivo :
+                        {
+                          edicionSeleccion.length >0 ?
+                            edicionSeleccion[0].video_name
+                            :""
+                        }               
+                      </div>                        
+                  </div>
+                  
+             
+                      <div className='IngresarPermiso'>
+                        <label> Usuarios: </label>
+                        <select id="valorUsuario">
+                          <option value="">Seleccione un usuario</option>
+                          {
+                            otherUserData.length>0? 
+                              otherUserData.map((elemento)=>
+                              <option value={elemento.user_id} >
+                                {elemento.usr_name}
+                              </option>)
+                              :"Todos los usuarios cuentan con permisos"
+                          }                          
+                        </select>
+
+                        <div className='botonAgregar' onClick={()=> AgregarPermiso(edicionSeleccion[0].pdf_name,edicionSeleccion[0].id_pdf) }>Agregar Permiso</div>
+                      </div>                      
+
+                        <br />
+                        Permisos actuales:
+                        <br />
+                        <div className='headerPermisos'>
+                          <div className='id'>Id</div>
+                          <div>Usuario</div>
+                          <div>Accion</div>
+                        </div>
+                      { 
+                        permisosData.length>0?
+                        permisosData.map((elemento)=>
+                          <div key={elemento.idPermiso}  className='FilaPermisos'>
+                            <input type="text" className='id' value={elemento.idUser} disabled/>
+                            <input type="text" id={elemento.pdf_name+"-Nombre"} placeholder={elemento.usr_name + " " +elemento.usr_lastname} />         
+                            <div className="botonEliminar" onClick={()=> EliminarPermiso(elemento.idPermiso, elemento.idPdf)}> Eliminar </div>
+                          </div>
+                          )
+                        :""
+                      }
+
+                    </section>
+                  </div>
+                  <div className="conatinerMessage">
+                    {messageAddCapt}
+                  </div>               
+                </div>
                   :""
                 }
 

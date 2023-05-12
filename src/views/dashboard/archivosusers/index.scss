@@ -1,0 +1,69 @@
+.containerFiles{
+    min-width: 80vw;
+    min-height: 80vh;
+    max-height: 80vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    .titleContainerFiles{
+        min-width: 80vw;
+        min-height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 2em;
+    }
+    .headerConatainerFiles{
+        min-width: 80vw;
+        min-height: 50px;
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .botones{
+            display: flex;
+            min-width: 80vw;
+            max-width: 80vw;
+            justify-content: space-around;
+
+
+            .Pdf{
+                flex-grow: 1;
+                border: none;
+                background-color: none;
+                background: none;
+                border: 1px solid rgba(0,0,0,0.5);
+                
+                label{
+                    margin-right: 20px;
+                }
+            }
+            .Video{
+                flex-grow: 1;
+                border: none;
+                background-color: none;
+                background: none;
+                border: 1px solid rgba(0,0,0,0.5);
+                label{
+                    margin-right: 20px;
+                }
+            }
+
+
+        }
+    }   
+
+
+    .bodyContainerFiles{
+        min-width: 80vw;
+        max-width: 80vw;
+        min-height: 65vh;
+        max-height: 65vh;
+
+    }
+  
+}   
+
+

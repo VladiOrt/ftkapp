@@ -1,5 +1,661 @@
-.containerPaciente{
-    min-width: 70vw;
-    min-height: 50vh;
-    border: 1px solid red;
+// Paleta de Colores
+$color_base_uno: #FFF;
+$color_base_dos: #000;
+$color_uno : #F7F5E6;
+$color_dos : #333A56;
+$color_tres : #52658F;
+$color_cuatro : #E8E8E8;
+
+.containerPacientes{
+    min-width: 80vw;
+    min-height: 80vh;
+    max-height: 80vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    .titleContainerPacientes{
+        min-width: 80vw;
+        min-height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 2em;
+    }
+    .headerConatainerPacientes{
+        min-width: 80vw;
+        min-height: 50px;
+        margin-top: 20px;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+       .BotonesOpciones{
+           min-width: 800px;
+           display: flex;
+           justify-content: space-around;
+       }
+    }   
+
+
+    .findPacient{
+        border: 1;
+        min-width: 78vw;
+        border-radius: 2.5vh;
+        background-color: $color_dos;
+        color: $color_cuatro;
+        min-height: 5vh;
+        font-size: 1.2rem;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        div{
+            input{
+                min-width: 15vw;
+                border-radius: 15px;
+                margin-left: 10px;
+                padding-left: 10px;
+                border: none;
+            }
+        }
+    }
+    .bodyContainerPacientes{
+        min-width: 80vw;
+        max-width: 80vw;
+        min-height: 60vh;
+        margin-top: 20px;
+        padding-top: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+
+        .TablePacientes{
+            min-width: 78vw;
+            min-height: 50vh;        
+            .Tabla{
+                display: flex;
+                flex-direction: column;
+                margin: 0px;
+                padding: 0px;
+                .theadTable{
+                    border: 1px solid rgba($color: #000000, $alpha: .5);
+                    display: flex;
+                    justify-content: center;
+                    div{
+                        border: 1px solid rgba($color: #000000, $alpha: .5);
+                        min-width: 15vw;
+                        max-width: 15vw;
+                        text-align: center;
+                        font-size: 1.2em;
+                        padding-top: 5px;
+                        padding-bottom: 5px;
+                    }
+                    .containerID{
+                        min-width: 3vw;
+                        max-width: 3vw;
+                        text-align: center;
+                    }
+                }
+                .bodyTable{
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    .Fila{
+                        min-width: 78vw;
+                        max-width: 78vw;
+                        display: flex;
+                        justify-content: space-between;
+                        div{
+                            padding-top: 10px;
+                            padding-bottom: 10px;
+                            padding-left: 0.5vw;
+                            min-width:  15vw;
+                            border: 1px solid rgba($color: #000000, $alpha: .5);
+                            
+                        }
+                        .Columnaid{
+                            padding-left: 0vw;
+                            min-width: 3vw;
+                            display: flex;
+                            justify-content: center;
+                        }
+                    }
+                }
+
+            }
+
+        }
+    }
+}   
+#containerOptionPaciente{
+    min-width: 80vw;
+    min-height: 60vh;
+    max-height: 60vh;
+    border-radius: 10px;
+    background-color: #FFF;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+
+    .containerAddUserOption{
+        min-width: 60vw;        
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        flex-direction: column;
+
+        .sectionClose{
+            min-width: 78vw;
+            min-height: 20px;
+            background-color: #FFF;
+            display: flex;
+            justify-content: flex-end;
+            button{
+                cursor: pointer;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-width: 30px;
+                min-height: 30px;
+                background-color: #FFF;
+                border: none;
+                .lineaUno{
+                    position: absolute;
+                    min-width: 25px;
+                    min-height: 3px;
+                    background-color: red;
+                    transform: rotate(45deg);
+                }
+                .lineaDos{
+                    position: absolute;
+                    min-width: 25px;
+                    min-height: 3px;
+                    background-color: red;
+                    transform: rotate(-45deg);
+                }
+            }          
+        }
+        .TablaAddPaciente{
+            min-width: 50vw;
+            margin-top: 5vh;
+            display: flex;
+            flex-wrap: wrap;
+
+            section{
+                min-width: 25vw;
+
+                input, select{
+                    min-height: 30px;
+                    min-width: 500px;
+                    padding-left: 20px;
+                    margin-top: 10px;
+                    margin-bottom: 10px;
+                    font-size: 1.2em;
+                }
+            }
+            .labels{
+                min-width: 15vw;
+                min-height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-around;
+                align-items: flex-end;
+                
+                div{
+                    margin-right: 15px;
+                    font-size: 1.2em;
+                }
+        
+            }           
+        }
+        .conatinerMessage{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.9em;
+            min-width: 50vw;
+            min-height: 100px;
+        }
+        .buttonAddUser{
+            min-width: 200px;
+            min-height: 30px;
+            border-radius: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;            
+            border: 1px solid green;
+            font-size: 1.2em;
+        }
+        .buttonAddUser:hover{
+            transform: scale(1.1);
+            background-color: green;
+            transition-duration: 0.3s;
+            color: #FFF;
+      
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+    .containerEditPacientOption{
+        min-width: 60vw;        
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        flex-direction: column;
+
+        .sectionClose{
+            min-width: 78vw;
+            min-height: 20px;
+            background-color: #FFF;
+            display: flex;
+            justify-content: flex-end;
+            button{
+                cursor: pointer;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-width: 30px;
+                min-height: 30px;
+                background-color: #FFF;
+                border: none;
+                .lineaUno{
+                    position: absolute;
+                    min-width: 25px;
+                    min-height: 3px;
+                    background-color: red;
+                    transform: rotate(45deg);
+                }
+                .lineaDos{
+                    position: absolute;
+                    min-width: 25px;
+                    min-height: 3px;
+                    background-color: red;
+                    transform: rotate(-45deg);
+                }
+            }          
+        }
+        .TablaEditPacient, .Ta{
+            min-width: 50vw;
+            min-height: 30vh;
+            max-height: 30vh;
+            overflow-y: auto;
+            margin-top: 5vh;
+            display: flex;
+            flex-direction: column;
+
+            section{
+                min-width: 60vw;
+                flex-direction: column;
+
+                input{
+                }
+
+                .Fila{
+                    min-width: 60vw;
+                    max-width: 60vw;
+                    display: flex;
+                    justify-content: space-around;    
+                    input{
+                        margin-top: 0px;
+                        margin-bottom: 0px;
+                        min-width: 11.4vw;
+                        max-width: 11.4vw;
+                        padding-left: 0.4vw;
+                    }
+                    .id{
+                        margin-top: 0px;
+                        margin-bottom: 0px;
+                        min-width: 3vw;
+                        max-width: 3vw;
+                        font-size: 0.9em;
+                    }
+
+                }
+            }
+            .Titulos{
+                min-width: 60vw;
+                min-height: 100%;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-around;
+                align-items: flex-end;  
+                
+                div{                
+                    font-size: 1.2em;
+                    min-width:11.4vw;
+                    text-align: center;
+                }        
+                .containerId{
+                    min-width: 3vw;
+                    max-width: 3vw;
+                }
+            }           
+        }
+        .conatinerMessage{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.9em;
+            min-width: 50vw;
+            min-height: 100px;
+        }
+        .buttonEditPacient{
+            min-width: 200px;
+            min-height: 30px;
+            border-radius: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;            
+            border: 1px solid #0d6efd;
+            color: #0d6efd;
+            font-size: 1.2em;
+        }
+        .buttonEditPacient:hover{
+            transform: scale(1.1);
+            background-color: #0d6efd;
+            transition-duration: 0.3s;
+            color: #FFF;
+      
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+    .containerPacient, .containerCitaOption, .containerMedicalHistory{
+        min-width: 60vw;        
+    
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        flex-direction: column;
+        max-height: 55vh;
+        overflow-y: auto;
+
+        .sectionClose{
+            min-width: 78vw;
+            min-height: 20px;
+            background-color: #FFF;
+            display: flex;
+            justify-content: flex-end;
+            button{
+                cursor: pointer;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-width: 30px;
+                min-height: 30px;
+                background-color: #FFF;
+                border: none;
+                .lineaUno{
+                    position: absolute;
+                    min-width: 25px;
+                    min-height: 3px;
+                    background-color: red;
+                    transform: rotate(45deg);
+                }
+                .lineaDos{
+                    position: absolute;
+                    min-width: 25px;
+                    min-height: 3px;
+                    background-color: red;
+                    transform: rotate(-45deg);
+                }
+            }          
+        }
+        .TablaEditPacients, .TablaCita{
+            min-width: 50vw;
+            min-height: 120vh;
+            
+            overflow-y: auto;
+            margin-top: 5vh;
+            display: flex;
+            flex-direction: row;
+            
+            section{
+                min-width: 25vw;
+                max-width: 25vw;
+                flex-direction: column;
+                
+                input{
+                    min-height: 30px;
+                    min-width: 500px;
+                    padding-left: 20px;
+                    margin-top: 10px;
+                    margin-bottom: 10px;
+                    font-size: 1.2em;
+                    margin: 0px;
+                }
+                
+                .Fila{
+                    min-width: 25vw;
+                    max-width: 25vw;
+                    min-height: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;    
+                    input{
+                        margin: 0px;
+                        min-width: 100%;
+                        max-width: 12vw;
+                        background: none;
+                        min-height: 50px;
+
+                    }
+              
+                }
+                .FilaCita{
+                    min-width: 25vw;
+                    max-width: 25vw;
+                    min-height: 20vh;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;    
+                    input{
+                        margin: 0px;
+                        min-width: 100%;
+                        max-width: 12vw;
+                        background: none;
+                        min-height: 50px;
+
+                    }
+              
+                }
+            }
+            .Titulos{
+                min-width: 15vw;
+                min-height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                align-items: flex-start;                
+                div{
+                    margin-right: 0px;
+                    font-size: 1.2em;
+                    min-height: 50px;                 
+                }                        
+            }          
+            .TitulosCita{
+                min-width: 15vw;
+                max-height: 20vh;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                align-items: flex-start;                
+                div{
+                    margin-right: 0px;
+                    font-size: 1.2em;
+                    min-height: 50px;                 
+                }                        
+            }           
+        
+        }
+        .TablaCita{
+            min-height: 20vh;
+        }
+        .TablaHistorialMedico{
+            flex-direction: column;
+                
+            .TitulosHistorialMedico{
+                min-width: 5vw;
+                max-height: 20vh;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-around;
+                align-items: flex-start;                
+                div{
+                    margin-right: 0px;
+                    font-size: 1.2em;
+                    min-height: 35px;          
+                    text-align: left; 
+                    border: 1px solid rgba($color: #000000, $alpha: .5);       
+                    min-width: 14vw;
+                    text-align: center;
+                }                        
+            }     
+            .Fila{
+                min-width: 70vw;
+                display: flex;
+                justify-content: space-around;
+                div{
+                    text-align: left;
+                    border: 1px solid rgba($color: #000000, $alpha: .5);      
+                    min-width: 14vw;
+                    max-width: 14vw;
+                }
+            }
+        }
+
+        .conatinerMessage{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.9em;
+            min-width: 50vw;
+            min-height: 100px;
+        }
+        .buttonUpdatePaciente{
+            min-width: 200px;
+            min-height: 30px;
+            border-radius: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;            
+            border: 1px solid blue;
+            color: blue;
+            font-size: 1.2em;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+        .buttonUpdatePaciente:hover{
+            transform: scale(1.1);
+            background-color: blue;
+            transition-duration: 0.3s;
+            color: #FFF;      
+        }
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+.search-bar {
+    margin-bottom: 10px;
+
+    input {
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      width: 200px;
+
+      &::placeholder {
+        color: #999;
+      }
+    }   
+}
+  
+.table {
+    min-width: 70vw;
+    width: 100%;
+    border-collapse: collapse;
+  
+    th,
+    td {
+      padding: 8px;
+      border-bottom: 1px solid #ddd;
+    }
+  
+    th {
+      background-color: #f2f2f2;
+      font-weight: bold;
+      text-align: left;
+    }
+  
+    tbody tr:hover {
+      background-color: #f9f9f9;
+    }
+  }
+  .search-bar {
+    margin-bottom: 10px;
+
+    input {
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      width: 200px;
+
+      &::placeholder {
+        color: #999;
+      }
+    }   
+  }
+  
+  .pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+  
+    button {
+      margin: 0 5px;
+      padding: 5px 10px;
+      background-color: #f2f2f2;
+      border: none;
+      cursor: pointer;
+    }
+  
+    .active {
+      background-color: #007bff;
+      color: #fff;
+    }
+  
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+  

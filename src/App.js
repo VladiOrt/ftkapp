@@ -8,19 +8,19 @@ import{
 import Home from './views/home'
 import Login from './views/login';
 import Dashboard from './views/dashboard';
-import MostrarPDF from './views/dashboard/capitulos/components/viewpdf';
+
+import Lead from './views/lead'
+
 
 function App() {
   return (
     <div className="App">
       <Router>
         <Routes>
-          <Route path='/' element={<Home />}> </Route>
+          <Route path='/' element={<Login />}> </Route>
           <Route path='/login' element={<Login />}> </Route>
-          <Route path='/dashboard' element={<Dashboard />}> </Route>
-          <Route path='/pdf' element={<MostrarPDF />}> </Route>
-          
-
+          <Route path='/Lead/:email' element={<Lead />}> </Route>
+          <Route path='/dashboard' element={<Dashboard />}> </Route>        
         </Routes>
       </Router>
     </div>
